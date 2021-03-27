@@ -19,3 +19,37 @@ Click on the entire players entry to see the update history.
 Players names should be saved in a table for easy picking of next rounds.
 Game names should be saved in a table for easy picking of next rounds.
 Points should be saved, linked to each player, for each round.
+
+Ideally, we should have foreign keys all over the place, to keep the DB small, but I'm considering
+duplicating stuff just to keep the design simpler...
+
+Thoughts about structure:
+
+table Players {
+    ID
+    Name
+}
+
+table Games {
+    ID
+    Name
+}
+
+// For this table, we could either get the most recent score for a player by either using the timestamp
+// field and order by that, or we could have an autoincrementing ID and order by that.
+// Both should not be needed.
+// If we have the date saved in another table, for a round, we could use only the ID here.
+table Points {
+    ID
+    GameID
+    PlayerID
+    //TimeStamp
+    Points
+}
+
+table Rounds {
+    ID
+    TimeStamp
+    GameID
+    PlayerIDs
+}
