@@ -35,21 +35,15 @@ table Games {
     Name
 }
 
-// For this table, we could either get the most recent score for a player by either using the timestamp
-// field and order by that, or we could have an autoincrementing ID and order by that.
-// Both should not be needed.
-// If we have the date saved in another table, for a round, we could use only the ID here.
+table Rounds {
+    ID
+    TimeStamp
+}
+
 table Points {
     ID
     GameID
     PlayerID
-    //TimeStamp
+    RoundID
     Points
-}
-
-table Rounds {
-    ID
-    TimeStamp
-    GameID
-    PlayerIDs
 }
