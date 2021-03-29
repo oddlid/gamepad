@@ -11,7 +11,7 @@ android {
 
     defaultConfig {
         applicationId "net.oddware.gamepad"
-        minSdkVersion 24
+        minSdkVersion 26
         targetSdkVersion 29
         versionCode 1
         versionName "1.0"
@@ -36,21 +36,43 @@ android {
         useIR = true
         jvmTarget = JavaVersion.VERSION_1_8.toString()
     }
+    buildToolsVersion '29.0.2'
 }
 
 dependencies {
 
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     androidTestImplementation "androidx.arch.core:core-testing:$v_androidxArch"
     androidTestImplementation "androidx.navigation:navigation-testing:$v_jetpackNav"
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     api "org.jetbrains.kotlinx:kotlinx-coroutines-android:$v_coroutines"
-    implementation "android.arch.lifecycle:common-java8:$v_lifeCycle_CommonJ8" // recommended over the above
     implementation "androidx.appcompat:appcompat:$v_appCompat"
     implementation "androidx.constraintlayout:constraintlayout:$v_constraintLayout"
     implementation "androidx.core:core-ktx:$v_coreCtx"
-    implementation "androidx.lifecycle:lifecycle-extensions:$v_archLifeCycle"
+
+    // ViewModel
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$v_archLifeCycle"
+    // LiveData
+    implementation "androidx.lifecycle:lifecycle-livedata-ktx:$v_archLifeCycle"
+    // Saved state module for ViewModel
+    implementation "androidx.lifecycle:lifecycle-viewmodel-savedstate:$v_archLifeCycle"
+    // Jetpack Compose Integration for ViewModel
+    implementation "androidx.lifecycle:lifecycle-viewmodel-compose:$v_viewModelCompose"
+    // Annotation processor
+    //kapt "androidx.lifecycle:lifecycle-compiler:$v_archLifeCycle"
+    // alternately - if using Java8, use the following instead of lifecycle-compiler
+    implementation "androidx.lifecycle:lifecycle-common-java8:$v_archLifeCycle"
+    // optional - helpers for implementing LifecycleOwner in a Service
+    //implementation "androidx.lifecycle:lifecycle-service:$v_archLifeCycle"
+    // optional - ProcessLifecycleOwner provides a lifecycle for the whole application process
+    implementation "androidx.lifecycle:lifecycle-process:$v_archLifeCycle"
+    // optional - ReactiveStreams support for LiveData
+    //implementation "androidx.lifecycle:lifecycle-reactivestreams-ktx:$v_archLifeCycle"
+    // optional - Test helpers for LiveData
+    //testImplementation "androidx.arch.core:core-testing:$arch_version"
+
+
     implementation "androidx.navigation:navigation-compose:$v_jetpackNavCompose"
     implementation "androidx.navigation:navigation-dynamic-features-fragment:$v_jetpackNav"
     implementation "androidx.navigation:navigation-fragment-ktx:$v_jetpackNav"
