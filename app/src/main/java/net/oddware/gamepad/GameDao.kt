@@ -75,7 +75,7 @@ interface GameDao {
 
     // add points
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-    suspend fun addPoints(point: Point)
+    suspend fun addPoint(point: Point)
 
     // delete points
     @Delete
