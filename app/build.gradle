@@ -72,6 +72,7 @@ dependencies {
     // optional - Test helpers for LiveData
     //testImplementation "androidx.arch.core:core-testing:$arch_version"
 
+    implementation "androidx.recyclerview:recyclerview-selection:$v_recyclerViewSelection"
 
     implementation "androidx.navigation:navigation-compose:$v_jetpackNavCompose"
     implementation "androidx.navigation:navigation-dynamic-features-fragment:$v_jetpackNav"
