@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/gameSelectionFragment"
+        android:enabled="true"
+        android:icon="@drawable/ic_assignment"
+        android:title="GamePad" />
+    <item
+        android:id="@+id/archiveFragment"
+        android:enabled="true"
+        android:icon="@drawable/ic_inventory_2"
+        android:title="Archive" />
+
+</menu>

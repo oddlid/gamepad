@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">GamePad</string>
+    <string name="navHostFragTagMain">NavHostFragTagMain</string>
 </resources>

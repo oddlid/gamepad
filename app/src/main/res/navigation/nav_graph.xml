@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/gameSelectionFragment">
+
+    <fragment
+        android:id="@+id/gameSelectionFragment"
+        android:name="net.oddware.gamepad.GameSelectionFragment"
+        android:label="fragment_game_selection"
+        tools:layout="@layout/fragment_game_selection">
+        <action
+            android:id="@+id/action_gameSelectionFragment_to_editItemFragment"
+            app:destination="@id/editItemFragment" />
+        <action
+            android:id="@+id/action_gameSelectionFragment_to_playerSelectionFragment"
+            app:destination="@id/playerSelectionFragment" />
+        <action
+            android:id="@+id/action_gameSelectionFragment_to_deleteOneDialog"
+            app:destination="@id/deleteOneDialog" />
+    </fragment>
+    <fragment
+        android:id="@+id/editItemFragment"
+        android:name="net.oddware.gamepad.EditItemFragment"
+        android:label="EditItemFragment"
+        tools:layout="@layout/fragment_edit_item">
+        <action
+            android:id="@+id/action_editItemFragment_to_gameSelectionFragment"
+            app:destination="@id/gameSelectionFragment" />
+        <action
+            android:id="@+id/action_editItemFragment_to_playerSelectionFragment"
+            app:destination="@id/playerSelectionFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/playerSelectionFragment"
+        android:name="net.oddware.gamepad.PlayerSelectionFragment"
+        android:label="PlayerSelectionFragment"
+        tools:layout="@layout/fragment_player_selection">
+        <action
+            android:id="@+id/action_playerSelectionFragment_to_gameSelectionFragment"
+            app:destination="@id/gameSelectionFragment" />
+        <action
+            android:id="@+id/action_playerSelectionFragment_to_editItemFragment"
+            app:destination="@id/editItemFragment" />
+        <action
+            android:id="@+id/action_playerSelectionFragment_to_deleteOneDialog"
+            app:destination="@id/deleteOneDialog" />
+    </fragment>
+    <dialog
+        android:id="@+id/deleteOneDialog"
+        android:name="net.oddware.gamepad.DeleteOneDialog"
+        android:label="DeleteOneDialog">
+        <action
+            android:id="@+id/action_deleteOneDialog_to_gameSelectionFragment"
+            app:destination="@id/gameSelectionFragment" />
+        <action
+            android:id="@+id/action_deleteOneDialog_to_playerSelectionFragment"
+            app:destination="@id/playerSelectionFragment" />
+    </dialog>
+    <fragment
+        android:id="@+id/archiveFragment"
+        android:name="net.oddware.gamepad.ArchiveFragment"
+        android:label="ArchiveFragment"
+        tools:layout="@layout/fragment_archive" />
+</navigation>
