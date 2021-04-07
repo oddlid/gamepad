@@ -13,6 +13,7 @@ class GameListAdapter(
     inner class GameViewHolder(var binding: FragmentItemGameSelectionBinding) :
         RecyclerView.ViewHolder(binding.root)
 
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): GameViewHolder {
         val binding = FragmentItemGameSelectionBinding.inflate(
             LayoutInflater.from(parent.context),

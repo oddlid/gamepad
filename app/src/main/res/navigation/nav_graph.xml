@@ -70,6 +70,11 @@
         <action
             android:id="@+id/action_deleteOneDialog_to_playerSelectionFragment"
             app:destination="@id/playerSelectionFragment" />
+        <argument
+            android:name="itemName"
+            android:defaultValue="@null"
+            app:argType="string"
+            app:nullable="true" />
     </dialog>
     <fragment
         android:id="@+id/archiveFragment"
