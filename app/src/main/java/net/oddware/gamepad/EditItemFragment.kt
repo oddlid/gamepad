@@ -38,7 +38,7 @@ class EditItemFragment : Fragment() {
         val view = binding.root
 
         // "add new after save" makes no sense if we are editing an existing item
-        if (args.loadAction == ACTION_EDIT) {
+        if (ACTION_EDIT == args.loadAction) {
             binding.chkAddNewAfterSave.visibility = View.GONE
         }
 
@@ -63,12 +63,14 @@ class EditItemFragment : Fragment() {
             }
         }
 
-        if (args.loadAction == ACTION_ADD) {
-            if (args.itemType == TYPE_GAME) {
+        if (ACTION_ADD == args.loadAction) {
+            if (TYPE_GAME == args.itemType) {
                 binding.btnSaveItem.setOnClickListener {
                     val txt = binding.etEditItemName.text.toString().trim()
                     if (txt.isEmpty()) {
-                        Snackbar.make(view, R.string.errNoGameName, Snackbar.LENGTH_LONG)
+                        Timber.d("Refusing to save with empty name")
+                        Snackbar.make(view, R.string.errNoGameName, Snackbar.LENGTH_LONG).show()
+                        //Toast.makeText(context, R.string.errNoGameName, Toast.LENGTH_LONG).show()
                         return@setOnClickListener
                     }
                     gameViewModel.addGame(Game(name = txt))
@@ -78,7 +80,12 @@ class EditItemFragment : Fragment() {
                         //Navigation.findNavController(view).navigate(action)
                         Navigation.findNavController(view)
                             .navigateUp() // just go back, as we don't know where we came from
+                        // Return, or we'll get the Snackbar after getting back to the Game list
+                        return@setOnClickListener
                     }
+                    // Notify
+                    val msg = view.context.getString(R.string.snackGameAdded_txt, txt)
+                    Snackbar.make(view, msg, Snackbar.LENGTH_SHORT).show()
                     // clear, for continuing adding
                     binding.etEditItemName.text = null
                 }
@@ -90,7 +97,9 @@ class EditItemFragment : Fragment() {
                 binding.btnSaveItem.setOnClickListener {
                     val txt = binding.etEditItemName.text.toString().trim()
                     if (txt.isEmpty()) {
-                        Snackbar.make(view, R.string.errNoGameName, Snackbar.LENGTH_LONG)
+                        Timber.d("Refusing to save with empty name")
+                        Snackbar.make(view, R.string.errNoGameName, Snackbar.LENGTH_LONG).show()
+                        //Toast.makeText(context, R.string.errNoGameName, Toast.LENGTH_LONG).show()
                         return@setOnClickListener
                     }
                     game?.let {

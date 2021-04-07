@@ -59,7 +59,6 @@ class GameSelectionFragment : Fragment() {
         gameViewModel.games.observe(viewLifecycleOwner, {
             if (null != it) {
                 Timber.d("Game list changed in DB...")
-                //binding.rvGameList.adapter = GameListAdapter(it, findNavController())
                 adapter.gameList = it
                 adapter.notifyDataSetChanged()
             }

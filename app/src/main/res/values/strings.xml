@@ -17,6 +17,8 @@
     <string name="btnSaveItem_txt">Save</string>
     <string name="errNoGameName">You must enter a game name</string>
     <string name="errNoPlayerName">You must enter a player name</string>
+    <string name="snackGameAdded_txt">Game \"%1$s\" added</string>
+    <string name="snackPlayerAdded_txt">Player \"%1$s\" added</string>
 
     <string name="tvHdrSelectGame_txt">Select game:</string>
     <string name="btnAddNewGame_txt">Add new game</string>
