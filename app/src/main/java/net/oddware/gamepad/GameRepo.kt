@@ -1,6 +1,7 @@
 package net.oddware.gamepad
 
 import android.content.Context
+import timber.log.Timber
 
 class GameRepo(private val gameDao: GameDao) {
     companion object {
@@ -40,7 +41,12 @@ class GameRepo(private val gameDao: GameDao) {
 
     suspend fun deleteAllGames() = gameDao.deleteAllGames()
 
-    suspend fun updateGame(game: Game) = gameDao.updateGame(game)
+    suspend fun updateGame(game: Game) {
+        Timber.d("Updating game: \"${game.name}\"")
+        gameDao.updateGame(game)
+    }
+
+    suspend fun getGame(id: Long): Game? = gameDao.getGame(id)
 
     suspend fun addRound(round: Round) = gameDao.addRound(round)
 

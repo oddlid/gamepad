@@ -45,6 +45,10 @@ interface GameDao {
     @Update
     suspend fun updateGame(game: Game)
 
+    // get specific game
+    @Query("SELECT * FROM games WHERE gameID == :id")
+    suspend fun getGame(id: Long): Game?
+
     // get list of games
     @Query("SELECT * FROM games")
     fun getGames(): LiveData<List<Game>>

@@ -49,6 +49,15 @@ class GameViewModel(app: Application) : AndroidViewModel(app) {
         gameRepo.updateGame(game)
     }
 
+    fun getGame(id: Long): LiveData<Game?> {
+        val ret = MutableLiveData<Game?>()
+        viewModelScope.launch(Dispatchers.IO) {
+            val game = gameRepo.getGame(id)
+            ret.postValue(game)
+        }
+        return ret
+    }
+
     fun addRound(round: Round) = viewModelScope.launch(Dispatchers.IO) {
         gameRepo.addRound(round)
     }

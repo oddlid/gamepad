@@ -4,11 +4,11 @@
         android:id="@+id/gameSelectionFragment"
         android:enabled="true"
         android:icon="@drawable/ic_assignment"
-        android:title="GamePad" />
+        android:title="@string/bMenuItemHome" />
     <item
         android:id="@+id/archiveFragment"
         android:enabled="true"
         android:icon="@drawable/ic_inventory_2"
-        android:title="Archive" />
+        android:title="@string/bMenuItemArchive" />
 
 </menu>
