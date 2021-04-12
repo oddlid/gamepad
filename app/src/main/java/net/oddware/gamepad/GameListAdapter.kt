@@ -3,14 +3,11 @@ package net.oddware.gamepad
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.navigation.NavController
-import androidx.recyclerview.selection.ItemDetailsLookup
-import androidx.recyclerview.selection.SelectionTracker
 import androidx.recyclerview.widget.RecyclerView
 import net.oddware.gamepad.databinding.FragmentItemGameSelectionBinding
 
 class GameListAdapter(
     var gameList: List<Game>? = null,
-    var tracker: SelectionTracker<Long>? = null,
     private val navCtl: NavController
 ) : RecyclerView.Adapter<GameListAdapter.GameViewHolder>() {
     init {
@@ -20,8 +17,7 @@ class GameListAdapter(
     inner class GameViewHolder(var binding: FragmentItemGameSelectionBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(game: Game, isActivated: Boolean) {
-            binding.root.isActivated = isActivated
+        fun bind(game: Game) {
 
             binding.tvGameItemName.text = game.name
 
@@ -35,11 +31,6 @@ class GameListAdapter(
             }
         }
 
-        fun getItemDetails(): ItemDetailsLookup.ItemDetails<Long> =
-            object : ItemDetailsLookup.ItemDetails<Long>() {
-                override fun getPosition(): Int = adapterPosition
-                override fun getSelectionKey(): Long? = itemId
-            }
     }
 
 
@@ -54,9 +45,7 @@ class GameListAdapter(
 
     override fun onBindViewHolder(holder: GameViewHolder, position: Int) {
         val game = gameList?.get(position) ?: return
-        tracker?.let {
-            holder.bind(game, it.isSelected(position.toLong()))
-        }
+        holder.bind(game)
     }
 
     override fun getItemCount(): Int {
