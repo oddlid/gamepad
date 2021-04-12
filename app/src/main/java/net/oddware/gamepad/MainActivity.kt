@@ -1,6 +1,10 @@
 package net.oddware.gamepad
 
+import android.app.Activity
+import android.content.Context
 import android.os.Bundle
+import android.view.View
+import android.view.inputmethod.InputMethodManager
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
@@ -10,6 +14,13 @@ import net.oddware.gamepad.databinding.ActivityMainBinding
 import timber.log.Timber
 
 class MainActivity : AppCompatActivity() {
+    companion object {
+        fun hideKeyboard(ctx: Context, view: View) {
+            val imm = ctx.getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
+            imm.hideSoftInputFromWindow(view.windowToken, 0)
+        }
+    }
+
     private lateinit var binding: ActivityMainBinding
     private val appBarConfig = AppBarConfiguration(
         topLevelDestinationIds = setOf(
