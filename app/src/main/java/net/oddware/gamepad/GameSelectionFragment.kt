@@ -8,6 +8,10 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.selection.SelectionPredicates
+import androidx.recyclerview.selection.SelectionTracker
+import androidx.recyclerview.selection.StorageStrategy
+import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import net.oddware.gamepad.databinding.FragmentGameSelectionBinding
 import timber.log.Timber
@@ -18,6 +22,7 @@ class GameSelectionFragment : Fragment() {
     private var _binding: FragmentGameSelectionBinding? = null
     private val binding get() = _binding!!
     private val gameViewModel: GameViewModel by activityViewModels()
+    private var tracker: SelectionTracker<Long>? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -28,7 +33,7 @@ class GameSelectionFragment : Fragment() {
 
         Timber.d("Loading GameSelectionFragment...")
 
-        adapter = GameListAdapter(null, findNavController())
+        adapter = GameListAdapter(null, null, findNavController())
 
         binding.btnAddNewGame.setOnClickListener {
             val action =
@@ -40,10 +45,23 @@ class GameSelectionFragment : Fragment() {
 
         val lloMgr = LinearLayoutManager(view.context)
         with(binding.rvGameList) {
+            addItemDecoration(DividerItemDecoration(view.context, lloMgr.orientation))
             setHasFixedSize(true)
             layoutManager = lloMgr
             adapter = this@GameSelectionFragment.adapter
         }
+
+        tracker = SelectionTracker.Builder<Long>(
+            "gameSelection",
+            binding.rvGameList,
+            GameItemKeyProvider(binding.rvGameList),
+            GameItemDetailsLookup(binding.rvGameList),
+            StorageStrategy.createLongStorage()
+        ).withSelectionPredicate(
+            SelectionPredicates.createSelectAnything()
+        ).build()
+
+        adapter.tracker = tracker
 
         return view
     }
