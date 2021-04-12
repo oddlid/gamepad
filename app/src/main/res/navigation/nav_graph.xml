@@ -17,8 +17,8 @@
             android:id="@+id/action_gameSelectionFragment_to_playerSelectionFragment"
             app:destination="@id/playerSelectionFragment" />
         <action
-            android:id="@+id/action_gameSelectionFragment_to_deleteOneDialog"
-            app:destination="@id/deleteOneDialog" />
+            android:id="@+id/action_gameSelectionFragment_to_confirmationDialog"
+            app:destination="@id/confirmationDialog" />
     </fragment>
     <fragment
         android:id="@+id/editItemFragment"
@@ -57,18 +57,18 @@
             android:id="@+id/action_playerSelectionFragment_to_editItemFragment"
             app:destination="@id/editItemFragment" />
         <action
-            android:id="@+id/action_playerSelectionFragment_to_deleteOneDialog"
-            app:destination="@id/deleteOneDialog" />
+            android:id="@+id/action_playerSelectionFragment_to_confirmationDialog"
+            app:destination="@id/confirmationDialog" />
     </fragment>
     <dialog
-        android:id="@+id/deleteOneDialog"
-        android:name="net.oddware.gamepad.DeleteOneDialog"
-        android:label="DeleteOneDialog">
+        android:id="@+id/confirmationDialog"
+        android:name="net.oddware.gamepad.ConfirmationDialog"
+        android:label="ConfirmationDialog">
         <action
-            android:id="@+id/action_deleteOneDialog_to_gameSelectionFragment"
+            android:id="@+id/action_confirmationDialog_to_gameSelectionFragment"
             app:destination="@id/gameSelectionFragment" />
         <action
-            android:id="@+id/action_deleteOneDialog_to_playerSelectionFragment"
+            android:id="@+id/action_confirmationDialog_to_playerSelectionFragment"
             app:destination="@id/playerSelectionFragment" />
         <argument
             android:name="itemName"

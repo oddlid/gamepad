@@ -20,9 +20,9 @@
     <string name="snackGameAdded_txt">Game \"%1$s\" added</string>
     <string name="snackPlayerAdded_txt">Player \"%1$s\" added</string>
 
-    <string name="dlgDelOne_msgTxt">Delete \"%1$s\”?</string>
-    <string name="dlgDelOne_btnOkTxt">Delete</string>
-    <string name="dlgDelOne_btnCancelTxt">Cancel</string>
+    <string name="dlgConfirm_msgTxt">Delete %1$s?</string>
+    <string name="dlgConfirm_btnOkTxt">Delete</string>
+    <string name="dlgConfirm_btnCancelTxt">Cancel</string>
 
     <string name="tvHdrSelectGame_txt">Select game:</string>
     <string name="btnAddNewGame_txt">Add new game</string>

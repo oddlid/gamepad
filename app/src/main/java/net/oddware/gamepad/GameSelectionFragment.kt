@@ -131,11 +131,35 @@ class GameSelectionFragment : Fragment(), GameListAdapter.GameClickListener, Act
             }
             R.id.menu_delete_selected -> {
                 Timber.d("Menu item delete_selected clicked")
-                // TODO: Implement confirmation dialog
-                val selectedGames = adapter.getBatchSelection().toTypedArray()
-                gameViewModel.deleteGames(*selectedGames)
-                actionMode?.finish()
-                actionMode = null
+
+                val numSelected = adapter.getBatchSelectionIds().size
+                val action1 =
+                    GameSelectionFragmentDirections.actionGameSelectionFragmentToConfirmationDialog()
+                action1.itemName = "$numSelected games"
+                val navCtl = findNavController()
+
+                // Important to set up listening BEFORE navigate()!
+                navCtl.currentBackStackEntry?.savedStateHandle?.let { ssh ->
+                    ssh.getLiveData<String>(ConfirmationDialog.ACTION_KEY)
+                        .observe(viewLifecycleOwner, {
+                            if (ConfirmationDialog.ACTION_VAL_OK == it) {
+                                // delete
+                                val selectedGames = adapter.getBatchSelection().toTypedArray()
+                                gameViewModel.deleteGames(*selectedGames)
+                                // close actionMode
+                                actionMode?.finish()
+                                actionMode = null
+                                // navigate back
+                                val action2 =
+                                    ConfirmationDialogDirections.actionConfirmationDialogToGameSelectionFragment()
+                                navCtl.navigate(action2)
+                            }
+                            ssh.remove<String>(ConfirmationDialog.ACTION_KEY)
+                        })
+                }
+
+                navCtl.navigate(action1)
+
                 return true
             }
         }
