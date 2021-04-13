@@ -11,5 +11,7 @@ data class Round(
     @ColumnInfo(name = "roundID")
     var roundID: Long = 0,
     @ColumnInfo(name = "date")
-    var date: Date? = null
+    var date: Date? = null,
+    @ColumnInfo(name = "finished")
+    var finished: Boolean = false
 )
