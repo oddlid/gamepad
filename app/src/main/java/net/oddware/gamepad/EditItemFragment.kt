@@ -37,86 +37,117 @@ class EditItemFragment : Fragment() {
         _binding = FragmentEditItemBinding.inflate(inflater, container, false)
         val view = binding.root
 
-        // "add new after save" makes no sense if we are editing an existing item
-        if (ACTION_EDIT == args.loadAction) {
-            binding.chkAddNewAfterSave.visibility = View.GONE
-        }
-
         // Set header based on action and type
-        context?.let { ctx ->
-            binding.tvHdrEdit.text = when (args.loadAction) {
-                ACTION_ADD -> {
-                    when (args.itemType) {
-                        TYPE_GAME -> ctx.getString(R.string.tvHdrEdit_addGameTxt)
-                        TYPE_PLAYER -> ctx.getString(R.string.tvHdrEdit_addPlayerTxt)
-                        else -> ctx.getString(R.string.tvHdrEdit_txt)
-                    }
-                }
-                ACTION_EDIT -> {
-                    when (args.itemType) {
-                        TYPE_GAME -> ctx.getString(R.string.tvHdrEdit_editGameTxt)
-                        TYPE_PLAYER -> ctx.getString(R.string.tvHdrEdit_editPlayerTxt)
-                        else -> ctx.getString(R.string.tvHdrEdit_txt)
-                    }
-                }
-                else -> ctx.getString(R.string.tvHdrEdit_txt)
-            }
-        }
-
-        if (ACTION_ADD == args.loadAction) {
-            if (TYPE_GAME == args.itemType) {
-                binding.btnSaveItem.setOnClickListener {
-                    val txt = binding.etEditItemName.text.toString().trim()
-                    if (txt.isEmpty()) {
-                        Timber.d("Refusing to save with empty name")
-                        Snackbar.make(view, R.string.errNoGameName, Snackbar.LENGTH_LONG).show()
-                        //Toast.makeText(context, R.string.errNoGameName, Toast.LENGTH_LONG).show()
-                        return@setOnClickListener
-                    }
-                    gameViewModel.addGame(Game(name = txt))
-                    if (!binding.chkAddNewAfterSave.isChecked) {
-                        // navigate back
-                        //val action = EditItemFragmentDirections.actionEditItemFragmentToGameSelectionFragment()
-                        //Navigation.findNavController(view).navigate(action)
-                        Navigation.findNavController(view)
-                            .navigateUp() // just go back, as we don't know where we came from
-                        // Return, or we'll get the Snackbar after getting back to the Game list
-                        return@setOnClickListener
-                    }
-                    // Notify
-                    val msg = view.context.getString(R.string.snackGameAdded_txt, txt)
-                    Snackbar.make(view, msg, Snackbar.LENGTH_SHORT).show()
-                    // clear, for continuing adding
-                    binding.etEditItemName.text = null
-                }
-            }
-        }
-
-        if (ACTION_EDIT == args.loadAction) {
-            if (TYPE_GAME == args.itemType) {
-                binding.btnSaveItem.setOnClickListener {
-                    val txt = binding.etEditItemName.text.toString().trim()
-                    if (txt.isEmpty()) {
-                        Timber.d("Refusing to save with empty name")
-                        Snackbar.make(view, R.string.errNoGameName, Snackbar.LENGTH_LONG).show()
-                        //Toast.makeText(context, R.string.errNoGameName, Toast.LENGTH_LONG).show()
-                        return@setOnClickListener
-                    }
-                    game?.let {
-                        it.name = txt
-                        Timber.d("Updating game...")
-                        gameViewModel.updateGame(it)
-                        Navigation.findNavController(view).navigateUp()
-                    }
-                }
-            }
-        }
-
-        //if (args.loadAction == ACTION_EDIT) {
-        //    if (args.itemType == TYPE_GAME) {
-        //
+        //context?.let { ctx ->
+        //    binding.tvHdrEdit.text = when (args.loadAction) {
+        //        ACTION_ADD -> {
+        //            when (args.itemType) {
+        //                TYPE_GAME -> ctx.getString(R.string.tvHdrEdit_addGameTxt)
+        //                TYPE_PLAYER -> ctx.getString(R.string.tvHdrEdit_addPlayerTxt)
+        //                else -> ctx.getString(R.string.tvHdrEdit_txt)
+        //            }
+        //        }
+        //        ACTION_EDIT -> {
+        //            when (args.itemType) {
+        //                TYPE_GAME -> ctx.getString(R.string.tvHdrEdit_editGameTxt)
+        //                TYPE_PLAYER -> ctx.getString(R.string.tvHdrEdit_editPlayerTxt)
+        //                else -> ctx.getString(R.string.tvHdrEdit_txt)
+        //            }
+        //        }
+        //        else -> ctx.getString(R.string.tvHdrEdit_txt)
         //    }
         //}
+
+        when (args.loadAction) {
+            ACTION_ADD -> {
+                when (args.itemType) {
+                    TYPE_GAME -> {
+                        binding.tvHdrEdit.text =
+                            requireContext().getString(R.string.tvHdrEdit_addGameTxt)
+                        binding.btnSaveItem.setOnClickListener {
+                            val txt = binding.etEditItemName.text.toString().trim()
+                            if (txt.isEmpty()) {
+                                Snackbar.make(view, R.string.errNoGameName, Snackbar.LENGTH_LONG)
+                                    .show()
+                                return@setOnClickListener
+                            }
+                            gameViewModel.addGame(Game(name = txt))
+                            if (!binding.chkAddNewAfterSave.isChecked) {
+                                Navigation.findNavController(view).navigateUp()
+                                return@setOnClickListener
+                            }
+                            val msg = view.context.getString(R.string.snackGameAdded_txt, txt)
+                            Snackbar.make(view, msg, Snackbar.LENGTH_SHORT).show()
+                            binding.etEditItemName.text = null // clear, before adding more
+                        }
+                    }
+                    TYPE_PLAYER -> {
+                        binding.tvHdrEdit.text =
+                            requireContext().getString(R.string.tvHdrEdit_addPlayerTxt)
+                        binding.btnSaveItem.setOnClickListener {
+                            val txt = binding.etEditItemName.text.toString().trim()
+                            if (txt.isEmpty()) {
+                                Snackbar.make(view, R.string.errNoPlayerName, Snackbar.LENGTH_LONG)
+                                    .show()
+                                return@setOnClickListener
+                            }
+                            gameViewModel.addPlayer(Player(name = txt))
+                            if (!binding.chkAddNewAfterSave.isChecked) {
+                                Navigation.findNavController(view).navigateUp()
+                                return@setOnClickListener
+                            }
+                            val msg = view.context.getString(R.string.snackPlayerAdded_txt, txt)
+                            Snackbar.make(view, msg, Snackbar.LENGTH_SHORT).show()
+                            binding.etEditItemName.text = null // clear, before adding more
+                        }
+                    }
+                }
+            }
+            ACTION_EDIT -> {
+                // "add new after save" makes no sense if we are editing an existing item
+                binding.chkAddNewAfterSave.visibility = View.GONE
+
+                when (args.itemType) {
+                    TYPE_GAME -> {
+                        binding.tvHdrEdit.text =
+                            requireContext().getString(R.string.tvHdrEdit_editGameTxt)
+                        binding.btnSaveItem.setOnClickListener {
+                            val txt = binding.etEditItemName.text.toString().trim()
+                            if (txt.isEmpty()) {
+                                Snackbar.make(view, R.string.errNoGameName, Snackbar.LENGTH_LONG)
+                                    .show()
+                                return@setOnClickListener
+                            }
+                            game?.let {
+                                it.name = txt
+                                Timber.d("Updating game...")
+                                gameViewModel.updateGame(it)
+                                Navigation.findNavController(view).navigateUp()
+                            }
+                        }
+                    }
+                    TYPE_PLAYER -> {
+                        binding.tvHdrEdit.text =
+                            requireContext().getString(R.string.tvHdrEdit_editPlayerTxt)
+                        binding.btnSaveItem.setOnClickListener {
+                            val txt = binding.etEditItemName.text.toString().trim()
+                            if (txt.isEmpty()) {
+                                Snackbar.make(view, R.string.errNoPlayerName, Snackbar.LENGTH_LONG)
+                                    .show()
+                                return@setOnClickListener
+                            }
+                            player?.let {
+                                it.name = txt
+                                Timber.d("Updating player...")
+                                gameViewModel.updatePlayer(it)
+                                Navigation.findNavController(view).navigateUp()
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
 
         return view
     }
@@ -124,11 +155,23 @@ class EditItemFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        if (ACTION_EDIT == args.loadAction) {
-            if (TYPE_GAME == args.itemType && args.itemID > -1) {
+        if (ACTION_EDIT != args.loadAction || args.itemID < 0) {
+            return
+        }
+
+        when (args.itemType) {
+            TYPE_GAME -> {
                 gameViewModel.getGame(args.itemID).observe(viewLifecycleOwner, {
                     if (null != it) {
                         game = it
+                        binding.etEditItemName.setText(it.name)
+                    }
+                })
+            }
+            TYPE_PLAYER -> {
+                gameViewModel.getPlayer(args.itemID).observe(viewLifecycleOwner, {
+                    if (null != it) {
+                        player = it
                         binding.etEditItemName.setText(it.name)
                     }
                 })

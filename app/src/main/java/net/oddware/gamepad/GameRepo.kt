@@ -35,6 +35,8 @@ class GameRepo(private val gameDao: GameDao) {
 
     suspend fun updatePlayer(player: Player) = gameDao.updatePlayer(player)
 
+    suspend fun getPlayer(id: Long): Player? = gameDao.getPlayer(id)
+
     suspend fun addGame(game: Game) = gameDao.addGame(game)
 
     suspend fun deleteGames(vararg games: Game) = gameDao.deleteGames(*games)

@@ -40,7 +40,6 @@ class GameListAdapter(
     inner class GameViewHolder(var binding: FragmentItemGameSelectionBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-        //private var batchMode: Boolean = false
         private lateinit var currentGame: Game
 
         fun bind(game: Game) {
@@ -54,15 +53,6 @@ class GameListAdapter(
 
             binding.tvGameItemName.text = game.name
 
-            //binding.btnEditGameItem.setOnClickListener {
-            //    val action =
-            //        GameSelectionFragmentDirections.actionGameSelectionFragmentToEditItemFragment()
-            //    action.itemType = EditItemFragment.TYPE_GAME
-            //    action.loadAction = EditItemFragment.ACTION_EDIT
-            //    action.itemID = game.gameID
-            //    navCtl.navigate(action)
-            //}
-
             binding.btnEditGameItem.setOnClickListener {
                 val pos = adapterPosition
                 if (RecyclerView.NO_POSITION == pos) {
@@ -70,14 +60,6 @@ class GameListAdapter(
                 }
                 clickListener.onGameEditClick(game)
             }
-
-            //binding.btnDeleteGameItem.setOnClickListener {
-            //    val pos = adapterPosition
-            //    if (RecyclerView.NO_POSITION == pos) {
-            //        return@setOnClickListener
-            //    }
-            //    clickListener.onGameDeleteClick(game)
-            //}
 
             binding.root.setOnClickListener {
                 val pos = adapterPosition
@@ -155,7 +137,6 @@ class GameListAdapter(
     }
 
     override fun getItemId(position: Int): Long {
-        //val game = currentList[position] ?: return RecyclerView.NO_ID
         val game = getItem(position) ?: return RecyclerView.NO_ID
         return game.gameID
     }

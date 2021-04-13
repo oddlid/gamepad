@@ -33,6 +33,15 @@ class GameViewModel(app: Application) : AndroidViewModel(app) {
         gameRepo.updatePlayer(player)
     }
 
+    fun getPlayer(id: Long): LiveData<Player?> {
+        var ret = MutableLiveData<Player?>()
+        viewModelScope.launch(Dispatchers.IO) {
+            val player = gameRepo.getPlayer(id)
+            ret.postValue(player)
+        }
+        return ret
+    }
+
     fun addGame(game: Game) = viewModelScope.launch(Dispatchers.IO) {
         gameRepo.addGame(game)
     }

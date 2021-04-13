@@ -59,6 +59,10 @@
         <action
             android:id="@+id/action_playerSelectionFragment_to_confirmationDialog"
             app:destination="@id/confirmationDialog" />
+        <argument
+            android:name="gameID"
+            android:defaultValue="-1L"
+            app:argType="long" />
     </fragment>
     <dialog
         android:id="@+id/confirmationDialog"

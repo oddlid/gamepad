@@ -4,6 +4,8 @@ import android.os.Bundle
 import android.view.*
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.SavedStateViewModelFactory
 import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
@@ -18,6 +20,12 @@ class GameSelectionFragment : Fragment(), GameListAdapter.GameClickListener, Act
     private var _binding: FragmentGameSelectionBinding? = null
     private val binding get() = _binding!!
     private val gameViewModel: GameViewModel by activityViewModels()
+    private val ssvm: SavedStateViewModel by viewModels {
+        SavedStateViewModelFactory(
+            requireActivity().application,
+            this
+        )
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -64,14 +72,19 @@ class GameSelectionFragment : Fragment(), GameListAdapter.GameClickListener, Act
             //    adapter.notifyDataSetChanged()
             //}
             Timber.d("Submitting new game list to adapter...")
-            adapter.submitList(it.toMutableList())
+            adapter.submitList(it)
             //adapter.notifyDataSetChanged()
         })
     }
 
     override fun onGameClick(game: Game) {
         if (null == actionMode) {
-            Timber.d("actionMode is null")
+            Timber.d("Should load player selection fragment")
+            val action =
+                GameSelectionFragmentDirections.actionGameSelectionFragmentToPlayerSelectionFragment()
+            //action.gameID = game.gameID // this might be obsolete with ssvm
+            ssvm.setCurrentGameID(game.gameID)
+            findNavController().navigate(action)
             return
         }
         adapter.toggleGameInBatchSet(game)
