@@ -4,11 +4,8 @@ import android.os.Bundle
 import android.view.*
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.viewModels
-import androidx.lifecycle.SavedStateViewModelFactory
 import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
-import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
@@ -24,13 +21,8 @@ class PlayerSelectionFragment : Fragment(), PlayerListAdapter.PlayerClickListene
     private var _binding: FragmentPlayerSelectionBinding? = null
     private val binding get() = _binding!!
     private val gameViewModel: GameViewModel by activityViewModels()
-    private val ssvm: SavedStateViewModel by viewModels {
-        SavedStateViewModelFactory(
-            requireActivity().application,
-            this
-        )
-    }
-    private val args: PlayerSelectionFragmentArgs by navArgs()
+    private val ssvm: SavedStateViewModel by activityViewModels() // changing from viewModels() to activityViewModels() made all the difference!
+    //private val args: PlayerSelectionFragmentArgs by navArgs()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -73,30 +65,7 @@ class PlayerSelectionFragment : Fragment(), PlayerListAdapter.PlayerClickListene
             adapter.submitList(it)
         })
 
-        // TODO: Find a way to persist args.gameID
-        //  If we come to this fragment from GameSelectionFragment, it's all good, but if we come
-        //  back here from ConfirmationDialog, this argument is gone, and then "game" will be null.
-        //  We can either pass on gameID to ConfirmationDialog and pass it back, or we can save it
-        //  in the viewModel. Not sure which is best....
-        //if (args.gameID < 0) {
-        //    return
-        //}
-        //gameViewModel.getGame(args.gameID).observe(viewLifecycleOwner, {
-        //    if (null != it) {
-        //        game = it
-        //    }
-        //})
-
-        //ssvm.getCurrentGameID().observe(viewLifecycleOwner, { gameID ->
-        //    Timber.d("Got current gameID: $gameID")
-        //    if (SavedStateViewModel.INVALID_ID != gameID) {
-        //        gameViewModel.getGame(gameID).observe(viewLifecycleOwner, {
-        //            if (null != it) {
-        //                game = it
-        //            }
-        //        })
-        //    }
-        //})
+        MainActivity.hideKeyboard(requireContext(), view)
 
         val gameID = ssvm.getCurrentGameID()
         if (null == gameID) {

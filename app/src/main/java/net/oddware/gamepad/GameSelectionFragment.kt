@@ -4,8 +4,6 @@ import android.os.Bundle
 import android.view.*
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.viewModels
-import androidx.lifecycle.SavedStateViewModelFactory
 import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
@@ -20,12 +18,7 @@ class GameSelectionFragment : Fragment(), GameListAdapter.GameClickListener, Act
     private var _binding: FragmentGameSelectionBinding? = null
     private val binding get() = _binding!!
     private val gameViewModel: GameViewModel by activityViewModels()
-    private val ssvm: SavedStateViewModel by viewModels {
-        SavedStateViewModelFactory(
-            requireActivity().application,
-            this
-        )
-    }
+    private val ssvm: SavedStateViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -54,6 +47,7 @@ class GameSelectionFragment : Fragment(), GameListAdapter.GameClickListener, Act
             adapter = this@GameSelectionFragment.adapter
         }
 
+
         return view
     }
 
@@ -75,6 +69,8 @@ class GameSelectionFragment : Fragment(), GameListAdapter.GameClickListener, Act
             adapter.submitList(it)
             //adapter.notifyDataSetChanged()
         })
+
+        MainActivity.hideKeyboard(requireContext(), view)
     }
 
     override fun onGameClick(game: Game) {
