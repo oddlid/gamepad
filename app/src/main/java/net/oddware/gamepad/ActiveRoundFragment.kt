@@ -1,0 +1,106 @@
+package net.oddware.gamepad
+
+import android.os.Bundle
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
+import androidx.navigation.Navigation
+import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.LinearLayoutManager
+import net.oddware.gamepad.databinding.FragmentActiveRoundBinding
+import timber.log.Timber
+
+class ActiveRoundFragment : Fragment(), ActiveRoundAdapter.PointUpdateListener {
+
+    private lateinit var adapter: ActiveRoundAdapter
+    private var _binding: FragmentActiveRoundBinding? = null
+    private val binding get() = _binding!!
+    private val gameViewModel: GameViewModel by activityViewModels()
+    private val ssvm: SavedStateViewModel by activityViewModels() // changing from viewModels() to activityViewModels() made all the difference!
+
+    private var currentGame: Game? = null
+    private var currentRound: Round? = null
+
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        _binding = FragmentActiveRoundBinding.inflate(inflater, container, false)
+        val view = binding.root
+
+        adapter = ActiveRoundAdapter(this)
+
+        binding.btnActiveRoundFinishGame.setOnClickListener {
+            //Snackbar.make(view, "TODO: finish game", Snackbar.LENGTH_SHORT).show()
+            currentRound?.let {
+                it.finished = true
+                gameViewModel.updateRound(it)
+            }
+            ssvm.clearCurrentGameID()
+            ssvm.clearCurrentRoundID()
+            val action =
+                ActiveRoundFragmentDirections.actionActiveRoundFragmentToGameSelectionFragment()
+            Navigation.findNavController(view).navigate(action)
+        }
+
+        val lloMgr = LinearLayoutManager(view.context)
+        with(binding.rvActiveRoundPlayerList) {
+            addItemDecoration(DividerItemDecoration(view.context, lloMgr.orientation))
+            setHasFixedSize(true)
+            layoutManager = lloMgr
+            adapter = this@ActiveRoundFragment.adapter
+        }
+
+        return view
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        // observe viewmodels
+
+        val gameID = ssvm.getCurrentGameID()
+        if (null == gameID) {
+            Timber.d("Got null for gameID, unable to continue")
+            return
+        }
+        gameViewModel.getGame(gameID).observe(viewLifecycleOwner, {
+            if (null != it) {
+                currentGame = it
+                binding.tvActiveRoundHdrGameName.text = it.name
+                return@observe
+            }
+        })
+        val roundID = ssvm.getCurrentRoundID()
+        if (null == roundID) {
+            Timber.d("Got null for roundID, unable to continue")
+            return
+        }
+        gameViewModel.getRound(roundID).observe(viewLifecycleOwner, {
+            if (null != it) {
+                currentRound = it
+                binding.tvActiveRoundHdrDate.text = it.date.toString()
+                return@observe
+            }
+        })
+
+        gameViewModel.getActivePlayerModelsForRound(gameID, roundID).observe(viewLifecycleOwner, {
+            //val tmpList = it.toMutableList()
+            //tmpList.sort()
+            //adapter.submitList(tmpList)
+            adapter.submitList(it)
+        })
+    }
+
+    override fun onPointUpdated(point: Point) {
+        gameViewModel.addPoint(point)
+    }
+}

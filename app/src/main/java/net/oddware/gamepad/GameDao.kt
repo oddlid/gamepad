@@ -25,6 +25,10 @@ interface GameDao {
     @Query("SELECT * FROM players WHERE playerID == :id")
     suspend fun getPlayer(id: Long): Player?
 
+    // Get list of players
+    @Query("SELECT * FROM players WHERE playerID IN (:playerIDs)")
+    suspend fun getPlayersWithID(vararg playerIDs: Long): List<Player>
+
     // get list of players
     @Query("SELECT * FROM players")
     fun getPlayers(): LiveData<List<Player>>
@@ -77,13 +81,29 @@ interface GameDao {
     @Update
     suspend fun updateRound(round: Round)
 
+    // get specific round
+    @Query("SELECT * FROM rounds WHERE roundID == :roundID")
+    suspend fun getRound(roundID: Long): Round?
+
     // get list of rounds
     @Query("SELECT * FROM rounds")
     fun getRounds(): LiveData<List<Round>>
 
+    // get last inserted round
+    @Query("SELECT * FROM rounds ORDER BY roundID DESC LIMIT 1")
+    fun getLastInsertedRound(): LiveData<Round?>
+
+    // get last inserted active round
+    @Query("SELECT * FROM rounds WHERE finished == 0 ORDER BY roundID DESC LIMIT 1")
+    fun getLastInsertedActiveRound(): LiveData<Round?>
+
     // add points
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun addPoint(point: Point)
+
+    // add multiple points
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun addPoints(vararg points: Point)
 
     // delete points
     @Delete
@@ -102,4 +122,8 @@ interface GameDao {
     // in points, that wouldn't work
     @Query("SELECT value FROM points WHERE playerID == :playerID AND gameID == :gameID AND roundID == :roundID ORDER BY pointID DESC LIMIT 1")
     suspend fun getCurrentPoints(playerID: Long, gameID: Long, roundID: Long): Long
+
+    // Get playerIDs for a given round
+    @Query("SELECT DISTINCT playerID FROM points WHERE roundID == :roundID")
+    suspend fun getPlayerIDsForRound(roundID: Long): List<Long>
 }

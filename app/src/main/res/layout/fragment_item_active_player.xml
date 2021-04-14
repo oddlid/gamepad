@@ -43,7 +43,7 @@
         android:layout_marginBottom="16dp"
         android:ems="4"
         android:gravity="end"
-        android:inputType="number"
+        android:inputType="numberSigned"
         app:layout_constraintEnd_toStartOf="@id/btnActivePlayerUpdatePoints"
         app:layout_constraintTop_toTopOf="parent" />
 

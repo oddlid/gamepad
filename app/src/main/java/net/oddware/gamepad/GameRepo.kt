@@ -26,6 +26,8 @@ class GameRepo(private val gameDao: GameDao) {
     val games = gameDao.getGames()
     val gameNames = gameDao.getGameNames()
     val rounds = gameDao.getRounds()
+    val lastInsertedRound = gameDao.getLastInsertedRound()
+    val lastInsertedActiveRound = gameDao.getLastInsertedActiveRound()
 
     suspend fun addPlayer(player: Player) = gameDao.addPlayer(player)
 
@@ -36,6 +38,8 @@ class GameRepo(private val gameDao: GameDao) {
     suspend fun updatePlayer(player: Player) = gameDao.updatePlayer(player)
 
     suspend fun getPlayer(id: Long): Player? = gameDao.getPlayer(id)
+
+    suspend fun getPlayersWithID(vararg playerIDs: Long) = gameDao.getPlayersWithID(*playerIDs)
 
     suspend fun addGame(game: Game) = gameDao.addGame(game)
 
@@ -58,7 +62,11 @@ class GameRepo(private val gameDao: GameDao) {
 
     suspend fun updateRound(round: Round) = gameDao.updateRound(round)
 
+    suspend fun getRound(roundID: Long) = gameDao.getRound(roundID)
+
     suspend fun addPoint(point: Point) = gameDao.addPoint(point)
+
+    suspend fun addPoints(vararg points: Point) = gameDao.addPoints(*points)
 
     suspend fun deletePoints(vararg points: Point) = gameDao.deletePoints(*points)
 
@@ -70,5 +78,6 @@ class GameRepo(private val gameDao: GameDao) {
         return gameDao.getCurrentPoints(playerID, gameID, roundID)
     }
 
-    // ...
+    suspend fun getPlayerIDsForRound(roundID: Long): List<Long> =
+        gameDao.getPlayerIDsForRound(roundID)
 }

@@ -3,10 +3,11 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    tools:context=".ActiveRoundFragment">
 
     <TextView
-        android:id="@+id/tvActiveRoundHdr"
+        android:id="@+id/tvActiveRoundHdrLbl"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -16,7 +17,48 @@
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:text="10000 @ 2021-04-13 23:37" />
+        android:text="Round of:" />
+
+
+    <TextView
+        android:id="@+id/tvActiveRoundHdrGameName"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="16dp"
+        android:textAppearance="?attr/textAppearanceListItem"
+        android:textStyle="bold"
+        app:layout_constraintStart_toEndOf="@id/tvActiveRoundHdrLbl"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="10000" />
+
+
+    <TextView
+        android:id="@+id/tvActiveRoundHdrSep"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="16dp"
+        android:text="\@"
+        android:textAppearance="?attr/textAppearanceListItem"
+        android:textStyle="bold"
+        app:layout_constraintStart_toEndOf="@id/tvActiveRoundHdrGameName"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tvActiveRoundHdrDate"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="16dp"
+        android:textAppearance="?attr/textAppearanceListItem"
+        android:textStyle="bold"
+        app:layout_constraintStart_toEndOf="@id/tvActiveRoundHdrSep"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="2021-04-13 23:37" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvActiveRoundPlayerList"
@@ -25,8 +67,10 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        app:layout_constraintBottom_toTopOf="@id/btnActiveRoundFinishGame"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tvActiveRoundHdr"
+        app:layout_constraintTop_toBottomOf="@id/tvActiveRoundHdrLbl"
         tools:itemCount="5"
         tools:listitem="@layout/fragment_item_active_player" />
 
@@ -39,6 +83,6 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        tools:text="Finish game" />
+        android:text="Finish game" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

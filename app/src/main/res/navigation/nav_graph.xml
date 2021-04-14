@@ -63,6 +63,9 @@
             android:name="gameID"
             android:defaultValue="-1L"
             app:argType="long" />
+        <action
+            android:id="@+id/action_playerSelectionFragment_to_activeRoundFragment"
+            app:destination="@id/activeRoundFragment" />
     </fragment>
     <dialog
         android:id="@+id/confirmationDialog"
@@ -85,4 +88,13 @@
         android:name="net.oddware.gamepad.ArchiveFragment"
         android:label="ArchiveFragment"
         tools:layout="@layout/fragment_archive" />
+    <fragment
+        android:id="@+id/activeRoundFragment"
+        android:name="net.oddware.gamepad.ActiveRoundFragment"
+        android:label="fragment_active_round"
+        tools:layout="@layout/fragment_active_round">
+        <action
+            android:id="@+id/action_activeRoundFragment_to_gameSelectionFragment"
+            app:destination="@id/gameSelectionFragment" />
+    </fragment>
 </navigation>

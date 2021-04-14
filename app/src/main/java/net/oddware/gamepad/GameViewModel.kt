@@ -16,6 +16,8 @@ class GameViewModel(app: Application) : AndroidViewModel(app) {
     val games = gameRepo.games
     val gameNames = gameRepo.gameNames
     val rounds = gameRepo.rounds
+    val lastInsertedRound = gameRepo.lastInsertedRound
+    val lastInsertedActiveRound = gameRepo.lastInsertedActiveRound
 
     fun addPlayer(player: Player) = viewModelScope.launch(Dispatchers.IO) {
         gameRepo.addPlayer(player)
@@ -83,8 +85,21 @@ class GameViewModel(app: Application) : AndroidViewModel(app) {
         gameRepo.updateRound(round)
     }
 
+    fun getRound(id: Long): LiveData<Round?> {
+        val ret = MutableLiveData<Round?>()
+        viewModelScope.launch(Dispatchers.IO) {
+            val round = gameRepo.getRound(id)
+            ret.postValue(round)
+        }
+        return ret
+    }
+
     fun addPoint(point: Point) = viewModelScope.launch(Dispatchers.IO) {
         gameRepo.addPoint(point)
+    }
+
+    fun addPoints(vararg points: Point) = viewModelScope.launch(Dispatchers.IO) {
+        gameRepo.addPoints(*points)
     }
 
     fun deletePoints(vararg points: Point) = viewModelScope.launch(Dispatchers.IO) {
@@ -108,5 +123,31 @@ class GameViewModel(app: Application) : AndroidViewModel(app) {
         return ret
     }
 
-    // ...
+    fun getActivePlayerModelsForRound(
+        gameID: Long,
+        roundID: Long
+    ): LiveData<List<ActivePlayerModel>> {
+        val ret = MutableLiveData<List<ActivePlayerModel>>()
+
+        viewModelScope.launch(Dispatchers.IO) {
+            val game = gameRepo.getGame(gameID) ?: return@launch
+            val round = gameRepo.getRound(roundID) ?: return@launch
+            val playerIDs = gameRepo.getPlayerIDsForRound(roundID).toLongArray()
+            val players = gameRepo.getPlayersWithID(*playerIDs)
+            val apmList: MutableList<ActivePlayerModel> = mutableListOf()
+
+            for (p in players) {
+                apmList.add(
+                    ActivePlayerModel(
+                        player = p,
+                        game = game,
+                        round = round
+                    )
+                )
+            }
+            ret.postValue(apmList)
+        }
+
+        return ret
+    }
 }

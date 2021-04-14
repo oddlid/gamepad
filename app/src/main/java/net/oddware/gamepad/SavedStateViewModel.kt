@@ -13,6 +13,7 @@ class SavedStateViewModel(private val state: SavedStateHandle) : ViewModel() {
     companion object {
         const val INVALID_ID = -1L
         private const val KEY_GAME_ID = "net.oddware.gamepad.ssvm.GAME_ID"
+        private const val KEY_ROUND_ID = "net.oddware.gamepad.ssvm.ROUND_ID"
     }
 
     fun setCurrentGameID(id: Long) {
@@ -22,4 +23,19 @@ class SavedStateViewModel(private val state: SavedStateHandle) : ViewModel() {
 
     //fun getCurrentGameID(): LiveData<Long> = state.getLiveData(KEY_GAME_ID)
     fun getCurrentGameID(): Long? = state.get<Long>(KEY_GAME_ID)
+
+    fun clearCurrentGameID() {
+        state.remove<Long>(KEY_GAME_ID)
+    }
+
+    fun setCurrentRoundID(id: Long) {
+        Timber.d("Setting current roundID to: $id")
+        state.set(KEY_ROUND_ID, id)
+    }
+
+    fun getCurrentRoundID(): Long? = state.get<Long>(KEY_ROUND_ID)
+
+    fun clearCurrentRoundID() {
+        state.remove<Long>(KEY_ROUND_ID)
+    }
 }
