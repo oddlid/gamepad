@@ -6,6 +6,7 @@
     android:layout_height="match_parent"
     tools:context=".ActiveRoundFragment">
 
+    <!--
     <TextView
         android:id="@+id/tvActiveRoundHdrLbl"
         android:layout_width="0dp"
@@ -59,6 +60,7 @@
         app:layout_constraintStart_toEndOf="@id/tvActiveRoundHdrSep"
         app:layout_constraintTop_toTopOf="parent"
         tools:text="2021-04-13 23:37" />
+    -->
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvActiveRoundPlayerList"
@@ -68,12 +70,13 @@
         android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="16dp"
-        app:layout_constraintBottom_toTopOf="@id/btnActiveRoundFinishGame"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tvActiveRoundHdrLbl"
+        app:layout_constraintTop_toTopOf="parent"
         tools:itemCount="5"
         tools:listitem="@layout/fragment_item_active_player" />
 
+    <!--
     <Button
         android:id="@+id/btnActiveRoundFinishGame"
         android:layout_width="wrap_content"
@@ -84,5 +87,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         android:text="Finish game" />
+    -->
 
 </androidx.constraintlayout.widget.ConstraintLayout>

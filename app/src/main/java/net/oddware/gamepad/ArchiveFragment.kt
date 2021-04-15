@@ -15,7 +15,7 @@ class ArchiveFragment : Fragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = FragmentArchiveBinding.inflate(inflater, container, false)
         val view = binding.root
 

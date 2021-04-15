@@ -4,10 +4,10 @@
     <item
         android:id="@+id/menu_delete_selected"
         android:icon="@drawable/ic_trash"
-        android:title="Delete selected"
+        android:title="@string/menuDeleteSelected_title"
         app:showAsAction="ifRoom" />
     <item
         android:id="@+id/menu_select_all"
-        android:title="Select all"
+        android:title="@string/menuSelectAll_title"
         app:showAsAction="never" />
 </menu>

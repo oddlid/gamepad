@@ -5,13 +5,14 @@
     <string name="bMenuItemHome">GamePad</string>
     <string name="bMenuItemArchive">Archive</string>
 
-    <string name="fragArchive_tmpTxt">List of archived game rounds</string>
 
+    <!--
     <string name="tvHdrEdit_txt">Add/Edit Player/Game:</string>
     <string name="tvHdrEdit_addGameTxt">Add Game:</string>
     <string name="tvHdrEdit_editGameTxt">Edit Game:</string>
     <string name="tvHdrEdit_addPlayerTxt">Add Player:</string>
     <string name="tvHdrEdit_editPlayerTxt">Edit Player:</string>
+    -->
     <string name="tvEditNameLbl_txt">Name:</string>
     <string name="chkAddNewAfterSave_txt">Add new after save</string>
     <string name="btnSaveItem_txt">Save</string>
@@ -20,21 +21,41 @@
     <string name="snackGameAdded_txt">Game \"%1$s\" added</string>
     <string name="snackPlayerAdded_txt">Player \"%1$s\" added</string>
 
-    <string name="dlgConfirm_msgTxt">Delete %1$s?</string>
+    <string name="dlgConfirm_msgTxt">Delete %1$d %2$s?</string>
+    <string name="dlgConfirm_type_players">player(s)</string>
+    <string name="dlgConfirm_type_games">game(s)</string>
     <string name="dlgConfirm_btnOkTxt">Delete</string>
     <string name="dlgConfirm_btnCancelTxt">Cancel</string>
 
-    <string name="tvHdrSelectGame_txt">Select game:</string>
+    <!-- <string name="tvHdrSelectGame_txt">Select game:</string> -->
     <string name="btnAddNewGame_txt">Add new game</string>
 
     <string name="tvGameItemName_tmpTxt">Name of the Game</string>
     <string name="btnEditGameItem_cDesc">Edit game item</string>
-    <string name="btnDeleteGameItem_cDesc">Delete game item</string>
+    <!-- <string name="btnDeleteGameItem_cDesc">Delete game item</string> -->
 
     <string name="tvPlayerItemName_tmpTxt">Name of the Player</string>
     <string name="btnEditPlayerItem_cDesc">Edit Player Item</string>
-    <string name="btnDeletePlayerItem_cDesc">Delete player item</string>
+    <!-- <string name="btnDeletePlayerItem_cDesc">Delete player item</string> -->
 
-    <string name="tvHdrSelectPlayers_txt">Select players:</string>
+    <string name="etActivePlayerItemUpdatePoints_hint">points</string>
+
+    <!-- <string name="tvHdrSelectPlayers_txt">Select players:</string> -->
     <string name="btnAddNewPlayer_txt">Add new player</string>
+
+    <string name="btnActivePlayerUpdatePoints_cDesc">Update player points</string>
+
+    <string name="menuDeleteSelected_title">Delete selected</string>
+    <string name="menuSelectAll_title">Select all</string>
+    <string name="menuStartGame_title">Start game</string>
+
+    <string name="fragActiveRound_title">Round of: {game_name} @ {round_date}</string>
+    <string name="fragGameSelection_title">Select game:</string>
+    <string name="fragPlayerSelection_title">Select players for game \"{game_name}\"</string>
+    <string name="fragEditItem_title">{mode}</string>
+    <string name="fragEditItem_mode_addPlayer">Add Player(s)</string>
+    <string name="fragEditItem_mode_editPlayer">Edit Player</string>
+    <string name="fragEditItem_mode_addGame">Add Game(s)</string>
+    <string name="fragEditItem_mode_editGame">Edit Game</string>
+    <string name="fragArchive_title">Archived game rounds</string>
 </resources>

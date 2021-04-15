@@ -33,7 +33,7 @@ class EditItemFragment : Fragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = FragmentEditItemBinding.inflate(inflater, container, false)
         val view = binding.root
 
@@ -62,8 +62,7 @@ class EditItemFragment : Fragment() {
             ACTION_ADD -> {
                 when (args.itemType) {
                     TYPE_GAME -> {
-                        binding.tvHdrEdit.text =
-                            requireContext().getString(R.string.tvHdrEdit_addGameTxt)
+                        //binding.tvHdrEdit.text = requireContext().getString(R.string.tvHdrEdit_addGameTxt)
                         binding.btnSaveItem.setOnClickListener {
                             val txt = binding.etEditItemName.text.toString().trim()
                             if (txt.isEmpty()) {
@@ -82,8 +81,7 @@ class EditItemFragment : Fragment() {
                         }
                     }
                     TYPE_PLAYER -> {
-                        binding.tvHdrEdit.text =
-                            requireContext().getString(R.string.tvHdrEdit_addPlayerTxt)
+                        //binding.tvHdrEdit.text = requireContext().getString(R.string.tvHdrEdit_addPlayerTxt)
                         binding.btnSaveItem.setOnClickListener {
                             val txt = binding.etEditItemName.text.toString().trim()
                             if (txt.isEmpty()) {
@@ -109,8 +107,7 @@ class EditItemFragment : Fragment() {
 
                 when (args.itemType) {
                     TYPE_GAME -> {
-                        binding.tvHdrEdit.text =
-                            requireContext().getString(R.string.tvHdrEdit_editGameTxt)
+                        //binding.tvHdrEdit.text = requireContext().getString(R.string.tvHdrEdit_editGameTxt)
                         binding.btnSaveItem.setOnClickListener {
                             val txt = binding.etEditItemName.text.toString().trim()
                             if (txt.isEmpty()) {
@@ -127,8 +124,7 @@ class EditItemFragment : Fragment() {
                         }
                     }
                     TYPE_PLAYER -> {
-                        binding.tvHdrEdit.text =
-                            requireContext().getString(R.string.tvHdrEdit_editPlayerTxt)
+                        //binding.tvHdrEdit.text = requireContext().getString(R.string.tvHdrEdit_editPlayerTxt)
                         binding.btnSaveItem.setOnClickListener {
                             val txt = binding.etEditItemName.text.toString().trim()
                             if (txt.isEmpty()) {

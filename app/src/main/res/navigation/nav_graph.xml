@@ -8,7 +8,7 @@
     <fragment
         android:id="@+id/gameSelectionFragment"
         android:name="net.oddware.gamepad.GameSelectionFragment"
-        android:label="fragment_game_selection"
+        android:label="@string/fragGameSelection_title"
         tools:layout="@layout/fragment_game_selection">
         <action
             android:id="@+id/action_gameSelectionFragment_to_editItemFragment"
@@ -23,7 +23,7 @@
     <fragment
         android:id="@+id/editItemFragment"
         android:name="net.oddware.gamepad.EditItemFragment"
-        android:label="EditItemFragment"
+        android:label="@string/fragEditItem_title"
         tools:layout="@layout/fragment_edit_item">
         <action
             android:id="@+id/action_editItemFragment_to_gameSelectionFragment"
@@ -44,11 +44,15 @@
             android:defaultValue="@null"
             app:argType="string"
             app:nullable="true" />
+        <argument
+            android:name="mode"
+            android:defaultValue="Add/Edit"
+            app:argType="string" />
     </fragment>
     <fragment
         android:id="@+id/playerSelectionFragment"
         android:name="net.oddware.gamepad.PlayerSelectionFragment"
-        android:label="PlayerSelectionFragment"
+        android:label="@string/fragPlayerSelection_title"
         tools:layout="@layout/fragment_player_selection">
         <action
             android:id="@+id/action_playerSelectionFragment_to_gameSelectionFragment"
@@ -66,6 +70,10 @@
         <action
             android:id="@+id/action_playerSelectionFragment_to_activeRoundFragment"
             app:destination="@id/activeRoundFragment" />
+        <argument
+            android:name="game_name"
+            android:defaultValue="UNDEFINED"
+            app:argType="string" />
     </fragment>
     <dialog
         android:id="@+id/confirmationDialog"
@@ -78,23 +86,34 @@
             android:id="@+id/action_confirmationDialog_to_playerSelectionFragment"
             app:destination="@id/playerSelectionFragment" />
         <argument
-            android:name="itemName"
-            android:defaultValue="@null"
+            android:name="numItems"
+            android:defaultValue="0"
+            app:argType="integer" />
+        <argument
+            android:name="itemType"
             app:argType="string"
-            app:nullable="true" />
+            android:defaultValue="UNDEFINED" />
     </dialog>
     <fragment
         android:id="@+id/archiveFragment"
         android:name="net.oddware.gamepad.ArchiveFragment"
-        android:label="ArchiveFragment"
+        android:label="@string/fragArchive_title"
         tools:layout="@layout/fragment_archive" />
     <fragment
         android:id="@+id/activeRoundFragment"
         android:name="net.oddware.gamepad.ActiveRoundFragment"
-        android:label="fragment_active_round"
+        android:label="@string/fragActiveRound_title"
         tools:layout="@layout/fragment_active_round">
         <action
             android:id="@+id/action_activeRoundFragment_to_gameSelectionFragment"
             app:destination="@id/gameSelectionFragment" />
+        <argument
+            android:name="game_name"
+            android:defaultValue="UNDEFINED"
+            app:argType="string" />
+        <argument
+            android:name="round_date"
+            android:defaultValue="UNDEFINED"
+            app:argType="string" />
     </fragment>
 </navigation>

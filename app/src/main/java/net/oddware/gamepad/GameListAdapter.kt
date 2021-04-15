@@ -46,7 +46,7 @@ class GameListAdapter(
             bind(game, false)
         }
 
-        fun bind(game: Game, selected: Boolean) {
+        private fun bind(game: Game, selected: Boolean) {
             // It might be a better idea to get the current game at the moment of click via
             // getItem(adapterPosition) instead, but we'll try like this first
             currentGame = game
@@ -154,7 +154,7 @@ class GameListAdapter(
 
     fun getBatchSelectionIds(): Set<Long> = batchSet.keys
 
-    fun unselectAll() {
+    private fun unselectAll() {
         batchSet.clear()
         notifyItemRangeChanged(0, itemCount, Payload.SELECTION)
     }

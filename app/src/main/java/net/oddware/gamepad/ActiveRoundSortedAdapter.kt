@@ -103,11 +103,11 @@ class ActiveRoundSortedAdapter(
         return getItem(position).player.playerID
     }
 
-    fun getItem(position: Int): ActivePlayerModel {
+    private fun getItem(position: Int): ActivePlayerModel {
         return apmList.get(position)
     }
 
-    fun clear() = apmList.clear()
+    //fun clear() = apmList.clear()
 
     fun submitList(playerList: List<ActivePlayerModel>) {
         apmList.addAll(playerList)

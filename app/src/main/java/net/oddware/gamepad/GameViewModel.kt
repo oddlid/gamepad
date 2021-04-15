@@ -36,7 +36,7 @@ class GameViewModel(app: Application) : AndroidViewModel(app) {
     }
 
     fun getPlayer(id: Long): LiveData<Player?> {
-        var ret = MutableLiveData<Player?>()
+        val ret = MutableLiveData<Player?>()
         viewModelScope.launch(Dispatchers.IO) {
             val player = gameRepo.getPlayer(id)
             ret.postValue(player)

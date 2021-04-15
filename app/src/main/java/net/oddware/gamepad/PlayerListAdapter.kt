@@ -44,7 +44,7 @@ class PlayerListAdapter(
             bind(player, false)
         }
 
-        fun bind(player: Player, selected: Boolean) {
+        private fun bind(player: Player, selected: Boolean) {
             currentPlayer = player
             binding.tvPlayerItemName.text = player.name
 
@@ -145,7 +145,7 @@ class PlayerListAdapter(
         notifyItemRangeChanged(0, itemCount, Payload.SELECTION)
     }
 
-    fun unselectAll() {
+    private fun unselectAll() {
         batchSet.clear()
         notifyItemRangeChanged(0, itemCount, Payload.SELECTION)
     }

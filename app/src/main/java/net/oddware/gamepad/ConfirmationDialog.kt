@@ -22,7 +22,7 @@ class ConfirmationDialog : DialogFragment() {
 
         val builder = AlertDialog.Builder(activity)
         with(builder) {
-            setMessage(getString(R.string.dlgConfirm_msgTxt, args.itemName))
+            setMessage(getString(R.string.dlgConfirm_msgTxt, args.numItems, args.itemType))
             setPositiveButton(R.string.dlgConfirm_btnOkTxt) { dlgInterface, _ ->
                 findNavController().previousBackStackEntry?.savedStateHandle?.set(
                     ACTION_KEY,

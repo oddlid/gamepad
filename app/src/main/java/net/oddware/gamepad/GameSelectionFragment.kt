@@ -23,7 +23,7 @@ class GameSelectionFragment : Fragment(), GameListAdapter.GameClickListener, Act
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = FragmentGameSelectionBinding.inflate(inflater, container, false)
         val view = binding.root
 
@@ -36,6 +36,9 @@ class GameSelectionFragment : Fragment(), GameListAdapter.GameClickListener, Act
                 GameSelectionFragmentDirections.actionGameSelectionFragmentToEditItemFragment()
             action.loadAction = EditItemFragment.ACTION_ADD
             action.itemType = EditItemFragment.TYPE_GAME
+            context?.let {
+                action.mode = it.getString(R.string.fragEditItem_mode_addGame)
+            }
             Navigation.findNavController(view).navigate(action)
         }
 
@@ -78,6 +81,7 @@ class GameSelectionFragment : Fragment(), GameListAdapter.GameClickListener, Act
             Timber.d("Should load player selection fragment")
             val action =
                 GameSelectionFragmentDirections.actionGameSelectionFragmentToPlayerSelectionFragment()
+            action.gameName = game.name
             //action.gameID = game.gameID // this might be obsolete with ssvm
             ssvm.setCurrentGameID(game.gameID)
             findNavController().navigate(action)
@@ -109,6 +113,9 @@ class GameSelectionFragment : Fragment(), GameListAdapter.GameClickListener, Act
         action.itemType = EditItemFragment.TYPE_GAME
         action.loadAction = EditItemFragment.ACTION_EDIT
         action.itemID = game.gameID
+        context?.let {
+            action.mode = it.getString(R.string.fragEditItem_mode_editGame)
+        }
         findNavController().navigate(action)
     }
 
@@ -144,7 +151,9 @@ class GameSelectionFragment : Fragment(), GameListAdapter.GameClickListener, Act
                 val numSelected = adapter.getBatchSelectionIds().size
                 val action1 =
                     GameSelectionFragmentDirections.actionGameSelectionFragmentToConfirmationDialog()
-                action1.itemName = "$numSelected games"
+                //action1.itemName = "$numSelected games"
+                action1.numItems = numSelected
+                action1.itemType = context?.getString(R.string.dlgConfirm_type_games) ?: "UNDEFINED"
                 val navCtl = findNavController()
 
                 // Important to set up listening BEFORE navigate()!
