@@ -30,7 +30,6 @@ class ActiveRoundFragment : Fragment(), ActiveRoundSortedAdapter.PointUpdateList
         _binding = FragmentActiveRoundBinding.inflate(inflater, container, false)
         val view = binding.root
 
-        //adapter = ActiveRoundAdapter(this)
         adapter = ActiveRoundSortedAdapter(this)
 
         // Moving this to onDetach instead

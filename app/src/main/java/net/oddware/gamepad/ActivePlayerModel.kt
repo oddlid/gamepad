@@ -4,26 +4,13 @@ import timber.log.Timber
 
 /*
 The idea here is to wrap Player, Round, Game and Point in a way that makes it easy to use as a
-list item in ActiveRoundAdapter.
+list item in ActiveRoundSortedAdapter.
  */
 class ActivePlayerModel(
     val player: Player,
     val game: Game,
     val round: Round
 ) : Comparable<ActivePlayerModel> {
-    //companion object {
-    //    fun startRound(game: Game, vararg players: Player): Pair<Round, List<Point>> {
-    //        val round = Round(date = Date())
-    //        val points: MutableList<Point> = mutableListOf()
-    //        for (pl in players) {
-    //            points.add(Point(
-    //                playerID = pl.playerID,
-    //                gameID = game.gameID,
-    //                value = 0L
-    //            ))
-    //        }
-    //    }
-    //}
     var point: Point? = null
 
     fun getTotalPoints(): Long {
@@ -43,11 +30,6 @@ class ActivePlayerModel(
     }
 
     override fun compareTo(other: ActivePlayerModel): Int {
-        //return when {
-        //    this.getTotalPoints() > other.getTotalPoints() -> 1
-        //    this.getTotalPoints() < other.getTotalPoints() -> -1
-        //    else -> 0
-        //}
         // This logging made it evident that no comparison happens when we update a players points and call
         // notifyItemChanged. It only happens when we load the list the first time. So we need something more...
         // Turns out the solution was to not call notifyItemChanged ourselves, but rather call
