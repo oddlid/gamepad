@@ -78,6 +78,12 @@ class GameRepo(private val gameDao: GameDao) {
         return gameDao.getCurrentPoints(playerID, gameID, roundID)
     }
 
+    suspend fun getLastPointsForPlayersInRound(
+        roundID: Long,
+        gameID: Long,
+        vararg playerIDs: Long
+    ) = gameDao.getLastPointsForPlayersInRound(roundID, gameID, *playerIDs)
+
     suspend fun getPlayerIDsForRound(roundID: Long): List<Long> =
         gameDao.getPlayerIDsForRound(roundID)
 }

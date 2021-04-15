@@ -134,16 +134,21 @@ class GameViewModel(app: Application) : AndroidViewModel(app) {
             val round = gameRepo.getRound(roundID) ?: return@launch
             val playerIDs = gameRepo.getPlayerIDsForRound(roundID).toLongArray()
             val players = gameRepo.getPlayersWithID(*playerIDs)
+            val points = gameRepo.getLastPointsForPlayersInRound(roundID, gameID, *playerIDs)
             val apmList: MutableList<ActivePlayerModel> = mutableListOf()
 
             for (p in players) {
-                apmList.add(
-                    ActivePlayerModel(
-                        player = p,
-                        game = game,
-                        round = round
-                    )
+                val apm = ActivePlayerModel(
+                    player = p,
+                    game = game,
+                    round = round
                 )
+                for (point in points) {
+                    if (point.playerID == p.playerID) {
+                        apm.point = point
+                    }
+                }
+                apmList.add(apm)
             }
             ret.postValue(apmList)
         }

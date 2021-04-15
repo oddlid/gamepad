@@ -12,9 +12,9 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import net.oddware.gamepad.databinding.FragmentActiveRoundBinding
 import timber.log.Timber
 
-class ActiveRoundFragment : Fragment(), ActiveRoundAdapter.PointUpdateListener {
+class ActiveRoundFragment : Fragment(), ActiveRoundSortedAdapter.PointUpdateListener {
 
-    private lateinit var adapter: ActiveRoundAdapter
+    private lateinit var adapter: ActiveRoundSortedAdapter
     private var _binding: FragmentActiveRoundBinding? = null
     private val binding get() = _binding!!
     private val gameViewModel: GameViewModel by activityViewModels()
@@ -31,7 +31,8 @@ class ActiveRoundFragment : Fragment(), ActiveRoundAdapter.PointUpdateListener {
         _binding = FragmentActiveRoundBinding.inflate(inflater, container, false)
         val view = binding.root
 
-        adapter = ActiveRoundAdapter(this)
+        //adapter = ActiveRoundAdapter(this)
+        adapter = ActiveRoundSortedAdapter(this)
 
         binding.btnActiveRoundFinishGame.setOnClickListener {
             //Snackbar.make(view, "TODO: finish game", Snackbar.LENGTH_SHORT).show()
@@ -93,9 +94,7 @@ class ActiveRoundFragment : Fragment(), ActiveRoundAdapter.PointUpdateListener {
         })
 
         gameViewModel.getActivePlayerModelsForRound(gameID, roundID).observe(viewLifecycleOwner, {
-            //val tmpList = it.toMutableList()
-            //tmpList.sort()
-            //adapter.submitList(tmpList)
+            Timber.d("Passing list of ActivePlayerModel to ActiveRoundSortedAdapter...")
             adapter.submitList(it)
         })
     }

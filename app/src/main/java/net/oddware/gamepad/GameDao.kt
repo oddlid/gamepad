@@ -123,6 +123,14 @@ interface GameDao {
     @Query("SELECT value FROM points WHERE playerID == :playerID AND gameID == :gameID AND roundID == :roundID ORDER BY pointID DESC LIMIT 1")
     suspend fun getCurrentPoints(playerID: Long, gameID: Long, roundID: Long): Long
 
+    // Get a list of Point objects that are the most recent for a Round of Game with a list of Players
+    @Query("SELECT DISTINCT * FROM points WHERE roundID == :roundID AND gameID == :gameID AND playerID IN (:playerIDs) GROUP BY playerID ORDER BY pointID DESC")
+    suspend fun getLastPointsForPlayersInRound(
+        roundID: Long,
+        gameID: Long,
+        vararg playerIDs: Long
+    ): List<Point>
+
     // Get playerIDs for a given round
     @Query("SELECT DISTINCT playerID FROM points WHERE roundID == :roundID")
     suspend fun getPlayerIDsForRound(roundID: Long): List<Long>
