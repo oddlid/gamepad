@@ -3,6 +3,7 @@ package net.oddware.gamepad
 import android.app.Activity
 import android.content.Context
 import android.os.Bundle
+import android.view.MenuItem
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import androidx.appcompat.app.AppCompatActivity
@@ -59,6 +60,24 @@ class MainActivity : AppCompatActivity() {
     override fun onSupportNavigateUp(): Boolean {
         val navCtl = findNavController(R.id.nav_host_fragment)
         return navCtl.navigateUp() || super.onSupportNavigateUp()
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if (item.itemId == android.R.id.home) {
+            Timber.d("Home button pressed")
+            onBackPressedDispatcher.onBackPressed()
+            // If we want normal handling of the button, we must return false here.
+            // If we return true, the event is consumed, and processing stops, which in practice
+            // means we would need to duplicate handling of home/back, which in this case is not
+            // how we want it.
+            return false
+        }
+        return super.onOptionsItemSelected(item)
+    }
+
+    override fun onBackPressed() {
+        super.onBackPressed()
+        Timber.d("Back button pressed")
     }
 
     private fun setupNav() {

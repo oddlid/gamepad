@@ -1,9 +1,11 @@
 package net.oddware.gamepad
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.addCallback
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.DividerItemDecoration
@@ -63,6 +65,19 @@ class ActiveRoundFragment : Fragment(), ActiveRoundSortedAdapter.PointUpdateList
         _binding = null
     }
 
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+
+        setHasOptionsMenu(true)
+
+        requireActivity()
+            .onBackPressedDispatcher
+            .addCallback(this) {
+                this.isEnabled = true
+                Timber.d("Hooked back pressed from fragment")
+            }
+    }
+
     override fun onDetach() {
         super.onDetach()
         Timber.d("Finishing game round...")
@@ -111,7 +126,15 @@ class ActiveRoundFragment : Fragment(), ActiveRoundSortedAdapter.PointUpdateList
 
     // TODO: Find out a bombproof way to call this method in all cases where the user goes back
     //  Currently, when I call this from onDetach(), it works if the user presses toolbar back, but
-    // NOT if one presses device button back...
+    //  NOT if one presses device button back...
+    // I might go back to having a button to finish the game, but if so, then the app should check
+    // on startup if there are unfinished rounds, and if so, open the most recent.
+    // I'm not quite sure yet what I think is best; to automatically finish a round when the user leaves
+    // this fragment, or demand they finish manually, with the possibility to come back and finish later.
+    // For the use cases I imagine for this app, it's unlikely that the user leaves the app for so long
+    // that the app is started fresh, and the round gone. But if so, the round should be automatically
+    // finished as fragment onDetach() is reached.
+    // We could then rather have an option in the archive list to resume/restart a round.
     private fun finishRound() {
         currentRound?.let {
             it.finished = true
