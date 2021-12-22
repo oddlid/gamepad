@@ -27,15 +27,15 @@ import androidx.room.*
     indices = [
         Index(
             value = ["playerID"],
-            unique = true
+            unique = false
         ),
         Index(
             value = ["gameID"],
-            unique = true
+            unique = false
         ),
         Index(
             value = ["roundID"],
-            unique = true
+            unique = false
         )
     ]
 )

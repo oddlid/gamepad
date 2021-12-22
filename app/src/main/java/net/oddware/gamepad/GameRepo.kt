@@ -54,7 +54,10 @@ class GameRepo(private val gameDao: GameDao) {
 
     suspend fun getGame(id: Long): Game? = gameDao.getGame(id)
 
-    suspend fun addRound(round: Round) = gameDao.addRound(round)
+    suspend fun addRound(round: Round) {
+        Timber.d("Inside GameRepo.addRound()")
+        gameDao.addRound(round)
+    }
 
     suspend fun deleteRounds(vararg rounds: Round) = gameDao.deleteRounds(*rounds)
 

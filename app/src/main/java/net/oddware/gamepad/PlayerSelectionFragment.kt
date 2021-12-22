@@ -148,6 +148,7 @@ class PlayerSelectionFragment : Fragment(), PlayerListAdapter.PlayerClickListene
                 //val gameName = game?.name ?: "UNDEFINED"
                 //val msg = "Starting game \"$gameName\" with $numSelected players..."
                 //Snackbar.make(binding.root, msg, Snackbar.LENGTH_LONG).show()
+                Timber.d("Start game clicked")
                 startRound()
                 return true
             }
@@ -212,6 +213,7 @@ class PlayerSelectionFragment : Fragment(), PlayerListAdapter.PlayerClickListene
         // Save this list of Points to DB
         // Save roundID and GameID to SavedStateViewModel
         // If we now launch ActiveRoundFragment, it should be able to get all info it needs from roundID + gameID
+        Timber.d("In startRound()...")
 
         val gameID = game?.gameID ?: -1L
         if (-1L == gameID) {
@@ -224,6 +226,7 @@ class PlayerSelectionFragment : Fragment(), PlayerListAdapter.PlayerClickListene
 
         gameViewModel.lastInsertedActiveRound.observe(viewLifecycleOwner, {
             if (null == it) {
+                Timber.d("Passed round == null, returning")
                 return@observe
             }
             val points: MutableList<Point> = mutableListOf()
@@ -250,6 +253,7 @@ class PlayerSelectionFragment : Fragment(), PlayerListAdapter.PlayerClickListene
                 action.roundDate =
                     SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.getDefault()).format(dt)
             }
+            Timber.d("Launching round...")
             findNavController().navigate(action)
         })
     }

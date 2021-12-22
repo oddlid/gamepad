@@ -7,6 +7,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import timber.log.Timber
 
 class GameViewModel(app: Application) : AndroidViewModel(app) {
     private val gameRepo: GameRepo = GameRepo.getInstance(app)
@@ -70,6 +71,7 @@ class GameViewModel(app: Application) : AndroidViewModel(app) {
     }
 
     fun addRound(round: Round) = viewModelScope.launch(Dispatchers.IO) {
+        Timber.d("Inside GameViewModel.addRound()")
         gameRepo.addRound(round)
     }
 
@@ -99,6 +101,7 @@ class GameViewModel(app: Application) : AndroidViewModel(app) {
     }
 
     fun addPoints(vararg points: Point) = viewModelScope.launch(Dispatchers.IO) {
+        Timber.d("Inside GameViewModel.addPoints()")
         gameRepo.addPoints(*points)
     }
 

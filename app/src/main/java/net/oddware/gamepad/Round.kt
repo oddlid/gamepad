@@ -16,6 +16,10 @@ import java.util.*
     indices = [
         Index(
             value = ["gameID"],
+            unique = false
+        ),
+        Index(
+            value = ["roundID"],
             unique = true
         )
     ]
