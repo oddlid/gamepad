@@ -1,9 +1,6 @@
 package net.oddware.gamepad
 
-import androidx.room.ColumnInfo
-import androidx.room.Entity
-import androidx.room.ForeignKey
-import androidx.room.PrimaryKey
+import androidx.room.*
 
 @Entity(
     tableName = "points",
@@ -25,6 +22,20 @@ import androidx.room.PrimaryKey
             parentColumns = ["roundID"], // points to roundID field in Round class
             childColumns = ["roundID"],  // points to roundID field in this class
             onDelete = ForeignKey.CASCADE
+        )
+    ],
+    indices = [
+        Index(
+            value = ["playerID"],
+            unique = true
+        ),
+        Index(
+            value = ["gameID"],
+            unique = true
+        ),
+        Index(
+            value = ["roundID"],
+            unique = true
         )
     ]
 )
