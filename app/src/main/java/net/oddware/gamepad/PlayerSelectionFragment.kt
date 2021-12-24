@@ -197,6 +197,7 @@ class PlayerSelectionFragment : Fragment(), PlayerListAdapter.PlayerClickListene
     }
 
     override fun onDestroyActionMode(mode: ActionMode?) {
+        Timber.d("inside onDestroyActionMode()")
         adapter.initBatchMode(false)
         actionMode = null
     }
@@ -221,40 +222,69 @@ class PlayerSelectionFragment : Fragment(), PlayerListAdapter.PlayerClickListene
             return
         }
 
-        val round = Round(gameID = gameID, date = Date())
-        gameViewModel.addRound(round)
+        gameViewModel.addRound(Round(gameID = gameID, date = Date()))
+            .observe(viewLifecycleOwner, { done ->
+                if (!done) {
+                    Timber.d("Got (impossible) false from addRound, returning")
+                    return@observe
+                }
 
-        gameViewModel.lastInsertedActiveRound.observe(viewLifecycleOwner, {
-            if (null == it) {
-                Timber.d("Passed round == null, returning")
-                return@observe
-            }
-            val points: MutableList<Point> = mutableListOf()
-            for (p in adapter.getBatchSelection()) {
-                points.add(
-                    Point(
-                        roundID = it.roundID,
-                        gameID = gameID,
-                        playerID = p.playerID
-                    )
-                )
-            }
-            gameViewModel.addPoints(*points.toTypedArray())
-            ssvm.setCurrentGameID(gameID)
-            ssvm.setCurrentRoundID(it.roundID)
+                gameViewModel.getLastInsertedActiveRound()
+                    .observe(viewLifecycleOwner, { lastInsertedActiveRound ->
+                        if (null == lastInsertedActiveRound) {
+                            Timber.d("Passed round == null, returning")
+                            return@observe
+                        }
 
-            actionMode?.finish()
-            actionMode = null
-            // launch...
-            val action =
-                PlayerSelectionFragmentDirections.actionPlayerSelectionFragmentToActiveRoundFragment()
-            game?.let { g -> action.gameName = g.name }
-            round.date?.let { dt ->
-                action.roundDate =
-                    SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.getDefault()).format(dt)
-            }
-            Timber.d("Launching round...")
-            findNavController().navigate(action)
-        })
+                        Timber.d("Passed round ID: ${lastInsertedActiveRound.roundID}")
+
+                        val points: MutableList<Point> = mutableListOf()
+                        for (p in adapter.getBatchSelection()) {
+                            points.add(
+                                Point(
+                                    roundID = lastInsertedActiveRound.roundID,
+                                    gameID = gameID,
+                                    playerID = p.playerID
+                                )
+                            )
+                        }
+                        gameViewModel.addPoints(*points.toTypedArray())
+                        ssvm.setCurrentGameID(gameID)
+                        ssvm.setCurrentRoundID(lastInsertedActiveRound.roundID)
+
+                        actionMode?.finish()
+                        actionMode = null
+                        // launch...
+                        val action =
+                            PlayerSelectionFragmentDirections.actionPlayerSelectionFragmentToActiveRoundFragment()
+                        game?.let { g -> action.gameName = g.name }
+                        lastInsertedActiveRound.date?.let { dt ->
+                            action.roundDate =
+                                SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.getDefault()).format(dt)
+                        }
+                        Timber.d("Launching round...")
+                        findNavController().navigate(action)
+                    })
+            })
+
+        // There's a bug at this step!
+        // If the app is first run, then this works as intended, but if you play one round and finish,
+        // so you get back here, and start a new round, then lastInsertedActiveRound returns the
+        // previous round, which causes lots of problems, and may lead to crash.
+        // It seems the result of lastInsertedActiveRound is cached in some way.
+        // Update:
+        // After refactoring gameDao.getLastInsertedActiveRound to not return livedata directly, but
+        // rather do that myself in GameViewModel, we no longer crash, but most times when there is
+        // no round with finished == 0 in the DB when we get here, then nothing happens on the first
+        // "start game" click, since we then reach the null branch below. Then on the next click,
+        // we do get a valid round passed, but it's ID is one behind, and there are now 2 rows of
+        // rounds in the DB marked as unfinished.
+        // So what seems to happen, is that since we use coroutines, the addRound call above is not
+        // finished committing to the DB when we get to the observe below.
+        // Update:
+        // Seems I solved it now with adding an observer on addRound and nesting the observe on last
+        // inserted active round into this again.
+
+
     }
 }

@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import net.oddware.gamepad.databinding.FragmentItemPlayerSelectionBinding
+import timber.log.Timber
 import java.util.*
 import kotlin.collections.LinkedHashMap
 
@@ -146,6 +147,7 @@ class PlayerListAdapter(
     }
 
     private fun unselectAll() {
+        Timber.d("PlayerListAdapter.unselectAll() called")
         batchSet.clear()
         notifyItemRangeChanged(0, itemCount, Payload.SELECTION)
     }

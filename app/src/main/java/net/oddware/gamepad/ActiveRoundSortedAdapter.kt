@@ -51,6 +51,10 @@ class ActiveRoundSortedAdapter(
 
             with(binding) {
                 tvActivePlayerItemName.text = apm.player.name
+                tvActivePlayerNumUpdates.text = itemView.resources.getString(
+                    R.string.tvActivePlayerNumUpdatesFormat,
+                    apm.getNumberOfUpdates()
+                )
                 tvActivePlayerItemPoints.text = apm.getTotalPoints().toString()
             }
 

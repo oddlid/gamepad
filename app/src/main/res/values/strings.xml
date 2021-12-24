@@ -58,4 +58,6 @@
     <string name="fragEditItem_mode_addGame">Add Game(s)</string>
     <string name="fragEditItem_mode_editGame">Edit Game</string>
     <string name="fragArchive_title">Archived game rounds</string>
+
+    <string name="tvActivePlayerNumUpdatesFormat">[Updates: %1$d]</string>
 </resources>

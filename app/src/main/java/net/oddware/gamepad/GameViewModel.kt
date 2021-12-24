@@ -17,8 +17,8 @@ class GameViewModel(app: Application) : AndroidViewModel(app) {
     val games = gameRepo.games
     val gameNames = gameRepo.gameNames
     val rounds = gameRepo.rounds
-    val lastInsertedRound = gameRepo.lastInsertedRound
-    val lastInsertedActiveRound = gameRepo.lastInsertedActiveRound
+    //val lastInsertedRound = gameRepo.lastInsertedRound
+    //val lastInsertedActiveRound = gameRepo.lastInsertedActiveRound
 
     fun addPlayer(player: Player) = viewModelScope.launch(Dispatchers.IO) {
         gameRepo.addPlayer(player)
@@ -70,9 +70,14 @@ class GameViewModel(app: Application) : AndroidViewModel(app) {
         return ret
     }
 
-    fun addRound(round: Round) = viewModelScope.launch(Dispatchers.IO) {
-        Timber.d("Inside GameViewModel.addRound()")
-        gameRepo.addRound(round)
+    fun addRound(round: Round): LiveData<Boolean> {
+        //Timber.d("Inside GameViewModel.addRound()")
+        val ret = MutableLiveData<Boolean>()
+        viewModelScope.launch(Dispatchers.IO) {
+            gameRepo.addRound(round)
+            ret.postValue(true)
+        }
+        return ret
     }
 
     fun deleteRounds(vararg rounds: Round) = viewModelScope.launch(Dispatchers.IO) {
@@ -122,6 +127,24 @@ class GameViewModel(app: Application) : AndroidViewModel(app) {
         viewModelScope.launch(Dispatchers.IO) {
             val points = gameRepo.getCurrentPoints(playerID, gameID, roundID)
             ret.postValue(points)
+        }
+        return ret
+    }
+
+    fun getUpdatesForPlayerInRound(playerID: Long, roundID: Long): LiveData<Long> {
+        val ret = MutableLiveData<Long>()
+        viewModelScope.launch(Dispatchers.IO) {
+            val numUpdates = gameRepo.getUpdatesForPlayerInRound(playerID, roundID)
+            ret.postValue(numUpdates)
+        }
+        return ret
+    }
+
+    fun getLastInsertedActiveRound(): LiveData<Round?> {
+        val ret = MutableLiveData<Round?>()
+        viewModelScope.launch(Dispatchers.IO) {
+            val round = gameRepo.getLastInsertedActiveRound()
+            ret.postValue(round)
         }
         return ret
     }

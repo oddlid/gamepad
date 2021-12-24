@@ -91,11 +91,12 @@ interface GameDao {
 
     // get last inserted round
     @Query("SELECT * FROM rounds ORDER BY roundID DESC LIMIT 1")
-    fun getLastInsertedRound(): LiveData<Round?>
+    suspend fun getLastInsertedRound(): Round?
 
     // get last inserted active round
+    // Using LiveData here seems to make it cached, not returning updated results! BUG!
     @Query("SELECT * FROM rounds WHERE finished == 0 ORDER BY roundID DESC LIMIT 1")
-    fun getLastInsertedActiveRound(): LiveData<Round?>
+    suspend fun getLastInsertedActiveRound(): Round?
 
     // add points
     @Insert(onConflict = OnConflictStrategy.IGNORE)
@@ -134,4 +135,13 @@ interface GameDao {
     // Get playerIDs for a given round
     @Query("SELECT DISTINCT playerID FROM points WHERE roundID == :roundID")
     suspend fun getPlayerIDsForRound(roundID: Long): List<Long>
+
+    // Get number of updates for a given player in a given round
+    @Query("SELECT COUNT(pointID) FROM points WHERE roundID == :roundID AND playerID == :playerID")
+    suspend fun getUpdatesForPlayerInRound(playerID: Long, roundID: Long): Long
+
+    // Get list of finished rounds
+    // Could be done like this:
+    // SELECT R.roundID, R.date, G.name FROM rounds R INNER JOIN games G ON R.gameID == G.gameID WHERE R.finished == 1 ORDER by R.date DESC
+    // For join queries, we'll need to create separate data objects to hold the result
 }

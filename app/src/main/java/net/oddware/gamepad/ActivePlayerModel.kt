@@ -12,10 +12,13 @@ class ActivePlayerModel(
     val round: Round
 ) : Comparable<ActivePlayerModel> {
     var point: Point? = null
+    private var numUpdates: Long = 0
 
     fun getTotalPoints(): Long {
         return point?.value ?: 0
     }
+
+    fun getNumberOfUpdates() = numUpdates
 
     fun updatePoints(value: Long): Point {
         val p = Point(
@@ -25,7 +28,8 @@ class ActivePlayerModel(
             value = getTotalPoints() + value
         )
         point = p
-        Timber.d("${player.name} now has ${p.value} points in round of ${game.name}")
+        numUpdates++
+        Timber.d("${player.name} now has ${p.value} points in round of ${game.name} after ${numUpdates} updates")
         return p
     }
 
