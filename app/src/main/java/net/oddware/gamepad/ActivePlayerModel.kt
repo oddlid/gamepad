@@ -9,16 +9,14 @@ list item in ActiveRoundSortedAdapter.
 class ActivePlayerModel(
     val player: Player,
     val game: Game,
-    val round: Round
+    val round: Round,
+    var numUpdates: Long
 ) : Comparable<ActivePlayerModel> {
     var point: Point? = null
-    private var numUpdates: Long = 0
 
     fun getTotalPoints(): Long {
         return point?.value ?: 0
     }
-
-    fun getNumberOfUpdates() = numUpdates
 
     fun updatePoints(value: Long): Point {
         val p = Point(
@@ -29,7 +27,7 @@ class ActivePlayerModel(
         )
         point = p
         numUpdates++
-        Timber.d("${player.name} now has ${p.value} points in round of ${game.name} after ${numUpdates} updates")
+        Timber.d("${player.name} now has ${p.value} points in round of ${game.name} after $numUpdates updates")
         return p
     }
 
@@ -38,7 +36,7 @@ class ActivePlayerModel(
         // notifyItemChanged. It only happens when we load the list the first time. So we need something more...
         // Turns out the solution was to not call notifyItemChanged ourselves, but rather call
         // SortedList.updateItemAt(...), which does the right thing.
-        Timber.d("This points: ${this.getTotalPoints()}, other points: ${other.getTotalPoints()}")
+        //Timber.d("This points: ${this.getTotalPoints()}, other points: ${other.getTotalPoints()}")
 
         // This will sort ascending
         //return this.getTotalPoints().compareTo(other.getTotalPoints())

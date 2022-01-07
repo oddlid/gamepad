@@ -34,7 +34,6 @@ class GameListAdapter(
         fun onGameClick(game: Game)
         fun onGameLongClick(game: Game): Boolean
         fun onGameEditClick(game: Game)
-        //fun onGameDeleteClick(game: Game)
     }
 
     inner class GameViewHolder(var binding: FragmentItemGameSelectionBinding) :
@@ -79,10 +78,6 @@ class GameListAdapter(
 
             setBatchMode(selected)
         }
-
-        //fun unbind() {
-        //    //
-        //}
 
         fun setBatchMode(mode: Boolean) {
             //this.batchMode = mode

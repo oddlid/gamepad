@@ -98,7 +98,11 @@
         android:id="@+id/archiveFragment"
         android:name="net.oddware.gamepad.ArchiveFragment"
         android:label="@string/fragArchive_title"
-        tools:layout="@layout/fragment_archive" />
+        tools:layout="@layout/fragment_archive" >
+        <action
+            android:id="@+id/action_archiveFragment_to_activeRoundFragment"
+            app:destination="@id/activeRoundFragment" />
+    </fragment>
     <fragment
         android:id="@+id/activeRoundFragment"
         android:name="net.oddware.gamepad.ActiveRoundFragment"
@@ -115,5 +119,9 @@
             android:name="round_date"
             android:defaultValue="UNDEFINED"
             app:argType="string" />
+        <argument
+            android:name="archive_mode"
+            app:argType="boolean"
+            android:defaultValue="false" />
     </fragment>
 </navigation>

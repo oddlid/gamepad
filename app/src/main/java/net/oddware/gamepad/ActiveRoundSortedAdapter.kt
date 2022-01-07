@@ -1,6 +1,7 @@
 package net.oddware.gamepad
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.SortedList
@@ -9,7 +10,8 @@ import com.google.android.material.snackbar.Snackbar
 import net.oddware.gamepad.databinding.FragmentItemActivePlayerBinding
 
 class ActiveRoundSortedAdapter(
-    private val pointUpdateListener: PointUpdateListener
+    private val pointUpdateListener: PointUpdateListener,
+    var archiveMode: Boolean
 ) : RecyclerView.Adapter<ActiveRoundSortedAdapter.ActiveRoundViewHolder>() {
 
     private val apmList: SortedList<ActivePlayerModel> =
@@ -53,7 +55,7 @@ class ActiveRoundSortedAdapter(
                 tvActivePlayerItemName.text = apm.player.name
                 tvActivePlayerNumUpdates.text = itemView.resources.getString(
                     R.string.tvActivePlayerNumUpdatesFormat,
-                    apm.getNumberOfUpdates()
+                    apm.numUpdates - 1
                 )
                 tvActivePlayerItemPoints.text = apm.getTotalPoints().toString()
             }
@@ -78,6 +80,15 @@ class ActiveRoundSortedAdapter(
 
                 // Well, just this one call made it all work perfectly :)
                 apmList.updateItemAt(adapterPosition, apm)
+            }
+
+            // TODO: We need more fixing up than this. This was just a test.
+            // Maybe using an alternate layout would be better.
+            if (archiveMode) {
+                with(binding) {
+                    btnActivePlayerUpdatePoints.visibility = View.GONE
+                    etActivePlayerItemUpdatePoints.visibility = View.GONE
+                }
             }
         }
     }
@@ -111,9 +122,8 @@ class ActiveRoundSortedAdapter(
         return apmList.get(position)
     }
 
-    //fun clear() = apmList.clear()
-
     fun submitList(playerList: List<ActivePlayerModel>) {
+        //apmList.clear()
         apmList.addAll(playerList)
     }
 }

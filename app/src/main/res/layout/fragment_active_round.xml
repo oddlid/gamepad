@@ -6,61 +6,6 @@
     android:layout_height="match_parent"
     tools:context=".ActiveRoundFragment">
 
-    <!--
-    <TextView
-        android:id="@+id/tvActiveRoundHdrLbl"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginBottom="16dp"
-        android:textAppearance="?attr/textAppearanceListItem"
-        android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:text="Round of:" />
-
-
-    <TextView
-        android:id="@+id/tvActiveRoundHdrGameName"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginBottom="16dp"
-        android:textAppearance="?attr/textAppearanceListItem"
-        android:textStyle="bold"
-        app:layout_constraintStart_toEndOf="@id/tvActiveRoundHdrLbl"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:text="10000" />
-
-
-    <TextView
-        android:id="@+id/tvActiveRoundHdrSep"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginBottom="16dp"
-        android:text="\@"
-        android:textAppearance="?attr/textAppearanceListItem"
-        android:textStyle="bold"
-        app:layout_constraintStart_toEndOf="@id/tvActiveRoundHdrGameName"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/tvActiveRoundHdrDate"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginBottom="16dp"
-        android:textAppearance="?attr/textAppearanceListItem"
-        android:textStyle="bold"
-        app:layout_constraintStart_toEndOf="@id/tvActiveRoundHdrSep"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:text="2021-04-13 23:37" />
-    -->
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvActiveRoundPlayerList"
@@ -70,23 +15,39 @@
         android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="16dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/btnResumeRound"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:itemCount="5"
         tools:listitem="@layout/fragment_item_active_player" />
 
-    <!--
     <Button
-        android:id="@+id/btnActiveRoundFinishGame"
+        android:id="@+id/btnResumeRound"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
+        android:layout_marginEnd="8dp"
         android:layout_marginBottom="16dp"
+        android:text="@string/btnResumeRound_txt"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/btnDeleteRound"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:text="Resume round" />
+
+    <Button
+        android:id="@+id/btnDeleteRound"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        android:text="@string/btnDeleteRound_txt"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        android:text="Finish game" />
-    -->
+        app:layout_constraintStart_toEndOf="@id/btnResumeRound"
+        tools:text="Delete round" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

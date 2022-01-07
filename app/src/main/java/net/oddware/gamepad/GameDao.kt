@@ -144,4 +144,10 @@ interface GameDao {
     // Could be done like this:
     // SELECT R.roundID, R.date, G.name FROM rounds R INNER JOIN games G ON R.gameID == G.gameID WHERE R.finished == 1 ORDER by R.date DESC
     // For join queries, we'll need to create separate data objects to hold the result
+
+    // Get list of finished rounds, including the number of players in each round:
+    // select (select count(distinct P.playerID) from points P where P.roundID == R.roundID) as numPlayers,
+    // R.roundID, R.date, G.name from rounds R inner join games G on R.gameID == G.gameID  where R.finished == 1  order  by R.date desc
+    @Query("SELECT (SELECT COUNT(DISTINCT P.playerID) FROM points P WHERE P.roundID == R.roundID) AS numPlayers, R.roundID, R.date, G.name, G.gameID FROM rounds R INNER JOIN games G ON R.gameID == G.gameID WHERE R.finished == 1 ORDER BY R.date DESC")
+    fun getArchivedRounds(): LiveData<List<ArchivedRoundModel>>
 }

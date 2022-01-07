@@ -7,4 +7,13 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <!-- Testing out some new colors here -->
+    <color name="blueGreyPrimary">#FF344955</color>
+    <color name="blueGreyPrimaryDark">#FF0B222C</color>
+    <color name="blueGreyPrimaryLight">#FF5F7481</color>
+    <color name="greenSecondary">#FF2e7d32</color>
+    <color name="greenSecondaryDark">#FF005005</color>
+    <color name="greenSecondaryLight">#FF60ad5e</color>
+    <color name="textOnPrimary">#FFf9aa33</color>
+    <color name="textOnSecondary">#FFe0e0e0</color>
 </resources>

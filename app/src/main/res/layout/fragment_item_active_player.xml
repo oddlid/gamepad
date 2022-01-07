@@ -35,8 +35,8 @@
         android:layout_marginEnd="16dp"
         android:textAppearance="?attr/textAppearanceListItem"
         android:textStyle="bold"
-        app:layout_constraintEnd_toStartOf="@id/etActivePlayerItemUpdatePoints"
         app:layout_constraintBaseline_toBaselineOf="@id/tvActivePlayerItemName"
+        app:layout_constraintEnd_toStartOf="@id/etActivePlayerItemUpdatePoints"
         tools:text="3750" />
 
     <EditText
@@ -49,24 +49,22 @@
         android:hint="@string/etActivePlayerItemUpdatePoints_hint"
         android:importantForAutofill="no"
         android:inputType="numberSigned"
-        app:layout_constraintEnd_toStartOf="@id/btnActivePlayerUpdatePoints"
-        app:layout_constraintBaseline_toBaselineOf="@id/tvActivePlayerItemName" />
+        app:layout_constraintBaseline_toBaselineOf="@id/tvActivePlayerItemName"
+        app:layout_constraintEnd_toStartOf="@id/btnActivePlayerUpdatePoints" />
 
     <ImageButton
         android:id="@+id/btnActivePlayerUpdatePoints"
         android:layout_width="48dp"
         android:layout_height="48dp"
-        android:scaleType="fitCenter"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="16dp"
         android:background="?android:selectableItemBackgroundBorderless"
         android:contentDescription="@string/btnActivePlayerUpdatePoints_cDesc"
+        android:scaleType="fitCenter"
         android:src="@drawable/ic_outline_save"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-
-        />
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

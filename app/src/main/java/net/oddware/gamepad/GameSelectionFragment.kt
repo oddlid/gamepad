@@ -119,9 +119,6 @@ class GameSelectionFragment : Fragment(), GameListAdapter.GameClickListener, Act
         findNavController().navigate(action)
     }
 
-    //override fun onGameDeleteClick(game: Game) {
-    //}
-
     override fun onCreateActionMode(mode: ActionMode?, menu: Menu?): Boolean {
         mode?.let {
             it.menuInflater.inflate(R.menu.game_list_batch, menu)

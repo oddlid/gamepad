@@ -13,12 +13,13 @@ class GameViewModel(app: Application) : AndroidViewModel(app) {
     private val gameRepo: GameRepo = GameRepo.getInstance(app)
 
     val players = gameRepo.players
-    val playerNames = gameRepo.playerNames
+    //val playerNames = gameRepo.playerNames
     val games = gameRepo.games
-    val gameNames = gameRepo.gameNames
+    //val gameNames = gameRepo.gameNames
     val rounds = gameRepo.rounds
     //val lastInsertedRound = gameRepo.lastInsertedRound
     //val lastInsertedActiveRound = gameRepo.lastInsertedActiveRound
+    val archivedRounds = gameRepo.archivedRounds
 
     fun addPlayer(player: Player) = viewModelScope.launch(Dispatchers.IO) {
         gameRepo.addPlayer(player)
@@ -28,9 +29,9 @@ class GameViewModel(app: Application) : AndroidViewModel(app) {
         gameRepo.deletePlayers(*players)
     }
 
-    fun deleteAllPlayers() = viewModelScope.launch(Dispatchers.IO) {
-        gameRepo.deleteAllPlayers()
-    }
+    //fun deleteAllPlayers() = viewModelScope.launch(Dispatchers.IO) {
+    //    gameRepo.deleteAllPlayers()
+    //}
 
     fun updatePlayer(player: Player) = viewModelScope.launch(Dispatchers.IO) {
         gameRepo.updatePlayer(player)
@@ -53,9 +54,9 @@ class GameViewModel(app: Application) : AndroidViewModel(app) {
         gameRepo.deleteGames(*games)
     }
 
-    fun deleteAllGames() = viewModelScope.launch(Dispatchers.IO) {
-        gameRepo.deleteAllGames()
-    }
+    //fun deleteAllGames() = viewModelScope.launch(Dispatchers.IO) {
+    //    gameRepo.deleteAllGames()
+    //}
 
     fun updateGame(game: Game) = viewModelScope.launch(Dispatchers.IO) {
         gameRepo.updateGame(game)
@@ -84,9 +85,9 @@ class GameViewModel(app: Application) : AndroidViewModel(app) {
         gameRepo.deleteRounds(*rounds)
     }
 
-    fun deleteAllRounds() = viewModelScope.launch(Dispatchers.IO) {
-        gameRepo.deleteAllRounds()
-    }
+    //fun deleteAllRounds() = viewModelScope.launch(Dispatchers.IO) {
+    //    gameRepo.deleteAllRounds()
+    //}
 
     fun updateRound(round: Round) = viewModelScope.launch(Dispatchers.IO) {
         gameRepo.updateRound(round)
@@ -110,35 +111,35 @@ class GameViewModel(app: Application) : AndroidViewModel(app) {
         gameRepo.addPoints(*points)
     }
 
-    fun deletePoints(vararg points: Point) = viewModelScope.launch(Dispatchers.IO) {
-        gameRepo.deletePoints(*points)
-    }
+    //fun deletePoints(vararg points: Point) = viewModelScope.launch(Dispatchers.IO) {
+    //    gameRepo.deletePoints(*points)
+    //}
 
-    fun deleteAllPoints() = viewModelScope.launch(Dispatchers.IO) {
-        gameRepo.deleteAllPoints()
-    }
+    //fun deleteAllPoints() = viewModelScope.launch(Dispatchers.IO) {
+    //    gameRepo.deleteAllPoints()
+    //}
 
-    fun updatePoint(point: Point) = viewModelScope.launch(Dispatchers.IO) {
-        gameRepo.updatePoint(point)
-    }
+    //fun updatePoint(point: Point) = viewModelScope.launch(Dispatchers.IO) {
+    //    gameRepo.updatePoint(point)
+    //}
 
-    fun getCurrentPoints(playerID: Long, gameID: Long, roundID: Long): LiveData<Long> {
-        val ret = MutableLiveData<Long>()
-        viewModelScope.launch(Dispatchers.IO) {
-            val points = gameRepo.getCurrentPoints(playerID, gameID, roundID)
-            ret.postValue(points)
-        }
-        return ret
-    }
+//    fun getCurrentPoints(playerID: Long, gameID: Long, roundID: Long): LiveData<Long> {
+//        val ret = MutableLiveData<Long>()
+//        viewModelScope.launch(Dispatchers.IO) {
+//            val points = gameRepo.getCurrentPoints(playerID, gameID, roundID)
+//            ret.postValue(points)
+//        }
+//        return ret
+//    }
 
-    fun getUpdatesForPlayerInRound(playerID: Long, roundID: Long): LiveData<Long> {
-        val ret = MutableLiveData<Long>()
-        viewModelScope.launch(Dispatchers.IO) {
-            val numUpdates = gameRepo.getUpdatesForPlayerInRound(playerID, roundID)
-            ret.postValue(numUpdates)
-        }
-        return ret
-    }
+//    fun getUpdatesForPlayerInRound(playerID: Long, roundID: Long): LiveData<Long> {
+//        val ret = MutableLiveData<Long>()
+//        viewModelScope.launch(Dispatchers.IO) {
+//            val numUpdates = gameRepo.getUpdatesForPlayerInRound(playerID, roundID)
+//            ret.postValue(numUpdates)
+//        }
+//        return ret
+//    }
 
     fun getLastInsertedActiveRound(): LiveData<Round?> {
         val ret = MutableLiveData<Round?>()
@@ -167,7 +168,8 @@ class GameViewModel(app: Application) : AndroidViewModel(app) {
                 val apm = ActivePlayerModel(
                     player = p,
                     game = game,
-                    round = round
+                    round = round,
+                    numUpdates = gameRepo.getUpdatesForPlayerInRound(p.playerID, round.roundID)
                 )
                 for (point in points) {
                     if (point.playerID == p.playerID) {
@@ -181,4 +183,13 @@ class GameViewModel(app: Application) : AndroidViewModel(app) {
 
         return ret
     }
+
+    //fun getArchivedRounds(): LiveData<List<ArchivedRoundModel>> {
+    //    val ret = MutableLiveData<List<ArchivedRoundModel>>()
+    //    viewModelScope.launch(Dispatchers.IO) {
+    //        val archivedRounds = gameRepo.getArchivedRounds()
+    //        ret.postValue(archivedRounds)
+    //    }
+    //    return ret
+    //}
 }

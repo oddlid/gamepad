@@ -4,98 +4,56 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="8dp">
+    android:padding="16dp">
 
-    <!--
-    Could look something like this:
-    ***
-                10000 @ 2021-04-16 09:33
-    Winner: Sabina            Players: 3
-    ***
-    -->
-
-    <TextView
-        android:id="@+id/tvArchivedItemGameName"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="16dp"
-        android:textAppearance="?attr/textAppearanceListItem"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toStartOf="@id/tvArchivedItemGameSep"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:text="10000" />
-
-    <TextView
-        android:id="@+id/tvArchivedItemGameSep"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"
-        android:textAppearance="?attr/textAppearanceListItem"
-        android:textStyle="bold"
-        app:layout_constraintBaseline_toBaselineOf="@id/tvArchivedItemGameName"
-        app:layout_constraintEnd_toStartOf="@id/tvArchivedItemGameDate"
-        tools:text="\@" />
 
     <TextView
         android:id="@+id/tvArchivedItemGameDate"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
-        android:textAppearance="?attr/textAppearanceListItem"
-        android:textStyle="bold"
-        app:layout_constraintBaseline_toBaselineOf="@id/tvArchivedItemGameName"
-        app:layout_constraintEnd_toEndOf="parent"
-        tools:text="2021-04-13 09:33" />
-
-    <TextView
-        android:id="@+id/tvArchivedItemWinnerLbl"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
-        android:layout_marginEnd="8dp"
+        android:layout_marginEnd="16dp"
         android:layout_marginBottom="16dp"
         android:textAppearance="?attr/textAppearanceListItem"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tvArchivedItemGameName"
-        tools:text="Winner:" />
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="2021-04-13 09:33" />
 
     <TextView
-        android:id="@+id/tvArchivedItemWinnerVal"
+        android:id="@+id/tvArchivedItemGameName"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="16dp"
-        android:textAppearance="?attr/textAppearanceListItem"
-        app:layout_constraintBaseline_toBaselineOf="@id/tvArchivedItemWinnerLbl"
-        app:layout_constraintStart_toEndOf="@id/tvArchivedItemWinnerLbl"
-        tools:text="Sabina" />
-
-    <TextView
-        android:id="@+id/tvArchivedItemPlayersLbl"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
+        android:layout_marginStart="32dp"
         android:layout_marginEnd="8dp"
+        android:layout_marginBottom="16dp"
         android:textAppearance="?attr/textAppearanceListItem"
-        app:layout_constraintBaseline_toBaselineOf="@id/tvArchivedItemWinnerLbl"
-        app:layout_constraintEnd_toStartOf="@id/tvArchivedItemPlayersVal"
-        tools:text="Players:" />
+        android:textStyle="bold"
+        app:layout_constraintBaseline_toBaselineOf="@id/tvArchivedItemGameDate"
+        app:layout_constraintStart_toEndOf="@id/tvArchivedItemGameDate"
+        tools:text="10000" />
 
     <TextView
         android:id="@+id/tvArchivedItemPlayersVal"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:layout_marginEnd="16dp"
+        android:layout_marginEnd="8dp"
         android:textAppearance="?attr/textAppearanceListItem"
-        app:layout_constraintBaseline_toBaselineOf="@id/tvArchivedItemWinnerLbl"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBaseline_toBaselineOf="@id/tvArchivedItemGameDate"
+        app:layout_constraintEnd_toStartOf="@id/tvArchivedItemPlayersLbl"
         tools:text="3" />
+
+    <TextView
+        android:id="@+id/tvArchivedItemPlayersLbl"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:text="@string/tvArchivedItemPlayersLbl_txt"
+        android:textAppearance="?attr/textAppearanceListItem"
+        app:layout_constraintBaseline_toBaselineOf="@id/tvArchivedItemGameDate"
+        app:layout_constraintEnd_toEndOf="parent"
+        tools:text="players" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

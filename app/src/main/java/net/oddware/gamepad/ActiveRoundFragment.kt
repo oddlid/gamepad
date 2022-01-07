@@ -5,9 +5,10 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.activity.addCallback
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import net.oddware.gamepad.databinding.FragmentActiveRoundBinding
@@ -20,7 +21,8 @@ class ActiveRoundFragment : Fragment(), ActiveRoundSortedAdapter.PointUpdateList
     private val binding get() = _binding!!
     private val gameViewModel: GameViewModel by activityViewModels()
     private val ssvm: SavedStateViewModel by activityViewModels() // changing from viewModels() to activityViewModels() made all the difference!
-
+    private val args: ActiveRoundFragmentArgs by navArgs()
+    private var archiveMode: Boolean = false
     private var currentGame: Game? = null
     private var currentRound: Round? = null
 
@@ -32,20 +34,9 @@ class ActiveRoundFragment : Fragment(), ActiveRoundSortedAdapter.PointUpdateList
         _binding = FragmentActiveRoundBinding.inflate(inflater, container, false)
         val view = binding.root
 
-        adapter = ActiveRoundSortedAdapter(this)
+        archiveMode = args.archiveMode
+        adapter = ActiveRoundSortedAdapter(this, archiveMode)
 
-        // Moving this to onDetach instead
-        //binding.btnActiveRoundFinishGame.setOnClickListener {
-        //    currentRound?.let {
-        //        it.finished = true
-        //        gameViewModel.updateRound(it)
-        //    }
-        //    ssvm.clearCurrentGameID()
-        //    ssvm.clearCurrentRoundID()
-        //    val action =
-        //        ActiveRoundFragmentDirections.actionActiveRoundFragmentToGameSelectionFragment()
-        //    Navigation.findNavController(view).navigate(action)
-        //}
 
         val lloMgr = LinearLayoutManager(view.context)
         with(binding.rvActiveRoundPlayerList) {
@@ -55,7 +46,12 @@ class ActiveRoundFragment : Fragment(), ActiveRoundSortedAdapter.PointUpdateList
             adapter = this@ActiveRoundFragment.adapter
         }
 
-        //
+        if (!archiveMode) {
+            with(binding){
+                btnResumeRound.visibility = View.GONE
+                btnDeleteRound.visibility = View.GONE
+            }
+        }
 
         return view
     }
@@ -70,12 +66,12 @@ class ActiveRoundFragment : Fragment(), ActiveRoundSortedAdapter.PointUpdateList
 
         setHasOptionsMenu(true)
 
-        requireActivity()
-            .onBackPressedDispatcher
-            .addCallback(this) {
-                this.isEnabled = true
-                Timber.d("Hooked back pressed from fragment")
-            }
+//        requireActivity()
+//            .onBackPressedDispatcher
+//            .addCallback(this) {
+//                this.isEnabled = true
+//                Timber.d("Hooked back pressed from fragment")
+//            }
     }
 
     override fun onDetach() {
@@ -97,7 +93,6 @@ class ActiveRoundFragment : Fragment(), ActiveRoundSortedAdapter.PointUpdateList
         gameViewModel.getGame(gameID).observe(viewLifecycleOwner, {
             if (null != it) {
                 currentGame = it
-                //binding.tvActiveRoundHdrGameName.text = it.name
                 return@observe
             }
         })
@@ -109,10 +104,31 @@ class ActiveRoundFragment : Fragment(), ActiveRoundSortedAdapter.PointUpdateList
         gameViewModel.getRound(roundID).observe(viewLifecycleOwner, {
             if (null != it) {
                 currentRound = it
-                //binding.tvActiveRoundHdrDate.text = it.date.toString()
                 return@observe
             }
         })
+
+        if (archiveMode) {
+            binding.btnDeleteRound.setOnClickListener {
+                currentRound?.let { cr ->
+                    findNavController().navigateUp()
+                    gameViewModel.deleteRounds(cr)
+                    ssvm.clearCurrentGameID()
+                    ssvm.clearCurrentRoundID()
+                }
+            }
+            binding.btnResumeRound.setOnClickListener {
+                currentRound?.let { cr ->
+                    cr.finished = false
+                    gameViewModel.updateRound(cr)
+                    binding.btnDeleteRound.visibility = View.GONE
+                    binding.btnResumeRound.visibility = View.GONE
+                    archiveMode = false
+                    adapter.archiveMode = archiveMode
+                    binding.rvActiveRoundPlayerList.adapter = adapter
+                }
+            }
+        }
 
         gameViewModel.getActivePlayerModelsForRound(gameID, roundID).observe(viewLifecycleOwner, {
             Timber.d("Passing list of ActivePlayerModel to ActiveRoundSortedAdapter...")
@@ -136,13 +152,17 @@ class ActiveRoundFragment : Fragment(), ActiveRoundSortedAdapter.PointUpdateList
     // finished as fragment onDetach() is reached.
     // We could then rather have an option in the archive list to resume/restart a round.
     private fun finishRound() {
+        ssvm.clearCurrentGameID()
+        ssvm.clearCurrentRoundID()
+        if (archiveMode) {
+            Timber.d("Skipping updating round, as archive_mode is true")
+            return
+        }
         currentRound?.let {
             it.finished = true
             gameViewModel.updateRound(it)
         } ?: run {
             Timber.d("finishRound(): no current round to save")
         }
-        ssvm.clearCurrentGameID()
-        ssvm.clearCurrentRoundID()
     }
 }

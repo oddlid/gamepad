@@ -144,10 +144,6 @@ class PlayerSelectionFragment : Fragment(), PlayerListAdapter.PlayerClickListene
 
         when (item.itemId) {
             R.id.menu_start_game -> {
-                //val numSelected = adapter.getBatchSelectionIds().size
-                //val gameName = game?.name ?: "UNDEFINED"
-                //val msg = "Starting game \"$gameName\" with $numSelected players..."
-                //Snackbar.make(binding.root, msg, Snackbar.LENGTH_LONG).show()
                 Timber.d("Start game clicked")
                 startRound()
                 return true
@@ -156,7 +152,6 @@ class PlayerSelectionFragment : Fragment(), PlayerListAdapter.PlayerClickListene
                 val numSelected = adapter.getBatchSelectionIds().size
                 val action1 =
                     PlayerSelectionFragmentDirections.actionPlayerSelectionFragmentToConfirmationDialog()
-                //action1.itemName = "$numSelected players"
                 action1.numItems = numSelected
                 action1.itemType =
                     context?.getString(R.string.dlgConfirm_type_players) ?: "UNDEFINED"
@@ -284,7 +279,5 @@ class PlayerSelectionFragment : Fragment(), PlayerListAdapter.PlayerClickListene
         // Update:
         // Seems I solved it now with adding an observer on addRound and nesting the observe on last
         // inserted active round into this again.
-
-
     }
 }

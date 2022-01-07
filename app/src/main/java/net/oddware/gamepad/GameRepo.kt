@@ -22,18 +22,19 @@ class GameRepo(private val gameDao: GameDao) {
     }
 
     val players = gameDao.getPlayers()
-    val playerNames = gameDao.getPlayerNames()
+    //val playerNames = gameDao.getPlayerNames()
     val games = gameDao.getGames()
-    val gameNames = gameDao.getGameNames()
+    //val gameNames = gameDao.getGameNames()
     val rounds = gameDao.getRounds()
     //val lastInsertedRound = gameDao.getLastInsertedRound()
     //val lastInsertedActiveRound = gameDao.getLastInsertedActiveRound()
+    val archivedRounds = gameDao.getArchivedRounds()
 
     suspend fun addPlayer(player: Player) = gameDao.addPlayer(player)
 
     suspend fun deletePlayers(vararg players: Player) = gameDao.deletePlayers(*players)
 
-    suspend fun deleteAllPlayers() = gameDao.deleteAllPlayers()
+    //suspend fun deleteAllPlayers() = gameDao.deleteAllPlayers()
 
     suspend fun updatePlayer(player: Player) = gameDao.updatePlayer(player)
 
@@ -45,7 +46,7 @@ class GameRepo(private val gameDao: GameDao) {
 
     suspend fun deleteGames(vararg games: Game) = gameDao.deleteGames(*games)
 
-    suspend fun deleteAllGames() = gameDao.deleteAllGames()
+    //suspend fun deleteAllGames() = gameDao.deleteAllGames()
 
     suspend fun updateGame(game: Game) {
         Timber.d("Updating game: \"${game.name}\"")
@@ -61,7 +62,7 @@ class GameRepo(private val gameDao: GameDao) {
 
     suspend fun deleteRounds(vararg rounds: Round) = gameDao.deleteRounds(*rounds)
 
-    suspend fun deleteAllRounds() = gameDao.deleteAllRounds()
+    //suspend fun deleteAllRounds() = gameDao.deleteAllRounds()
 
     suspend fun updateRound(round: Round) = gameDao.updateRound(round)
 
@@ -71,15 +72,15 @@ class GameRepo(private val gameDao: GameDao) {
 
     suspend fun addPoints(vararg points: Point) = gameDao.addPoints(*points)
 
-    suspend fun deletePoints(vararg points: Point) = gameDao.deletePoints(*points)
+    //suspend fun deletePoints(vararg points: Point) = gameDao.deletePoints(*points)
 
-    suspend fun deleteAllPoints() = gameDao.deleteAllPoints()
+    //suspend fun deleteAllPoints() = gameDao.deleteAllPoints()
 
-    suspend fun updatePoint(point: Point) = gameDao.updatePoint(point)
+    //suspend fun updatePoint(point: Point) = gameDao.updatePoint(point)
 
-    suspend fun getCurrentPoints(playerID: Long, gameID: Long, roundID: Long): Long {
-        return gameDao.getCurrentPoints(playerID, gameID, roundID)
-    }
+//    suspend fun getCurrentPoints(playerID: Long, gameID: Long, roundID: Long): Long {
+//        return gameDao.getCurrentPoints(playerID, gameID, roundID)
+//    }
 
     suspend fun getLastPointsForPlayersInRound(
         roundID: Long,
@@ -94,4 +95,6 @@ class GameRepo(private val gameDao: GameDao) {
         gameDao.getUpdatesForPlayerInRound(playerID, roundID)
 
     suspend fun getLastInsertedActiveRound() = gameDao.getLastInsertedActiveRound()
+
+    //suspend fun getArchivedRounds() = gameDao.getArchivedRounds()
 }

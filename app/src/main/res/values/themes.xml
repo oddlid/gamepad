@@ -1,20 +1,29 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
-    <!--
     <style name="Theme.GamePad" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
-    -->
-    <style name="Theme.GamePad" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
-        <!-- Primary brand color. -->
+        <!--
         <item name="colorPrimary">@color/purple_500</item>
         <item name="colorPrimaryVariant">@color/purple_700</item>
         <item name="colorOnPrimary">@color/white</item>
-        <!-- Secondary brand color. -->
         <item name="colorSecondary">@color/teal_200</item>
         <item name="colorSecondaryVariant">@color/teal_700</item>
         <item name="colorOnSecondary">@color/black</item>
-        <!-- Status bar color. -->
+        -->
+        <item name="colorPrimary">@color/blueGreyPrimary</item>
+        <item name="colorPrimaryDark">@color/blueGreyPrimaryDark</item>
+        <item name="colorPrimaryVariant">@color/blueGreyPrimaryLight</item>
+        <item name="colorOnPrimary">@color/textOnPrimary</item>
+
+        <item name="colorSecondary">@color/greenSecondary</item>
+        <item name="colorSecondaryVariant">@color/greenSecondaryLight</item>
+        <item name="colorOnSecondary">@color/textOnSecondary</item>
+
+        <!--
+        <item name="android:colorBackground">@color/blueGreyPrimary</item>
+        <item name="android:textColor">@color/textOnPrimary</item>
+        -->
+
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
-        <!-- Customize your theme here. -->
         <item name="android:listDivider">@drawable/list_divider</item>
     </style>
 </resources>

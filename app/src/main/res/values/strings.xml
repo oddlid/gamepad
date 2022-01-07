@@ -60,4 +60,8 @@
     <string name="fragArchive_title">Archived game rounds</string>
 
     <string name="tvActivePlayerNumUpdatesFormat">[Updates: %1$d]</string>
+    <string name="tvArchivedItemPlayersLbl_txt">players</string>
+
+    <string name="btnResumeRound_txt">Resume round</string>
+    <string name="btnDeleteRound_txt">Delete round</string>
 </resources>
