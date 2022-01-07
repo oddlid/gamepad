@@ -83,7 +83,7 @@ dependencies {
     implementation "androidx.room:room-runtime:$v_room"
     implementation "com.google.android.material:material:$v_material"
     implementation "com.jakewharton.timber:timber:$v_timber"
-    implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+    //implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
     implementation "org.jetbrains.kotlinx:kotlinx-serialization-json:$v_kxsJson"
     kapt "androidx.room:room-compiler:$v_room" // For Kotlin use kapt instead of annotationProcessor
     testImplementation "androidx.room:room-testing:$v_room"
