@@ -1,5 +1,6 @@
 package net.oddware.gamepadmp.android
 
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -31,15 +32,19 @@ fun EditableListItem(
         verticalAlignment = Alignment.CenterVertically,
         modifier = modifier.fillMaxWidth(),
     ) {
-        Text(
-            text = value,
+        Box(
             modifier = modifier
                 .weight(weight = 1F)
                 .selectable(
                     selected = onSelection(),
                     onClick = onClick,
                 )
-        )
+        ) {
+            Text(
+                text = value,
+                modifier = modifier
+            )
+        }
         IconButton(onClick = onEdit) {
             Icon(
                 Icons.Filled.Edit,

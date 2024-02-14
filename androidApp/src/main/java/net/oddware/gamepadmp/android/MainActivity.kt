@@ -5,7 +5,9 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.*
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
@@ -21,7 +23,8 @@ class MainActivity : ComponentActivity() {
                     color = MaterialTheme.colorScheme.background
                 ) {
 //                    GreetingView(Greeting().greet())
-                    GameListScreen(modifier = Modifier.padding(all = 4.dp))
+//                    GameListScreen(modifier = Modifier.padding(all = 4.dp))
+                    App(modifier = Modifier.padding(all = 4.dp))
                 }
             }
         }
@@ -40,7 +43,8 @@ fun DefaultPreview() {
         Surface(
             modifier = Modifier.fillMaxSize()
         ) {
-            GameListScreen(modifier = Modifier.padding(all = 4.dp))
+//            GameListScreen(modifier = Modifier.padding(all = 4.dp))
+            App(modifier = Modifier.padding(all = 4.dp))
         }
     }
 }

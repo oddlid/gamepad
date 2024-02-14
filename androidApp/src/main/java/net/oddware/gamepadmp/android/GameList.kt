@@ -7,7 +7,6 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
-import androidx.compose.material3.ElevatedButton
 import androidx.compose.material3.FilledTonalButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -15,7 +14,6 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
@@ -37,10 +35,10 @@ enum class GameListMode {
 fun GameListScreen(
     modifier: Modifier = Modifier,
     gameViewModel: GameViewModel = viewModel(),
+    onSelect: (Int) -> Unit = {},
 ) {
 
     var mode by rememberSaveable { mutableStateOf(GameListMode.LIST) }
-    var currentGameID by rememberSaveable { mutableIntStateOf(-1) }
 
     when (mode) {
         GameListMode.LIST -> {
@@ -51,17 +49,29 @@ fun GameListScreen(
                     style = MaterialTheme.typography.headlineSmall,
                     textAlign = TextAlign.Center,
                 )
-                GameList(
-                    games = gameViewModel.games,
+                LazyColumn(
                     modifier = modifier.weight(weight = 1F),
-                    onDelete = { game ->
-                        gameViewModel.remove(game)
-                    },
-                    onEdit = { game ->
-                        currentGameID = game.id
-                        mode = GameListMode.EDIT
-                    },
-                )
+                ) {
+                    itemsIndexed(
+                        gameViewModel.games,
+                        key = { _, game: Game ->
+                            game.hashCode()
+                        }
+                    ) { _, game ->
+                        EditableListItem(
+                            value = game.name,
+                            modifier = modifier,
+                            onDelete = {
+                                gameViewModel.remove(game)
+                            },
+                            onEdit = {
+                                gameViewModel.currentID = game.id
+                                mode = GameListMode.EDIT
+                            },
+                            onClick = { onSelect(game.id) }
+                        )
+                    }
+                }
                 FilledTonalButton(
                     onClick = {
                         mode = GameListMode.ADD
@@ -92,13 +102,12 @@ fun GameListScreen(
         }
 
         GameListMode.EDIT -> {
-            gameViewModel.find(currentGameID)?.also {
+            gameViewModel.find(gameViewModel.currentID)?.also {
                 EditItem(
                     title = stringResource(R.string.editItemTitleEditGame, it.id),
                     value = it.name,
                     modifier = modifier,
                     onCancel = {
-                        currentGameID = -1
                         mode = GameListMode.LIST
                     },
                     onSave = { name ->
@@ -108,7 +117,10 @@ fun GameListScreen(
                 )
             } ?: run {
                 Text(
-                    text = stringResource(R.string.gameListGameNotFoundMessage, currentGameID),
+                    text = stringResource(
+                        R.string.gameListGameNotFoundMessage,
+                        gameViewModel.currentID
+                    ),
                     modifier = modifier,
                 )
             }
@@ -117,31 +129,34 @@ fun GameListScreen(
 
 }
 
-@Composable
-fun GameList(
-    games: List<Game>,
-    modifier: Modifier = Modifier,
-    onDelete: (Game) -> Unit = {},
-    onEdit: (Game) -> Unit = {},
-) {
-    LazyColumn(
-        modifier = modifier
-    ) {
-        itemsIndexed(
-            games,
-            key = { _, game: Game ->
-                game.hashCode()
-            }
-        ) { _, game ->
-            EditableListItem(
-                value = game.name,
-                modifier = modifier,
-                onDelete = { onDelete(game) },
-                onEdit = { onEdit(game) },
-            )
-        }
-    }
-}
+//@Composable
+//fun GameList(
+//    games: List<Game>,
+//    modifier: Modifier = Modifier,
+//    onDelete: (Game) -> Unit = {},
+//    onEdit: (Game) -> Unit = {},
+//    onClick: () -> Unit = {},
+//) {
+//    LazyColumn(
+//        modifier = modifier
+//    ) {
+//        itemsIndexed(
+//            games,
+//            key = { _, game: Game ->
+//                game.hashCode()
+//            }
+//        ) { _, game ->
+//            EditableListItem(
+//                value = game.name,
+//                modifier = modifier,
+//                onDelete = { onDelete(game) },
+//                onEdit = { onEdit(game) },
+//                onClick = onClick,
+//                onSelection = { true },
+//            )
+//        }
+//    }
+//}
 
 //@Composable
 //fun Notify(text: String) {

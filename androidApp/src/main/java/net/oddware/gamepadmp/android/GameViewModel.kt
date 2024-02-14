@@ -8,6 +8,8 @@ class GameViewModel : ViewModel() {
     val games: List<Game>
         get() = _games
 
+    var currentID: Int = -1
+
     fun find(id: Int): Game? = _games.find { it.id == id }
 
     fun remove(game: Game) {
@@ -30,7 +32,7 @@ class GameViewModel : ViewModel() {
     }
 }
 
-private fun getGames() = listOf<Game>() //List(30) { i -> Game(i, "Game # $i") }
+private fun getGames() = List(3) { i -> Game(i, "Game # $i") }
 
 private fun getNextGameID(gameList: List<Game>): Int {
     var nextID: Int = -1
