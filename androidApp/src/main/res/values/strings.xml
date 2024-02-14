@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="editItemLblName">Name:</string>
+    <string name="editItemBtnTxtCancel">Cancel</string>
+    <string name="editItemBtnTxtSave">Save</string>
+    <string name="editableListItemLblEdit">Edit</string>
+    <string name="editableListItemLblDelete">Delete</string>
+    <string name="btnTxtAdd">Add</string>
+    <string name="editItemTitleDefault">Add / Edit item</string>
+    <string name="editItemTitleEditGame">Edit game name for id #%1$d</string>
+    <string name="editItemTitleAddGame">Add new game</string>
+    <string name="gameListGameNotFoundMessage">Game with ID #%1$d not found</string>
+</resources>
