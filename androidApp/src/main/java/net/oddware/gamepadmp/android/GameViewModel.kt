@@ -14,7 +14,7 @@ class GameViewModel : ViewModel() {
 
     private val _games = getGames().toMutableStateList()
     val games: List<Game>
-        get() = _games
+        get() = _games.sortedBy { it.id }
 
     var currentID: Int = -1
     val currentMode: MutableState<Mode> = mutableStateOf(Mode.LIST)

@@ -1,5 +1,6 @@
 package net.oddware.gamepadmp.android
 
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -44,6 +45,16 @@ fun PlayerListScreen(
                 modifier = modifier,
                 onBack = onBack,
                 onPlay = onPlay,
+                onDelete = { player ->
+                    playerViewModel.remove(player)
+                },
+                onEdit = { player ->
+                    playerViewModel.currentID = player.id
+                    playerViewModel.currentMode.value = PlayerViewModel.Mode.EDIT
+                },
+                onAdd = {
+                    playerViewModel.currentMode.value = PlayerViewModel.Mode.ADD
+                },
             )
         }
 
@@ -125,22 +136,22 @@ fun PlayerList(
     selectAllChecked: Boolean = false,
 ) {
     Column {
-        Row (
-            verticalAlignment = Alignment.CenterVertically,
-            modifier = modifier,
-        ){
-            IconButton(onClick = onBack) {
-               Icon(
-                   Icons.AutoMirrored.Filled.ArrowBack,
-                   contentDescription = stringResource(R.string.btnTxtBack),
-               )
-            }
+        Box(
+            modifier = modifier.fillMaxWidth(),
+            contentAlignment = Alignment.CenterStart,
+        ) {
             Text(
                 text = "Select players",
                 modifier = modifier.fillMaxWidth(),
                 textAlign = TextAlign.Center,
                 style = MaterialTheme.typography.headlineSmall,
             )
+            IconButton(onClick = onBack) {
+                Icon(
+                    Icons.AutoMirrored.Filled.ArrowBack,
+                    contentDescription = stringResource(R.string.btnTxtBack),
+                )
+            }
         }
         LazyColumn(
             modifier = modifier.weight(weight = 1F)
