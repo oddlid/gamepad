@@ -13,10 +13,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
@@ -25,23 +21,14 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 
 
-enum class GameListMode {
-    LIST,
-    ADD,
-    EDIT,
-}
-
 @Composable
 fun GameListScreen(
     modifier: Modifier = Modifier,
     gameViewModel: GameViewModel = viewModel(),
     onSelect: (Int) -> Unit = {},
 ) {
-
-    var mode by rememberSaveable { mutableStateOf(GameListMode.LIST) }
-
-    when (mode) {
-        GameListMode.LIST -> {
+    when (gameViewModel.currentMode.value) {
+        GameViewModel.Mode.LIST -> {
             Column {
                 Text(
                     text = "Select game",
@@ -66,7 +53,7 @@ fun GameListScreen(
                             },
                             onEdit = {
                                 gameViewModel.currentID = game.id
-                                mode = GameListMode.EDIT
+                                gameViewModel.currentMode.value = GameViewModel.Mode.EDIT
                             },
                             onClick = { onSelect(game.id) }
                         )
@@ -74,7 +61,7 @@ fun GameListScreen(
                 }
                 FilledTonalButton(
                     onClick = {
-                        mode = GameListMode.ADD
+                        gameViewModel.currentMode.value = GameViewModel.Mode.ADD
                     },
                     modifier = modifier.fillMaxWidth(),
                 ) {
@@ -87,32 +74,32 @@ fun GameListScreen(
             }
         }
 
-        GameListMode.ADD -> {
+        GameViewModel.Mode.ADD -> {
             EditItem(
                 title = stringResource(R.string.editItemTitleAddGame),
                 modifier = modifier,
                 onCancel = {
-                    mode = GameListMode.LIST
+                    gameViewModel.currentMode.value = GameViewModel.Mode.LIST
                 },
                 onSave = { name: String ->
                     gameViewModel.add(name)
-                    mode = GameListMode.LIST
+                    gameViewModel.currentMode.value = GameViewModel.Mode.LIST
                 }
             )
         }
 
-        GameListMode.EDIT -> {
+        GameViewModel.Mode.EDIT -> {
             gameViewModel.find(gameViewModel.currentID)?.also {
                 EditItem(
                     title = stringResource(R.string.editItemTitleEditGame, it.id),
                     value = it.name,
                     modifier = modifier,
                     onCancel = {
-                        mode = GameListMode.LIST
+                        gameViewModel.currentMode.value = GameViewModel.Mode.LIST
                     },
                     onSave = { name ->
                         gameViewModel.setName(it, name)
-                        mode = GameListMode.LIST
+                        gameViewModel.currentMode.value = GameViewModel.Mode.LIST
                     }
                 )
             } ?: run {

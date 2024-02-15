@@ -1,14 +1,23 @@
 package net.oddware.gamepadmp.android
 
+import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.toMutableStateList
 import androidx.lifecycle.ViewModel
 
 class GameViewModel : ViewModel() {
+    enum class Mode {
+        LIST,
+        ADD,
+        EDIT,
+    }
+
     private val _games = getGames().toMutableStateList()
     val games: List<Game>
         get() = _games
 
     var currentID: Int = -1
+    var currentMode: MutableState<Mode> = mutableStateOf(Mode.LIST)
 
     fun find(id: Int): Game? = _games.find { it.id == id }
 
@@ -22,10 +31,6 @@ class GameViewModel : ViewModel() {
 
     fun setName(game: Game, name: String) {
         _games.find { it.id == game.id }?.let {
-//            _games.remove(it)
-//            it.name = name
-//            _games.add(it)
-//            it.name = name
             _games.remove(it)
             _games.add(it.copy(name = name))
         }
