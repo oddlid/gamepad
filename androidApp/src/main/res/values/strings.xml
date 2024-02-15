@@ -6,6 +6,7 @@
     <string name="editableListItemLblEdit">Edit</string>
     <string name="editableListItemLblDelete">Delete</string>
     <string name="btnTxtAdd">Add</string>
+    <string name="btnTxtBack">Back</string>
     <string name="editItemTitleDefault">Add / Edit item</string>
     <string name="editItemTitleEditGame">Edit game name for id #%1$d</string>
     <string name="editItemTitleAddGame">Add new game</string>

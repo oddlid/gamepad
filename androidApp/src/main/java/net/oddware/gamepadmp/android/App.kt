@@ -36,7 +36,16 @@ fun App(
         }
 
         AppMode.LIST_PLAYERS -> {
-            Text(text = "List players for game #${gameViewModel.currentID}")
+            PlayerListScreen(
+                modifier = modifier,
+                playerViewModel = playerViewModel,
+                onBack = {
+                    mode = AppMode.LIST_GAMES
+                },
+                onPlay = {
+                    mode = AppMode.PLAY
+                },
+            )
         }
 
         AppMode.PLAY -> {

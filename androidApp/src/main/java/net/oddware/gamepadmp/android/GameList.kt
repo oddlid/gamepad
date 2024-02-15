@@ -55,7 +55,7 @@ fun GameListScreen(
                                 gameViewModel.currentID = game.id
                                 gameViewModel.currentMode.value = GameViewModel.Mode.EDIT
                             },
-                            onClick = { onSelect(game.id) }
+                            onClick = { onSelect(game.id) },
                         )
                     }
                 }
@@ -103,11 +103,14 @@ fun GameListScreen(
                     }
                 )
             } ?: run {
-                Text(
+                NotFound(
                     text = stringResource(
                         R.string.gameListGameNotFoundMessage,
                         gameViewModel.currentID
                     ),
+                    onClick = {
+                        gameViewModel.currentMode.value = GameViewModel.Mode.LIST
+                    },
                     modifier = modifier,
                 )
             }
@@ -116,34 +119,6 @@ fun GameListScreen(
 
 }
 
-//@Composable
-//fun GameList(
-//    games: List<Game>,
-//    modifier: Modifier = Modifier,
-//    onDelete: (Game) -> Unit = {},
-//    onEdit: (Game) -> Unit = {},
-//    onClick: () -> Unit = {},
-//) {
-//    LazyColumn(
-//        modifier = modifier
-//    ) {
-//        itemsIndexed(
-//            games,
-//            key = { _, game: Game ->
-//                game.hashCode()
-//            }
-//        ) { _, game ->
-//            EditableListItem(
-//                value = game.name,
-//                modifier = modifier,
-//                onDelete = { onDelete(game) },
-//                onEdit = { onEdit(game) },
-//                onClick = onClick,
-//                onSelection = { true },
-//            )
-//        }
-//    }
-//}
 
 //@Composable
 //fun Notify(text: String) {

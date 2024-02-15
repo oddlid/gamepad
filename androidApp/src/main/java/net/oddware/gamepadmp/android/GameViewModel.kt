@@ -17,7 +17,7 @@ class GameViewModel : ViewModel() {
         get() = _games
 
     var currentID: Int = -1
-    var currentMode: MutableState<Mode> = mutableStateOf(Mode.LIST)
+    val currentMode: MutableState<Mode> = mutableStateOf(Mode.LIST)
 
     fun find(id: Int): Game? = _games.find { it.id == id }
 
@@ -41,9 +41,9 @@ private fun getGames() = List(3) { i -> Game(i, "Game # $i") }
 
 private fun getNextGameID(gameList: List<Game>): Int {
     var nextID: Int = -1
-    for (game in gameList) {
-        if (game.id > nextID) {
-            nextID = game.id
+    gameList.forEach {
+        if (it.id > nextID) {
+            nextID = it.id
         }
     }
     return nextID + 1

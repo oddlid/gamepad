@@ -4,10 +4,12 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.selection.selectable
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Edit
+import androidx.compose.material.icons.filled.Person
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Surface
@@ -17,6 +19,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 
 
 @Composable
@@ -27,11 +30,13 @@ fun EditableListItem(
     onDelete: () -> Unit = {},
     onClick: () -> Unit = {},
     onSelection: () -> Boolean = { false },
+    itemIcon: (@Composable() () -> Unit)? = null,
 ) {
     Row(
         verticalAlignment = Alignment.CenterVertically,
         modifier = modifier.fillMaxWidth(),
     ) {
+        itemIcon?.let { it() }
         Box(
             modifier = modifier
                 .weight(weight = 1F)
@@ -67,7 +72,16 @@ fun PreviewEditableListItem() {
     MyApplicationTheme {
         Surface {
             Column {
-                EditableListItem(value = "Sandra")
+                EditableListItem(
+                    value = "Sandra",
+                    itemIcon = {
+                        Icon(
+                            Icons.Filled.Person,
+                            contentDescription = "PlayerIcon",
+                            modifier = Modifier.padding(end = 8.dp)
+                        )
+                    }
+                )
             }
         }
     }
