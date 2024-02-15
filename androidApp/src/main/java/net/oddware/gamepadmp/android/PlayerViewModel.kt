@@ -23,14 +23,19 @@ class PlayerViewModel : ViewModel() {
 
     fun getSelectedPlayerIDs() = getSelectedPlayers().map { it.id }
 
-    fun toggleSelection(index: Int) {
-        val player = _players[index]
-        _players[index] = player.copy(selected = !player.selected)
+    fun hasSelection() = getSelectedPlayers().isNotEmpty()
+
+    fun allSelected() = _players.size == getSelectedPlayers().size
+
+
+    fun toggleSelection(player: Player) {
+        _players.find { it.id == player.id }?.let {
+            _players.remove(it)
+            _players.add(it.copy(selected = !it.selected))
+        }
     }
 
-    fun clearSelection() = _players.replaceAll { it.copy(selected = false) }
-
-    fun selectAll() = _players.replaceAll { it.copy(selected = true) }
+    fun selectAll(selected: Boolean) = _players.replaceAll { it.copy(selected = selected) }
 
     fun find(id: Int): Player? = _players.find { it.id == id }
 

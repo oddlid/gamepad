@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.selection.selectable
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.CheckCircle
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material.icons.filled.Person
@@ -49,6 +50,13 @@ fun EditableListItem(
                 text = value,
                 modifier = modifier
             )
+            if (onSelection()) {
+                Icon(
+                    Icons.Filled.CheckCircle,
+                    contentDescription = "Selected",
+                    modifier = modifier.align(Alignment.CenterEnd),
+                )
+            }
         }
         IconButton(onClick = onEdit) {
             Icon(

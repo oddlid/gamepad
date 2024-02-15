@@ -55,6 +55,14 @@ fun PlayerListScreen(
                 onAdd = {
                     playerViewModel.currentMode.value = PlayerViewModel.Mode.ADD
                 },
+                onClickEntry = { player ->
+                    playerViewModel.toggleSelection(player)
+                },
+                hasSelection = playerViewModel.hasSelection(),
+                selectAllChecked = playerViewModel.allSelected(),
+                onToggleSelected = { selected ->
+                    playerViewModel.selectAll(selected)
+                }
             )
         }
 
@@ -127,7 +135,7 @@ fun PlayerList(
     modifier: Modifier = Modifier,
     onDelete: (Player) -> Unit = {},
     onEdit: (Player) -> Unit = {},
-    onClickEntry: (Int) -> Unit = {},
+    onClickEntry: (Player) -> Unit = {},
     onAdd: () -> Unit = {},
     onToggleSelected: (Boolean) -> Unit = {},
     onPlay: () -> Unit = {},
@@ -161,7 +169,7 @@ fun PlayerList(
                 key = { _, player: Player ->
                     player.hashCode()
                 }
-            ) { index, player ->
+            ) { _, player ->
                 EditableListItem(
                     value = player.name,
                     modifier = modifier,
@@ -172,7 +180,7 @@ fun PlayerList(
                         onEdit(player)
                     },
                     onClick = {
-                        onClickEntry(index)
+                        onClickEntry(player)
                     },
                     onSelection = { player.selected },
                     itemIcon = {
