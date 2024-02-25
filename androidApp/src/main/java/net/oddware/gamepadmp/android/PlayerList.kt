@@ -244,7 +244,6 @@ fun PreviewNotFound() {
 fun PreviewPlayerListScreen() {
     MyApplicationTheme {
         Surface {
-//            PlayerListScreen(modifier = Modifier.padding(all = 4.dp))
             PlayerList(
                 players = mutableListOf<Player>().apply {
                     repeat(3) {

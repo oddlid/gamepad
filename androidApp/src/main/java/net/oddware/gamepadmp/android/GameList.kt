@@ -120,12 +120,6 @@ fun GameListScreen(
 }
 
 
-//@Composable
-//fun Notify(text: String) {
-//    val ctx = LocalContext.current
-//    Toast.makeText(ctx, text, Toast.LENGTH_SHORT).show()
-//}
-
 @Preview(showBackground = true)
 @Composable
 fun PreviewGameListScreen() {

@@ -3,4 +3,7 @@ package net.oddware.gamepadmp.android
 import androidx.compose.runtime.Immutable
 
 @Immutable
-data class Game(val id: Int, val name: String)
+data class Game(
+    val id: Int,
+    val name: String,
+)

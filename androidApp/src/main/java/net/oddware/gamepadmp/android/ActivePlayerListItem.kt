@@ -29,6 +29,7 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
 @Composable
@@ -195,15 +196,10 @@ fun PreviewActivePlayerListItem() {
 @Preview(showBackground = true)
 @Composable
 fun PreviewPointHistoryList() {
-    val p = Points()
-    p.add(950)
-    p.add(-50)
-    p.add(100)
-
     MyApplicationTheme {
         Surface {
             PointHistoryList(
-                points = p.history,
+                points = List(3) { i -> Point(i, LocalDateTime.now()) },
                 modifier = Modifier.padding(all = 4.dp),
             )
         }
