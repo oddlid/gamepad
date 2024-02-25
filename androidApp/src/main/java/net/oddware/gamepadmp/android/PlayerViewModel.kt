@@ -21,7 +21,9 @@ class PlayerViewModel : ViewModel() {
 
     fun getSelectedPlayers() = _players.filter { it.selected }
 
-    fun getSelectedPlayerIDs() = getSelectedPlayers().map { it.id }
+    fun getActivePlayers() = getSelectedPlayers().map { ActivePlayer(it) }
+
+//    fun getSelectedPlayerIDs() = getSelectedPlayers().map { it.id }
 
     fun hasSelection() = getSelectedPlayers().isNotEmpty()
 

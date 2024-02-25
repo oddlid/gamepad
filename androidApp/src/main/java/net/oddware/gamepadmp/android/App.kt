@@ -1,6 +1,5 @@
 package net.oddware.gamepadmp.android
 
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -18,8 +17,9 @@ enum class AppMode {
 @Composable
 fun App(
     modifier: Modifier = Modifier,
-    gameViewModel: GameViewModel = viewModel(),
     playerViewModel: PlayerViewModel = viewModel(),
+    gameViewModel: GameViewModel = viewModel(),
+    gameRoundViewModel: GameRoundViewModel = viewModel(),
 ) {
     var mode by rememberSaveable { mutableStateOf(AppMode.LIST_GAMES) }
 
@@ -43,13 +43,23 @@ fun App(
                     mode = AppMode.LIST_GAMES
                 },
                 onPlay = {
-                    mode = AppMode.PLAY
+                    gameViewModel.find(gameViewModel.currentID)?.also {
+                        gameRoundViewModel.currentGame = it
+                        gameRoundViewModel.setActivePlayers(playerViewModel.getActivePlayers())
+                        mode = AppMode.PLAY
+                    }
                 },
             )
         }
 
         AppMode.PLAY -> {
-            Text(text = "Play game")
+            GameRoundScreen(
+                modifier = modifier,
+                gameRoundViewModel = gameRoundViewModel,
+                onBack = {
+                    mode = AppMode.LIST_PLAYERS
+                }
+            )
         }
     }
 }
