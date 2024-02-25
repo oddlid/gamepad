@@ -76,7 +76,7 @@ fun GameListScreen(
 
         GameViewModel.Mode.ADD -> {
             EditItem(
-                title = stringResource(R.string.editItemTitleAddGame),
+                title = stringResource(R.string.eiTitleAddGame),
                 modifier = modifier,
                 onCancel = {
                     gameViewModel.currentMode.value = GameViewModel.Mode.LIST
@@ -91,7 +91,7 @@ fun GameListScreen(
         GameViewModel.Mode.EDIT -> {
             gameViewModel.find(gameViewModel.currentID)?.also {
                 EditItem(
-                    title = stringResource(R.string.editItemTitleEditGame, it.id),
+                    title = stringResource(R.string.eiTitleEditGame, it.id),
                     value = it.name,
                     modifier = modifier,
                     onCancel = {
@@ -105,7 +105,7 @@ fun GameListScreen(
             } ?: run {
                 NotFound(
                     text = stringResource(
-                        R.string.gameListGameNotFoundMessage,
+                        R.string.notFoundTxtGame,
                         gameViewModel.currentID
                     ),
                     onClick = {

@@ -18,6 +18,6 @@
     <string name="eiLblAddPlayer">Add player</string>
     <string name="eiLblEditPlayer">Edit player</string>
     <string name="notFoundTxtPlayer">Player with ID #%1$s not found</string>
-    <string name="notFoundTxtGame">Game with ID #%1$d not found</string>
     <string name="lblTxtSelectPlayers">Select players</string>
+    <string name="notFoundTxtGame">Game with ID #%1$d not found</string>
 </resources>

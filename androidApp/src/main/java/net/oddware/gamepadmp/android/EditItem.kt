@@ -34,7 +34,7 @@ import androidx.compose.ui.unit.dp
 fun EditItem(
     modifier: Modifier = Modifier,
     value: String = "",
-    title: String = stringResource(R.string.editItemTitleDefault),
+    title: String = stringResource(R.string.eiTitleDefault),
     onCancel: () -> Unit = {},
     onSave: (String) -> Unit = {},
 ) {
@@ -62,7 +62,7 @@ fun EditItem(
                 singleLine = true,
                 modifier = modifier.fillMaxWidth(),
                 label = {
-                    Text(text = stringResource(R.string.editItemLblName))
+                    Text(text = stringResource(R.string.eiLblName))
                 },
                 keyboardOptions = KeyboardOptions(
                     imeAction = ImeAction.Done,
@@ -78,9 +78,9 @@ fun EditItem(
             OutlinedButton(onClick = onCancel, modifier = modifier) {
                 Icon(
                     Icons.Filled.Close,
-                    contentDescription = stringResource(R.string.editItemBtnTxtCancel)
+                    contentDescription = stringResource(R.string.btnTxtCancel)
                 )
-                Text(text = stringResource(R.string.editItemBtnTxtCancel))
+                Text(text = stringResource(R.string.btnTxtCancel))
             }
             FilledTonalButton(
                 onClick = { onSave(input) },
@@ -88,9 +88,9 @@ fun EditItem(
             ) {
                 Icon(
                     Icons.Filled.Check,
-                    contentDescription = stringResource(R.string.editItemBtnTxtSave)
+                    contentDescription = stringResource(R.string.btnTxtSave)
                 )
-                Text(text = stringResource(R.string.editItemBtnTxtSave))
+                Text(text = stringResource(R.string.btnTxtSave))
             }
         }
     }

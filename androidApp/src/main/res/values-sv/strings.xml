@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="eiLblName">Namn:</string>
+    <string name="eiLblEdit">Ändra</string>
+    <string name="eiLblDelete">Radera</string>
+    <string name="btnTxtCancel">Avbryt</string>
+    <string name="btnTxtSave">Spara</string>
+    <string name="btnTxtAdd">Lägg till</string>
+    <string name="btnTxtBack">Tillbaka</string>
+    <string name="eiTitleDefault">Lägg till / ändra objekt</string>
+    <string name="eiTitleEditGame">Ändra spelnamn för id #%1$d</string>
+    <string name="eiTitleAddGame">Lägg till nytt spel</string>
+    <string name="eiTitleAddGame">L</string>
+    <string name="contentDescCollapse">Vik ihop</string>
+    <string name="contentDescExpand">Expandera</string>
+    <string name="contentDescSelected">Vald</string>
+    <string name="chkTxtSelectAll">Välj alla</string>
+    <string name="btnTxtPlay">Spela!</string>
+    <string name="eiLblAddPlayer">Lägg till spelare</string>
+    <string name="eiLblEditPlayer">Ändra spelare</string>
+    <string name="notFoundTxtPlayer">Spelare med ID #%1$s ej hittat</string>
+    <string name="lblTxtSelectPlayers">Välj spelare</string>
+    <string name="lblTxtSelectPlayers">V</string>
+    <string name="notFoundTxtGame">Spela med ID #%1$d ej hittat</string>
+</resources>

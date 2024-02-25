@@ -68,7 +68,7 @@ fun PlayerListScreen(
 
         PlayerViewModel.Mode.ADD -> {
             EditItem(
-                title = "Add player",
+                title = stringResource(R.string.eiLblAddPlayer),
                 modifier = modifier,
                 onCancel = {
                     playerViewModel.currentMode.value = PlayerViewModel.Mode.LIST
@@ -83,7 +83,7 @@ fun PlayerListScreen(
         PlayerViewModel.Mode.EDIT -> {
             playerViewModel.find(playerViewModel.currentID)?.also {
                 EditItem(
-                    title = "Edit player",
+                    title = stringResource(R.string.eiLblEditPlayer),
                     value = it.name,
                     modifier = modifier,
                     onCancel = {
@@ -96,7 +96,7 @@ fun PlayerListScreen(
                 )
             } ?: run {
                 NotFound(
-                    text = "Player with ID #${playerViewModel.currentID} not found",
+                    text = stringResource(R.string.notFoundTxtPlayer, playerViewModel.currentID),
                     onClick = {
                         playerViewModel.currentMode.value = PlayerViewModel.Mode.LIST
                     },
@@ -149,7 +149,7 @@ fun PlayerList(
             contentAlignment = Alignment.CenterStart,
         ) {
             Text(
-                text = "Select players",
+                text = stringResource(R.string.lblTxtSelectPlayers),
                 modifier = modifier.fillMaxWidth(),
                 textAlign = TextAlign.Center,
                 style = MaterialTheme.typography.headlineSmall,
@@ -201,7 +201,7 @@ fun PlayerList(
                 checked = selectAllChecked,
                 onCheckedChange = onToggleSelected,
             )
-            Text("(De)select all")
+            Text(stringResource(R.string.chkTxtSelectAll))
             Spacer(modifier = modifier.weight(weight = 1F))
             FilledTonalButton(
                 onClick = onAdd,
@@ -221,9 +221,9 @@ fun PlayerList(
         ) {
             Icon(
                 Icons.Filled.PlayArrow,
-                contentDescription = "Play!",
+                contentDescription = stringResource(R.string.btnTxtPlay),
             )
-            Text(text = "Play!")
+            Text(text = stringResource(R.string.btnTxtPlay))
         }
     }
 }

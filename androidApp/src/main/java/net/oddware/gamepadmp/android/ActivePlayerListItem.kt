@@ -24,6 +24,7 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
@@ -54,8 +55,12 @@ fun ActivePlayerListItem(
 //                modifier = modifier,
             ) {
                 Icon(
-                    imageVector = if (showHistory) Icons.Filled.KeyboardArrowDown else Icons.AutoMirrored.Filled.KeyboardArrowRight,
-                    contentDescription = if (showHistory) "Collapse" else "Expand",
+                    imageVector = if (showHistory)
+                        Icons.Filled.KeyboardArrowDown
+                    else Icons.AutoMirrored.Filled.KeyboardArrowRight,
+                    contentDescription = if (showHistory)
+                        stringResource(R.string.contentDescCollapse)
+                    else stringResource(R.string.contentDescExpand),
                     modifier = modifier,
                 )
             }
@@ -136,7 +141,7 @@ fun SaveOrCancel(
         ) {
             Icon(
                 Icons.Filled.Check,
-                contentDescription = "Save"
+                contentDescription = stringResource(R.string.btnTxtSave),
             )
         }
         IconButton(
@@ -146,7 +151,7 @@ fun SaveOrCancel(
         ) {
             Icon(
                 Icons.Filled.Close,
-                contentDescription = "Cancel"
+                contentDescription = stringResource(R.string.btnTxtCancel),
             )
         }
     }

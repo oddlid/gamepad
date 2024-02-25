@@ -53,7 +53,7 @@ fun EditableListItem(
             if (onSelection()) {
                 Icon(
                     Icons.Filled.CheckCircle,
-                    contentDescription = "Selected",
+                    contentDescription = stringResource(R.string.contentDescSelected),
                     modifier = modifier.align(Alignment.CenterEnd),
                 )
             }
@@ -61,13 +61,13 @@ fun EditableListItem(
         IconButton(onClick = onEdit) {
             Icon(
                 Icons.Filled.Edit,
-                contentDescription = stringResource(R.string.editableListItemLblEdit)
+                contentDescription = stringResource(R.string.eiLblEdit)
             )
         }
         IconButton(onClick = onDelete) {
             Icon(
                 Icons.Filled.Delete,
-                contentDescription = stringResource(R.string.editableListItemLblDelete)
+                contentDescription = stringResource(R.string.eiLblDelete)
             )
         }
     }
