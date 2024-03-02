@@ -21,7 +21,7 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    App(modifier = Modifier.padding(all = 4.dp))
+                    GamePad(modifier = Modifier.padding(all = 4.dp))
                 }
             }
         }
@@ -36,7 +36,7 @@ fun DefaultPreview() {
         Surface(
             modifier = Modifier.fillMaxSize()
         ) {
-            App(modifier = Modifier.padding(all = 4.dp))
+            GamePad(modifier = Modifier.padding(all = 4.dp))
         }
     }
 }

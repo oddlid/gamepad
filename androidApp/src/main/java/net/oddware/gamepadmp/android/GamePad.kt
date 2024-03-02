@@ -15,7 +15,7 @@ enum class AppMode {
 }
 
 @Composable
-fun App(
+fun GamePad(
     modifier: Modifier = Modifier,
     playerViewModel: PlayerViewModel = viewModel(),
     gameViewModel: GameViewModel = viewModel(),
