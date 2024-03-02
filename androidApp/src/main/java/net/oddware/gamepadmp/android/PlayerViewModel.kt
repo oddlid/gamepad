@@ -5,7 +5,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.toMutableStateList
 import androidx.lifecycle.ViewModel
 
-class PlayerViewModel : ViewModel() {
+class PlayerViewModel(private val playerRepository: PlayerRepository) : ViewModel() {
     enum class Mode {
         LIST,
         ADD,
