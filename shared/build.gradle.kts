@@ -11,7 +11,7 @@ kotlin {
             }
         }
     }
-    
+
     listOf(
         iosX64(),
         iosArm64(),
@@ -28,8 +28,11 @@ kotlin {
             //put your multiplatform dependencies here
         }
         commonTest.dependencies {
-            implementation(libs.kotlin.test)
+//            implementation(libs.kotlin.test)
         }
+    }
+    task("testClasses").doLast {
+        println("This is a dummy testClasses task")
     }
 }
 
