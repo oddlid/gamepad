@@ -90,7 +90,7 @@ fun GameListScreen(
                 value = uiState.currentGame.name,
                 modifier = modifier,
                 onCancel = { gameViewModel.onCancel() },
-                onSave = { gameViewModel.onUpdate(uiState.currentGame, it) }
+                onSave = { gameViewModel.onUpdate(uiState.currentGame, it) },
             )
         }
     }
