@@ -2,7 +2,6 @@ package net.oddware.gamepadmp.android
 
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.toMutableStateList
 import androidx.lifecycle.ViewModel
 
 class PlayerViewModel(private val playerRepository: PlayerRepository) : ViewModel() {
@@ -12,59 +11,62 @@ class PlayerViewModel(private val playerRepository: PlayerRepository) : ViewMode
         EDIT,
     }
 
-    private val _players = getPlayers().toMutableStateList()
-    val players: List<Player>
-        get() = _players.sortedBy { it.id }
+    val players = playerRepository.getAllPlayersStream()
 
     var currentID: Int = -1
     val currentMode: MutableState<Mode> = mutableStateOf(Mode.LIST)
 
-    fun getSelectedPlayers() = _players.filter { it.selected }
+//    private fun getSelectedPlayers() = players.map { list ->
+//        list.filter { player ->
+//            player.selected
+//        }
+//    }
 
-    fun getActivePlayers() = getSelectedPlayers().map { ActivePlayer(it) }
+    //    fun getActivePlayers() = getSelectedPlayers().map { ActivePlayer(it) }
+//    fun getActivePlayers(): List<ActivePlayer> {
+//        viewModelScope.launch {
+//            withContext(Dispatchers.IO) {
+//                return getSelectedPlayers().first().map { ActivePlayer(it) }
+//            }
+//        }
+//    }
 
 //    fun getSelectedPlayerIDs() = getSelectedPlayers().map { it.id }
 
-    fun hasSelection() = getSelectedPlayers().isNotEmpty()
+    fun hasSelection() = playerRepository.hasSelection()
 
-    fun allSelected() = _players.size == getSelectedPlayers().size
+    fun allSelected() = playerRepository.allSelected()
 
 
-    fun toggleSelection(player: Player) {
-        _players.find { it.id == player.id }?.let {
-            _players.remove(it)
-            _players.add(it.copy(selected = !it.selected))
-        }
+    suspend fun toggleSelection(id: Int) = playerRepository.toggleSelection(id)
+
+    suspend fun selectAll(selected: Boolean) = playerRepository.selectAll(selected)
+
+    fun find(id: Int) = playerRepository.getPlayerStream(id)
+
+    suspend fun remove(player: Player) = playerRepository.deletePlayer(player)
+
+    suspend fun add(name: String) {
+        playerRepository.insertPlayer(Player(name = name))
     }
 
-    fun selectAll(selected: Boolean) = _players.replaceAll { it.copy(selected = selected) }
-
-    fun find(id: Int): Player? = _players.find { it.id == id }
-
-    fun remove(player: Player) {
-        _players.remove(player)
-    }
-
-    fun add(name: String) {
-        _players.add(Player(getNextPlayerID(_players), name = name, selected = false))
-    }
-
-    fun setName(player: Player, name: String) {
-        _players.find { it.id == player.id }?.let {
-            _players.remove(it)
-            _players.add(it.copy(name = name))
-        }
+    suspend fun setName(player: Player, name: String) {
+//        _players.find { it.id == player.id }?.let {
+//            _players.remove(it)
+//            _players.add(it.copy(name = name))
+//        }
+        playerRepository.updatePlayer(player.copy(name = name))
     }
 }
 
-private fun getPlayers() = List(3) { i -> Player(i, "Player $i", false) }
-
-private fun getNextPlayerID(playerList: List<Player>): Int {
-    var nextID: Int = -1
-    playerList.forEach {
-        if (it.id > nextID) {
-            nextID = it.id
-        }
-    }
-    return nextID + 1
-}
+//private fun getPlayers() = List(3) { i -> Player(i, "Player $i", false) }
+//
+//private fun getNextPlayerID(playerList: List<Player>): Int {
+//    var nextID: Int = -1
+//    playerList.forEach {
+//        if (it.id > nextID) {
+//            nextID = it.id
+//        }
+//    }
+//    return nextID + 1
+//}

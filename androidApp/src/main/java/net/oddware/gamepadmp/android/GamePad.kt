@@ -55,7 +55,7 @@ fun GamePad(
 //                    }
                     currentGame.value?.also {
                         gameRoundViewModel.currentGame = it
-                        gameRoundViewModel.setActivePlayers(playerViewModel.getActivePlayers())
+//                        gameRoundViewModel.setActivePlayers(playerViewModel.getActivePlayers())
                         mode = AppMode.PLAY
                     }
                 },

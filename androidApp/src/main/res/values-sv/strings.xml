@@ -8,7 +8,7 @@
     <string name="btnTxtAdd">Lägg till</string>
     <string name="btnTxtBack">Tillbaka</string>
     <string name="eiTitleDefault">Lägg till / ändra objekt</string>
-    <string name="eiTitleEditGame">Ändra spelnamn för id #%1$d</string>
+    <string name="eiTitleEditGame">Ändra namn för spel med id #%1$d</string>
     <string name="eiTitleAddGame">Lägg till nytt spel</string>
     <string name="contentDescCollapse">Vik ihop</string>
     <string name="contentDescExpand">Expandera</string>
@@ -20,4 +20,5 @@
     <string name="notFoundTxtPlayer">Spelare med ID #%1$s ej hittat</string>
     <string name="lblTxtSelectPlayers">Välj spelare</string>
     <string name="notFoundTxtGame">Spela med ID #%1$d ej hittat</string>
+    <string name="eiTitleEditPlayer">Andra namn för spelare med id #%1$d</string>
 </resources>

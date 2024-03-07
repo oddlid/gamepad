@@ -100,8 +100,8 @@ fun GameListScreen(
 
         GameViewModel.Mode.EDIT -> {
             gameViewModel.find(gameViewModel.currentID)
-                .collectAsStateWithLifecycle(initialValue = Game(0, "")).also {
-                    it.value?.also {
+                .collectAsStateWithLifecycle(initialValue = Game()).also { state ->
+                    state.value?.also {
                         EditItem(
                             title = stringResource(R.string.eiTitleEditGame, it.id),
                             value = it.name,

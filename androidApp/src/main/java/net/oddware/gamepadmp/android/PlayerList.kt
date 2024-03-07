@@ -22,13 +22,16 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
+import kotlinx.coroutines.launch
 
 
 @Composable
@@ -38,15 +41,24 @@ fun PlayerListScreen(
     onBack: () -> Unit = {},
     onPlay: () -> Unit = {},
 ) {
+    val crScope = rememberCoroutineScope()
+
     when (playerViewModel.currentMode.value) {
         PlayerViewModel.Mode.LIST -> {
+            val players =
+                playerViewModel.players.collectAsStateWithLifecycle(initialValue = emptyList())
+            val hasSelection =
+                playerViewModel.hasSelection().collectAsStateWithLifecycle(initialValue = false)
+
             PlayerList(
-                players = playerViewModel.players,
+                players = players.value,
                 modifier = modifier,
                 onBack = onBack,
                 onPlay = onPlay,
                 onDelete = { player ->
-                    playerViewModel.remove(player)
+                    crScope.launch {
+                        playerViewModel.remove(player)
+                    }
                 },
                 onEdit = { player ->
                     playerViewModel.currentID = player.id
@@ -56,12 +68,16 @@ fun PlayerListScreen(
                     playerViewModel.currentMode.value = PlayerViewModel.Mode.ADD
                 },
                 onClickEntry = { player ->
-                    playerViewModel.toggleSelection(player)
+                    crScope.launch {
+                        playerViewModel.toggleSelection(player.id)
+                    }
                 },
-                hasSelection = playerViewModel.hasSelection(),
-                selectAllChecked = playerViewModel.allSelected(),
+                hasSelection = hasSelection.value,
+                selectAllChecked = false,
                 onToggleSelected = { selected ->
-                    playerViewModel.selectAll(selected)
+                    crScope.launch {
+                        playerViewModel.selectAll(selected)
+                    }
                 }
             )
         }
@@ -74,35 +90,56 @@ fun PlayerListScreen(
                     playerViewModel.currentMode.value = PlayerViewModel.Mode.LIST
                 },
                 onSave = { name: String ->
-                    playerViewModel.add(name)
+                    crScope.launch {
+                        playerViewModel.add(name)
+                    }
                     playerViewModel.currentMode.value = PlayerViewModel.Mode.LIST
                 }
             )
         }
 
         PlayerViewModel.Mode.EDIT -> {
-            playerViewModel.find(playerViewModel.currentID)?.also {
-                EditItem(
-                    title = stringResource(R.string.eiLblEditPlayer),
-                    value = it.name,
-                    modifier = modifier,
-                    onCancel = {
-                        playerViewModel.currentMode.value = PlayerViewModel.Mode.LIST
-                    },
-                    onSave = { name: String ->
-                        playerViewModel.setName(it, name)
-                        playerViewModel.currentMode.value = PlayerViewModel.Mode.LIST
+            playerViewModel.find(playerViewModel.currentID)
+                .collectAsStateWithLifecycle(initialValue = Player()).also { state ->
+                    state.value?.also {
+                        EditItem(
+                            title = stringResource(R.string.eiTitleEditPlayer, it.id),
+                            value = it.name,
+                            modifier = modifier,
+                            onCancel = {
+                                playerViewModel.currentMode.value = PlayerViewModel.Mode.LIST
+                            },
+                            onSave = { name ->
+                                crScope.launch {
+                                    playerViewModel.setName(it, name)
+                                }
+                                playerViewModel.currentMode.value = PlayerViewModel.Mode.LIST
+                            }
+                        )
                     }
-                )
-            } ?: run {
-                NotFound(
-                    text = stringResource(R.string.notFoundTxtPlayer, playerViewModel.currentID),
-                    onClick = {
-                        playerViewModel.currentMode.value = PlayerViewModel.Mode.LIST
-                    },
-                    modifier = modifier,
-                )
-            }
+                }
+//            playerViewModel.find(playerViewModel.currentID)?.also {
+//                EditItem(
+//                    title = stringResource(R.string.eiLblEditPlayer),
+//                    value = it.name,
+//                    modifier = modifier,
+//                    onCancel = {
+//                        playerViewModel.currentMode.value = PlayerViewModel.Mode.LIST
+//                    },
+//                    onSave = { name: String ->
+//                        playerViewModel.setName(it, name)
+//                        playerViewModel.currentMode.value = PlayerViewModel.Mode.LIST
+//                    }
+//                )
+//            } ?: run {
+//                NotFound(
+//                    text = stringResource(R.string.notFoundTxtPlayer, playerViewModel.currentID),
+//                    onClick = {
+//                        playerViewModel.currentMode.value = PlayerViewModel.Mode.LIST
+//                    },
+//                    modifier = modifier,
+//                )
+//            }
         }
     }
 }

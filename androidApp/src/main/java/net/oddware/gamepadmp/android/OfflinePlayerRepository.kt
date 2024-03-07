@@ -12,4 +12,12 @@ class OfflinePlayerRepository(private val playerDao: PlayerDao) : PlayerReposito
     override suspend fun deletePlayer(player: Player) = playerDao.delete(player)
 
     override suspend fun updatePlayer(player: Player) = playerDao.update(player)
+
+    override suspend fun selectAll(selected: Boolean) = playerDao.selectAll(selected)
+
+    override suspend fun toggleSelection(id: Int) = playerDao.toggleSelection(id)
+
+    override fun hasSelection() = playerDao.hasSelection()
+
+    override fun allSelected() = playerDao.allSelected()
 }

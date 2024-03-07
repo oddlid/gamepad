@@ -12,4 +12,12 @@ interface PlayerRepository {
     suspend fun deletePlayer(player: Player)
 
     suspend fun updatePlayer(player: Player)
+
+    suspend fun selectAll(selected: Boolean)
+
+    suspend fun toggleSelection(id: Int)
+
+    fun hasSelection(): Flow<Boolean>
+
+    fun allSelected(): Flow<Boolean>
 }

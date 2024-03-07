@@ -8,7 +8,7 @@
     <string name="btnTxtAdd">Add</string>
     <string name="btnTxtBack">Back</string>
     <string name="eiTitleDefault">Add / Edit item</string>
-    <string name="eiTitleEditGame">Edit game name for id #%1$d</string>
+    <string name="eiTitleEditGame">Edit name for game with id #%1$d</string>
     <string name="eiTitleAddGame">Add new game</string>
     <string name="contentDescCollapse">Collapse</string>
     <string name="contentDescExpand">Expand</string>
@@ -20,4 +20,5 @@
     <string name="notFoundTxtPlayer">Player with ID #%1$s not found</string>
     <string name="lblTxtSelectPlayers">Select players</string>
     <string name="notFoundTxtGame">Game with ID #%1$d not found</string>
+    <string name="eiTitleEditPlayer">Edit name for player with id #%1$d</string>
 </resources>
