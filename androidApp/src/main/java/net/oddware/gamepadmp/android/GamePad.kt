@@ -6,7 +6,6 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 
 enum class AppMode {
@@ -23,24 +22,25 @@ fun GamePad(
     gameRoundViewModel: GameRoundViewModel = viewModel(),
 ) {
     var mode by rememberSaveable { mutableStateOf(AppMode.LIST_GAMES) }
+//    val gameUIState: GameScreenUIState by gameViewModel.uiState.collectAsStateWithLifecycle()
 
     when (mode) {
         AppMode.LIST_GAMES -> {
             GameListScreen(
                 modifier = modifier,
                 gameViewModel = gameViewModel,
-                onSelect = { id ->
-                    gameViewModel.currentID = id
+                onSelect = { game ->
+                    gameViewModel.onSelect(game)
                     mode = AppMode.LIST_PLAYERS
                 },
             )
         }
 
         AppMode.LIST_PLAYERS -> {
-            val currentGame =
-                gameViewModel.find(gameViewModel.currentID).collectAsStateWithLifecycle(
-                    initialValue = null
-                )
+//            val currentGame =
+//                gameViewModel.find(gameViewModel.currentID).collectAsStateWithLifecycle(
+//                    initialValue = null
+//                )
             PlayerListScreen(
                 modifier = modifier,
                 playerViewModel = playerViewModel,
@@ -53,11 +53,11 @@ fun GamePad(
 //                        gameRoundViewModel.setActivePlayers(playerViewModel.getActivePlayers())
 //                        mode = AppMode.PLAY
 //                    }
-                    currentGame.value?.also {
-                        gameRoundViewModel.currentGame = it
-//                        gameRoundViewModel.setActivePlayers(playerViewModel.getActivePlayers())
-                        mode = AppMode.PLAY
-                    }
+//                    currentGame.value?.also {
+//                        gameRoundViewModel.currentGame = it
+////                        gameRoundViewModel.setActivePlayers(playerViewModel.getActivePlayers())
+//                        mode = AppMode.PLAY
+//                    }
                 },
             )
         }

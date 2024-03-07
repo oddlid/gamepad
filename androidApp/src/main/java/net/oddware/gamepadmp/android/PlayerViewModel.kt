@@ -35,8 +35,6 @@ class PlayerViewModel(private val playerRepository: PlayerRepository) : ViewMode
 
     fun hasSelection() = playerRepository.hasSelection()
 
-    fun allSelected() = playerRepository.allSelected()
-
 
     suspend fun toggleSelection(id: Int) = playerRepository.toggleSelection(id)
 

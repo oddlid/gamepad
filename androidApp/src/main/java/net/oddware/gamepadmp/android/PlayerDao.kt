@@ -37,6 +37,6 @@ interface PlayerDao {
     @Query("SELECT COUNT(selected) FROM players WHERE selected = 1")
     fun hasSelection(): Flow<Boolean>
 
-    @Query("SELECT COUNT(DISTINCT selected) = 1 AS result FROM players WHERE selected = 1")
-    fun allSelected(): Flow<Boolean>
+//    @Query("SELECT COUNT(DISTINCT selected) = 1 AS result FROM players WHERE selected = 1")
+//    fun allSelected(): Flow<Boolean>
 }
