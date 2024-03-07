@@ -32,7 +32,7 @@ interface PlayerDao {
     fun getAllPlayers(): Flow<List<Player>>
 
     @Query("SELECT * FROM players WHERE selected = :selected")
-    fun filterBySelection(selected: Boolean): Flow<List<Player>>
+    suspend fun filterBySelection(selected: Boolean): List<Player>
 
     @Query("SELECT COUNT(selected) FROM players WHERE selected = 1")
     fun hasSelection(): Flow<Boolean>

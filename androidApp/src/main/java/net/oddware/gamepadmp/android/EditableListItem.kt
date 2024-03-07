@@ -31,7 +31,7 @@ fun EditableListItem(
     onDelete: () -> Unit = {},
     onClick: () -> Unit = {},
     onSelection: () -> Boolean = { false },
-    itemIcon: (@Composable() () -> Unit)? = null,
+    itemIcon: (@Composable () -> Unit)? = null,
 ) {
     Row(
         verticalAlignment = Alignment.CenterVertically,

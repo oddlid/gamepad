@@ -1,8 +1,6 @@
 package net.oddware.gamepadmp.android
 
 import androidx.compose.runtime.Immutable
-import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.CoroutineExceptionHandler
@@ -45,6 +43,7 @@ class PlayerViewModel(private val playerRepository: PlayerRepository) : ViewMode
     private val allSelected = MutableStateFlow(false)
     private val currentMode = MutableStateFlow(PlayerListMode.LIST)
     private val currentPlayer = MutableStateFlow(Player(id = -1))
+    private val _selectedPlayers = mutableListOf<Player>()
 
     private val exceptionHandler = CoroutineExceptionHandler { _, _ ->
         viewModelScope.launch {
@@ -135,12 +134,14 @@ class PlayerViewModel(private val playerRepository: PlayerRepository) : ViewMode
     fun onDelete(player: Player) {
         viewModelScope.launch(exceptionHandler) {
             playerRepository.deletePlayer(player)
+            syncSelectedPlayers()
         }
     }
 
     fun onSelect(player: Player) {
         viewModelScope.launch(exceptionHandler) {
             playerRepository.toggleSelection(player.id)
+            syncSelectedPlayers()
             playerRepository.hasSelection().collect {
                 hasSelection.emit(it)
             }
@@ -152,69 +153,18 @@ class PlayerViewModel(private val playerRepository: PlayerRepository) : ViewMode
             playerRepository.selectAll(selected)
             allSelected.emit(selected)
             hasSelection.emit(selected)
+            syncSelectedPlayers()
         }
     }
 
-//    fun onPlay() {}
-
-    enum class Mode {
-        LIST,
-        ADD,
-        EDIT,
+    private suspend fun syncSelectedPlayers() {
+        _selectedPlayers.apply {
+            clear()
+            addAll(playerRepository.filterBySelection(true))
+        }
     }
 
-    //    val players = playerRepository.getAllPlayersStream()
-//    var currentID: Int = -1
-    val oldCurrentMode: MutableState<Mode> = mutableStateOf(Mode.LIST)
+    fun getActivePlayers(): List<ActivePlayer> = _selectedPlayers.map { ActivePlayer(it) }
 
-//    private fun getSelectedPlayers() = players.map { list ->
-//        list.filter { player ->
-//            player.selected
-//        }
-//    }
 
-    //    fun getActivePlayers() = getSelectedPlayers().map { ActivePlayer(it) }
-//    fun getActivePlayers(): List<ActivePlayer> {
-//        viewModelScope.launch {
-//            withContext(Dispatchers.IO) {
-//                return getSelectedPlayers().first().map { ActivePlayer(it) }
-//            }
-//        }
-//    }
-
-//    fun getSelectedPlayerIDs() = getSelectedPlayers().map { it.id }
-
-//    fun hasSelection() = playerRepository.hasSelection()
-
-//    suspend fun toggleSelection(id: Int) = playerRepository.toggleSelection(id)
-
-//    suspend fun selectAll(selected: Boolean) = playerRepository.selectAll(selected)
-
-//    fun find(id: Int) = playerRepository.getPlayerStream(id)
-
-//    suspend fun remove(player: Player) = playerRepository.deletePlayer(player)
-
-//    suspend fun add(name: String) {
-//        playerRepository.insertPlayer(Player(name = name))
-//    }
-
-//    suspend fun setName(player: Player, name: String) {
-////        _players.find { it.id == player.id }?.let {
-////            _players.remove(it)
-////            _players.add(it.copy(name = name))
-////        }
-//        playerRepository.updatePlayer(player.copy(name = name))
-//    }
 }
-
-//private fun getPlayers() = List(3) { i -> Player(i, "Player $i", false) }
-//
-//private fun getNextPlayerID(playerList: List<Player>): Int {
-//    var nextID: Int = -1
-//    playerList.forEach {
-//        if (it.id > nextID) {
-//            nextID = it.id
-//        }
-//    }
-//    return nextID + 1
-//}

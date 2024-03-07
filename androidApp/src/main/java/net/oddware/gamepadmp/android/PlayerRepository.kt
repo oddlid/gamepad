@@ -19,4 +19,6 @@ interface PlayerRepository {
 
     fun hasSelection(): Flow<Boolean>
 
+    suspend fun filterBySelection(selected: Boolean): List<Player>
+
 }

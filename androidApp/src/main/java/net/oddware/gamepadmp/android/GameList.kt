@@ -6,7 +6,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
-import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
@@ -113,9 +113,9 @@ fun GameList(
         when (uiState) {
             GameListUiState.Error -> {
                 item {
-                    Text(
+                    LoadingError(
                         modifier = modifier,
-                        text = "Error loading games",
+                        text = stringResource(R.string.errTxtLoadGames),
                     )
                 }
             }
@@ -127,7 +127,12 @@ fun GameList(
             }
 
             is GameListUiState.Success -> {
-                items(uiState.games) { game ->
+                itemsIndexed(
+                    uiState.games,
+                    key = { _, game: Game ->
+                        game.hashCode()
+                    }
+                ) { _, game ->
                     EditableListItem(
                         value = game.name,
                         modifier = modifier,

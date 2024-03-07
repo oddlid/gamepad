@@ -57,7 +57,7 @@ fun EditItem(
             verticalAlignment = Alignment.CenterVertically,
         ) {
             TextField(
-                value = if (input.isBlank()) value else input,
+                value = input.ifBlank { value },
                 onValueChange = { input = it },
                 singleLine = true,
                 modifier = modifier.fillMaxWidth(),

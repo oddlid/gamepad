@@ -4,16 +4,24 @@ import androidx.compose.runtime.toMutableStateList
 import androidx.lifecycle.ViewModel
 
 class GameRoundViewModel : ViewModel() {
-    val noGame = Game(-1, "UNDEFINED")
+    private val noGame = Game(-1, "UNDEFINED")
     var currentGame = noGame
+        private set
     private var _activePlayers = listOf<ActivePlayer>().toMutableStateList()
     val activePlayers = _activePlayers
 
-    fun setActivePlayers(players: List<ActivePlayer>) {
+
+    fun startRound(game: Game, players: List<ActivePlayer>) {
+        currentGame = game
         _activePlayers.apply {
             clear()
             addAll(players)
         }
+    }
+
+    fun stopRound() {
+        currentGame = noGame
+        _activePlayers.clear()
     }
 
     fun update() {

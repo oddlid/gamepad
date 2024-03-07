@@ -157,7 +157,7 @@ fun PlayerList(
                 item {
                     LoadingError(
                         modifier = modifier,
-                        text = "Error loading players"
+                        text = stringResource(R.string.errTxtLoadPlayers),
                     )
                 }
             }

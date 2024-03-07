@@ -13,13 +13,12 @@
     <string name="contentDescCollapse">Vik ihop</string>
     <string name="contentDescExpand">Expandera</string>
     <string name="contentDescSelected">Vald</string>
-    <string name="chkTxtSelectAll">Välj alla</string>
+    <string name="chkTxtSelectAll">(Av)markera alla</string>
     <string name="btnTxtPlay">Spela!</string>
     <string name="eiLblAddPlayer">Lägg till spelare</string>
-    <string name="eiLblEditPlayer">Ändra spelare</string>
-    <string name="notFoundTxtPlayer">Spelare med ID #%1$s ej hittat</string>
     <string name="lblTxtSelectPlayers">Välj spelare</string>
-    <string name="notFoundTxtGame">Spela med ID #%1$d ej hittat</string>
     <string name="eiTitleEditPlayer">Andra namn för spelare med id #%1$d</string>
     <string name="lblTxtSelectGame">Välj spel</string>
+    <string name="errTxtLoadGames">Fel med att ladda spel</string>
+    <string name="errTxtLoadPlayers">Fel med att ladda spelare</string>
 </resources>

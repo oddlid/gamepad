@@ -4,7 +4,6 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
@@ -60,9 +59,11 @@ fun LoadingError(
 @Composable
 fun PreviewLoadingError() {
     MyApplicationTheme {
-        Surface (
-            modifier = Modifier.width(300.dp).height(50.dp)
-        ){
+        Surface(
+            modifier = Modifier
+                .width(300.dp)
+                .height(50.dp)
+        ) {
             LoadingError(
                 modifier = Modifier.padding(4.dp)
             )
@@ -75,9 +76,11 @@ fun PreviewLoadingError() {
 fun PreviewLoadingIndicator() {
     MyApplicationTheme {
         Surface {
-            Row (
-                modifier = Modifier.width(100.dp).height(100.dp)
-            ){
+            Row(
+                modifier = Modifier
+                    .width(100.dp)
+                    .height(100.dp)
+            ) {
                 LoadingIndicator()
             }
         }

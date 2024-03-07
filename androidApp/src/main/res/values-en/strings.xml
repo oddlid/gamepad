@@ -16,10 +16,9 @@
     <string name="chkTxtSelectAll">(De)select all</string>
     <string name="btnTxtPlay">Play!</string>
     <string name="eiLblAddPlayer">Add player</string>
-    <string name="eiLblEditPlayer">Edit player</string>
-    <string name="notFoundTxtPlayer">Player with ID #%1$s not found</string>
     <string name="lblTxtSelectPlayers">Select players</string>
-    <string name="notFoundTxtGame">Game with ID #%1$d not found</string>
     <string name="eiTitleEditPlayer">Edit name for player with id #%1$d</string>
     <string name="lblTxtSelectGame">Select game</string>
+    <string name="errTxtLoadGames">Error loading games</string>
+    <string name="errTxtLoadPlayers">Error loading players</string>
 </resources>
