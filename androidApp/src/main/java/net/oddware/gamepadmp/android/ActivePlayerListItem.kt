@@ -11,9 +11,14 @@ import androidx.compose.material.icons.automirrored.filled.KeyboardArrowRight
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.KeyboardArrowDown
+import androidx.compose.material.icons.filled.Person
+import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.LocalTextStyle
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
@@ -43,83 +48,94 @@ fun ActivePlayerListItem(
     var inputEnabled by rememberSaveable { mutableStateOf(false) }
     var input by rememberSaveable { mutableStateOf("") }
 
-    Column(
-        modifier = modifier,
+    ElevatedCard(
+        elevation = CardDefaults.cardElevation(
+            defaultElevation = 10.dp,
+        ),
+        colors = CardDefaults.cardColors(
+            containerColor = MaterialTheme.colorScheme.onPrimary,
+        ),
     ) {
-        Row(
+        Column(
             modifier = modifier,
-            verticalAlignment = Alignment.CenterVertically,
         ) {
-            IconButton(
-                onClick = { showHistory = !showHistory },
-//                modifier = modifier,
+            Row(
+                modifier = modifier,
+                verticalAlignment = Alignment.CenterVertically,
             ) {
-                Icon(
-                    imageVector = if (showHistory)
-                        Icons.Filled.KeyboardArrowDown
-                    else Icons.AutoMirrored.Filled.KeyboardArrowRight,
-                    contentDescription = if (showHistory)
-                        stringResource(R.string.contentDescCollapse)
-                    else stringResource(R.string.contentDescExpand),
-                    modifier = modifier,
-                )
-            }
-            TextField(
-                value = if (inputEnabled) input else "${activePlayer.currentPoints}",
-                enabled = inputEnabled,
-                onValueChange = { input = it },
-                singleLine = true,
-                modifier = modifier
-                    .weight(1F)
-                    .clickable(
-                        onClick = {
-                            inputEnabled = true
-                        }
+                IconButton(
+                    onClick = { showHistory = !showHistory },
+//                modifier = modifier,
+                ) {
+                    Icon(
+                        imageVector = if (showHistory)
+                            Icons.Filled.KeyboardArrowDown
+                        else Icons.AutoMirrored.Filled.KeyboardArrowRight,
+                        contentDescription = if (showHistory)
+                            stringResource(R.string.contentDescCollapse)
+                        else stringResource(R.string.contentDescExpand),
+                        modifier = modifier,
+                    )
+                }
+                TextField(
+                    value = if (inputEnabled) input else "${activePlayer.currentPoints}",
+                    enabled = inputEnabled,
+                    onValueChange = { input = it },
+                    singleLine = true,
+                    modifier = modifier
+                        .weight(1F)
+                        .clickable(
+                            onClick = {
+                                inputEnabled = true
+                            }
+                        ),
+                    label = {
+                        Text(activePlayer.player.name)
+                    },
+                    textStyle = LocalTextStyle.current.copy(textAlign = TextAlign.End),
+                    keyboardOptions = KeyboardOptions(
+                        keyboardType = KeyboardType.Decimal,
+                        imeAction = ImeAction.Done,
+                        autoCorrect = false,
                     ),
-                label = {
-                    Text(activePlayer.player.name)
-                },
-                textStyle = LocalTextStyle.current.copy(textAlign = TextAlign.End),
-                keyboardOptions = KeyboardOptions(
-                    keyboardType = KeyboardType.Decimal,
-                    imeAction = ImeAction.Done,
-                    autoCorrect = false,
-                ),
-                keyboardActions = KeyboardActions(
-                    onDone = {
+                    keyboardActions = KeyboardActions(
+                        onDone = {
+                            input.toIntOrNull()?.also {
+                                onAdd(it)
+                            }
+                            input = ""
+                            inputEnabled = false
+                        },
+                    ),
+                    leadingIcon = {
+                        Icon(
+                            Icons.Filled.Person,
+                            contentDescription = null,
+                        )
+                    },
+                )
+                SaveOrCancel(
+//                modifier = modifier,
+                    enabled = inputEnabled,
+                    onSave = {
                         input.toIntOrNull()?.also {
                             onAdd(it)
                         }
                         input = ""
                         inputEnabled = false
                     },
-                ),
-            )
-            SaveOrCancel(
-//                modifier = modifier,
-                enabled = inputEnabled,
-                onSave = {
-                    input.toIntOrNull()?.also {
-                        onAdd(it)
-                    }
-                    input = ""
-                    inputEnabled = false
-                },
-                onCancel = {
-                    input = ""
-                    inputEnabled = false
-                },
-            )
-        }
-        if (showHistory) {
-//            Text(
-//                text = "History for ${activePlayer.player.name}",
-//                modifier = modifier,
-//            )
-            PointHistoryList(
-                points = activePlayer.history.reversed(),
-                modifier = modifier,
-            )
+                    onCancel = {
+                        input = ""
+                        inputEnabled = false
+                    },
+                )
+            }
+            if (showHistory) {
+                PointHistoryList(
+                    points = activePlayer.history.reversed(),
+                    modifier = modifier,
+                )
+            }
         }
     }
 }
@@ -142,6 +158,7 @@ fun SaveOrCancel(
             Icon(
                 Icons.Filled.Check,
                 contentDescription = stringResource(R.string.btnTxtSave),
+                tint = MaterialTheme.colorScheme.surfaceTint.copy(alpha = LocalContentColor.current.alpha),
             )
         }
         IconButton(
@@ -152,6 +169,7 @@ fun SaveOrCancel(
             Icon(
                 Icons.Filled.Close,
                 contentDescription = stringResource(R.string.btnTxtCancel),
+                tint = MaterialTheme.colorScheme.error.copy(alpha = LocalContentColor.current.alpha),
             )
         }
     }
@@ -170,16 +188,25 @@ fun PointHistoryList(
         modifier = modifier
     ) {
         points.forEach {
-            Row(modifier = modifier) {
-                Text(
-                    text = "@ ${it.time.format(Fmt.formatter)}",
-                    modifier = modifier,
-                )
-                Text(
-                    text = "${it.value}",
-                    modifier = modifier.weight(weight = 1F),
-                    textAlign = TextAlign.End,
-                )
+            ElevatedCard(
+                elevation = CardDefaults.cardElevation(
+                    defaultElevation = 4.dp,
+                ),
+                colors = CardDefaults.cardColors(
+                    containerColor = MaterialTheme.colorScheme.onPrimary,
+                ),
+            ) {
+                Row {
+                    Text(
+                        text = "@ ${it.time.format(Fmt.formatter)}",
+                        modifier = modifier,
+                    )
+                    Text(
+                        text = "${it.value}",
+                        modifier = modifier.weight(weight = 1F),
+                        textAlign = TextAlign.End,
+                    )
+                }
             }
         }
     }

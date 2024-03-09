@@ -11,6 +11,8 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.Close
+import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.FilledTonalButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -41,59 +43,77 @@ fun EditItem(
     var input by rememberSaveable { mutableStateOf(value) }
 
     Column {
-        Row(
-            modifier = modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.End,
+        ElevatedCard(
+            elevation = CardDefaults.cardElevation(
+                defaultElevation = 4.dp,
+            ),
+            colors = CardDefaults.cardColors(
+                containerColor = MaterialTheme.colorScheme.onPrimary,
+            ),
         ) {
-            Text(
-                text = title,
-                modifier = modifier,
-                style = MaterialTheme.typography.headlineSmall,
-            )
-        }
-        Row(
-            modifier = modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.End,
-            verticalAlignment = Alignment.CenterVertically,
-        ) {
-            TextField(
-                value = input.ifBlank { value },
-                onValueChange = { input = it },
-                singleLine = true,
+            Row(
                 modifier = modifier.fillMaxWidth(),
-                label = {
-                    Text(text = stringResource(R.string.eiLblName))
-                },
-                keyboardOptions = KeyboardOptions(
-                    imeAction = ImeAction.Done,
-                    autoCorrect = false,
-                ),
-                keyboardActions = KeyboardActions(
-                    onDone = { onSave(input) },
-                ),
-            )
-        }
-        Row {
-            Spacer(modifier = modifier.weight(weight = 1F))
-            OutlinedButton(onClick = onCancel, modifier = modifier) {
-                Icon(
-                    Icons.Filled.Close,
-                    contentDescription = stringResource(R.string.btnTxtCancel)
-                )
-                Text(text = stringResource(R.string.btnTxtCancel))
-            }
-            FilledTonalButton(
-                onClick = { onSave(input) },
-                modifier = modifier,
+                horizontalArrangement = Arrangement.End,
             ) {
-                Icon(
-                    Icons.Filled.Check,
-                    contentDescription = stringResource(R.string.btnTxtSave)
+                Text(
+                    text = title,
+                    modifier = modifier,
+                    style = MaterialTheme.typography.headlineSmall,
                 )
-                Text(text = stringResource(R.string.btnTxtSave))
             }
         }
-    }
+        ElevatedCard(
+            elevation = CardDefaults.cardElevation(
+                defaultElevation = 4.dp,
+            ),
+            colors = CardDefaults.cardColors(
+                containerColor = MaterialTheme.colorScheme.onPrimary,
+            ),
+        ) {
+            Row(
+                modifier = modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.End,
+                verticalAlignment = Alignment.CenterVertically,
+            ) {
+                TextField(
+                    value = input.ifBlank { value },
+                    onValueChange = { input = it },
+                    singleLine = true,
+                    modifier = modifier.fillMaxWidth(),
+                    label = {
+                        Text(text = stringResource(R.string.eiLblName))
+                    },
+                    keyboardOptions = KeyboardOptions(
+                        imeAction = ImeAction.Done,
+                        autoCorrect = false,
+                    ),
+                    keyboardActions = KeyboardActions(
+                        onDone = { onSave(input) },
+                    ),
+                )
+            }
+            Row {
+                Spacer(modifier = modifier.weight(weight = 1F))
+                OutlinedButton(onClick = onCancel, modifier = modifier) {
+                    Icon(
+                        Icons.Filled.Close,
+                        contentDescription = stringResource(R.string.btnTxtCancel)
+                    )
+                    Text(text = stringResource(R.string.btnTxtCancel))
+                }
+                FilledTonalButton(
+                    onClick = { onSave(input) },
+                    modifier = modifier,
+                ) {
+                    Icon(
+                        Icons.Filled.Check,
+                        contentDescription = stringResource(R.string.btnTxtSave)
+                    )
+                    Text(text = stringResource(R.string.btnTxtSave))
+                }
+            }
+        }
+        }
 }
 
 @Preview(showBackground = true)

@@ -151,9 +151,9 @@ class PlayerViewModel(private val playerRepository: PlayerRepository) : ViewMode
     fun onSelectAll(selected: Boolean) {
         viewModelScope.launch(exceptionHandler) {
             playerRepository.selectAll(selected)
+            syncSelectedPlayers()
             allSelected.emit(selected)
             hasSelection.emit(selected)
-            syncSelectedPlayers()
         }
     }
 

@@ -14,7 +14,9 @@ import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.PlayArrow
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Checkbox
+import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.FilledTonalButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -26,6 +28,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 
@@ -42,21 +45,30 @@ fun PlayerListScreen(
     when (uiState.mode) {
         PlayerListMode.LIST -> {
             Column {
-                Box(
-                    modifier = modifier.fillMaxWidth(),
-                    contentAlignment = Alignment.CenterStart,
+                ElevatedCard(
+                    elevation = CardDefaults.cardElevation(
+                        defaultElevation = 4.dp,
+                    ),
+                    colors = CardDefaults.cardColors(
+                        containerColor = MaterialTheme.colorScheme.onPrimary,
+                    ),
                 ) {
-                    Text(
-                        text = stringResource(R.string.lblTxtSelectPlayers),
+                    Box(
                         modifier = modifier.fillMaxWidth(),
-                        textAlign = TextAlign.Center,
-                        style = MaterialTheme.typography.headlineSmall,
-                    )
-                    IconButton(onClick = onBack) {
-                        Icon(
-                            Icons.AutoMirrored.Filled.ArrowBack,
-                            contentDescription = stringResource(R.string.btnTxtBack),
+                        contentAlignment = Alignment.CenterStart,
+                    ) {
+                        Text(
+                            text = stringResource(R.string.lblTxtSelectPlayers),
+                            modifier = modifier.fillMaxWidth(),
+                            textAlign = TextAlign.Center,
+                            style = MaterialTheme.typography.headlineSmall,
                         )
+                        IconButton(onClick = onBack) {
+                            Icon(
+                                Icons.AutoMirrored.Filled.ArrowBack,
+                                contentDescription = stringResource(R.string.btnTxtBack),
+                            )
+                        }
                     }
                 }
                 Row(
@@ -76,39 +88,48 @@ fun PlayerListScreen(
                         },
                     )
                 }
-                Row(
-                    verticalAlignment = Alignment.CenterVertically,
-                    modifier = modifier,
+                ElevatedCard(
+                    elevation = CardDefaults.cardElevation(
+                        defaultElevation = 4.dp,
+                    ),
+                    colors = CardDefaults.cardColors(
+                        containerColor = MaterialTheme.colorScheme.onPrimary,
+                    ),
                 ) {
-                    Checkbox(
-                        checked = uiState.allSelected,
-                        onCheckedChange = { playerViewModel.onSelectAll(!uiState.allSelected) },
-                    )
-                    Text(stringResource(R.string.chkTxtSelectAll))
-                    Spacer(modifier = modifier.weight(weight = 1F))
-                    FilledTonalButton(
-                        onClick = {
-                            playerViewModel.onAdd()
-                        },
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically,
                         modifier = modifier,
                     ) {
-                        Icon(
-                            Icons.Filled.Add,
-                            contentDescription = stringResource(R.string.btnTxtAdd),
+                        Checkbox(
+                            checked = uiState.allSelected,
+                            onCheckedChange = { playerViewModel.onSelectAll(!uiState.allSelected) },
                         )
-                        Text(text = stringResource(R.string.btnTxtAdd))
+                        Text(stringResource(R.string.chkTxtSelectAll))
+                        Spacer(modifier = modifier.weight(weight = 1F))
+                        FilledTonalButton(
+                            onClick = {
+                                playerViewModel.onAdd()
+                            },
+                            modifier = modifier,
+                        ) {
+                            Icon(
+                                Icons.Filled.Add,
+                                contentDescription = stringResource(R.string.btnTxtAdd),
+                            )
+                            Text(text = stringResource(R.string.btnTxtAdd))
+                        }
                     }
-                }
-                FilledTonalButton(
-                    modifier = modifier.fillMaxWidth(),
-                    enabled = uiState.hasSelection,
-                    onClick = onPlay,
-                ) {
-                    Icon(
-                        Icons.Filled.PlayArrow,
-                        contentDescription = stringResource(R.string.btnTxtPlay),
-                    )
-                    Text(text = stringResource(R.string.btnTxtPlay))
+                    FilledTonalButton(
+                        modifier = modifier.fillMaxWidth(),
+                        enabled = uiState.hasSelection,
+                        onClick = onPlay,
+                    ) {
+                        Icon(
+                            Icons.Filled.PlayArrow,
+                            contentDescription = stringResource(R.string.btnTxtPlay),
+                        )
+                        Text(text = stringResource(R.string.btnTxtPlay))
+                    }
                 }
             }
         }

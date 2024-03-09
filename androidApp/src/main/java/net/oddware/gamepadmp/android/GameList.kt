@@ -10,6 +10,8 @@ import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.FilledTonalButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -18,6 +20,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -38,12 +41,21 @@ fun GameListScreen(
     when (uiState.mode) {
         GameListMode.LIST -> {
             Column {
-                Text(
-                    text = stringResource(R.string.lblTxtSelectGame),
-                    modifier = modifier.fillMaxWidth(),
-                    style = MaterialTheme.typography.headlineSmall,
-                    textAlign = TextAlign.Center,
-                )
+                ElevatedCard(
+                    elevation = CardDefaults.cardElevation(
+                        defaultElevation = 4.dp,
+                    ),
+                    colors = CardDefaults.cardColors(
+                        containerColor = MaterialTheme.colorScheme.onPrimary,
+                    ),
+                ) {
+                    Text(
+                        text = stringResource(R.string.lblTxtSelectGame),
+                        modifier = modifier.fillMaxWidth(),
+                        style = MaterialTheme.typography.headlineSmall,
+                        textAlign = TextAlign.Center,
+                    )
+                }
                 Row(
                     modifier = modifier.weight(1F),
                 ) {
@@ -56,17 +68,26 @@ fun GameListScreen(
                         listState = gameListState,
                     )
                 }
-                FilledTonalButton(
-                    onClick = {
-                        gameViewModel.onAdd()
-                    },
-                    modifier = modifier.fillMaxWidth(),
+                ElevatedCard(
+                    elevation = CardDefaults.cardElevation(
+                        defaultElevation = 4.dp,
+                    ),
+                    colors = CardDefaults.cardColors(
+                        containerColor = MaterialTheme.colorScheme.onPrimary,
+                    ),
                 ) {
-                    Icon(
-                        Icons.Filled.Add,
-                        contentDescription = stringResource(R.string.btnTxtAdd),
-                    )
-                    Text(text = stringResource(R.string.btnTxtAdd))
+                    FilledTonalButton(
+                        onClick = {
+                            gameViewModel.onAdd()
+                        },
+                        modifier = modifier.fillMaxWidth(),
+                    ) {
+                        Icon(
+                            Icons.Filled.Add,
+                            contentDescription = stringResource(R.string.btnTxtAdd),
+                        )
+                        Text(text = stringResource(R.string.btnTxtAdd))
+                    }
                 }
             }
         }
@@ -139,6 +160,12 @@ fun GameList(
                         onClick = { onSelect(game) },
                         onEdit = { onEdit(game) },
                         onDelete = { onDelete(game) },
+                        itemIcon = {
+                            Icon(
+                                painterResource(id = R.drawable.ic_assignment),
+                                contentDescription = "",
+                            )
+                        },
                     )
                 }
             }

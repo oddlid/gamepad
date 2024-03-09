@@ -42,6 +42,7 @@ fun GamePad(
                 modifier = modifier,
                 playerViewModel = playerViewModel,
                 onBack = {
+                    playerViewModel.onSelectAll(false)
                     mode = AppMode.LIST_GAMES
                 },
                 onPlay = {
