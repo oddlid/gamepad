@@ -5,6 +5,12 @@ plugins {
 }
 
 android {
+    signingConfigs {
+        getByName("debug") {
+            storeFile = file("/Users/oddee/.android/upload_keystore.jks")
+            keyAlias = "upload"
+        }
+    }
     namespace = "net.oddware.gamepadmp.android"
     compileSdk = 34
     defaultConfig {
@@ -13,6 +19,7 @@ android {
         targetSdk = 34
         versionCode = 1
         versionName = "1.0"
+        signingConfig = signingConfigs.getByName("debug")
     }
     buildFeatures {
         compose = true
