@@ -94,7 +94,7 @@ fun ActivePlayerListItem(
                     },
                     textStyle = LocalTextStyle.current.copy(textAlign = TextAlign.End),
                     keyboardOptions = KeyboardOptions(
-                        keyboardType = KeyboardType.Decimal,
+                        keyboardType = KeyboardType.Phone,
                         imeAction = ImeAction.Done,
                         autoCorrect = false,
                     ),
