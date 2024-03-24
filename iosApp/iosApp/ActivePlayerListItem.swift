@@ -56,12 +56,27 @@ struct PointInputField: View {
   }
 }
 
+//struct OddInputField: View {
+//  var name = ""
+//  @State private var input: String
+//
+//  var body: some View {
+//    TextField(
+//      name,
+//      text: $input,
+//      onEditingChanged: { (edit) in
+//      },
+//      onCommit: {}
+//    )
+//  }
+//}
+
 #Preview {
   ActivePlayerListItem()
 }
 
-#Preview {
-  PointInputField(
-    name: "Test"
-  )
-}
+//#Preview {
+//  PointInputField(
+//    name: "Test"
+//  )
+//}
