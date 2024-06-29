@@ -1,16 +1,16 @@
 [versions]
 agp = "8.5.0"
 kotlin = "1.9.20"
-compose = "1.6.2"
+compose = "1.6.8"
 compose-compiler = "1.5.4"
-compose-material3 = "1.2.0"
-androidx-activityCompose = "1.8.2"
-lifecycleViewmodelCompose = "2.7.0"
+compose-material3 = "1.2.1"
+androidx-activityCompose = "1.9.0"
+lifecycleViewmodelCompose = "2.8.2"
 roomRuntime = "2.6.1"
 roomCompiler = "2.6.1"
 roomKtx = "2.6.1"
-lifecycleRuntimeCompose = "2.8.0-alpha02"
-symbolProcessing = "2.0.0-Beta4-1.0.18"
+lifecycleRuntimeCompose = "2.8.2"
+symbolProcessing = "2.0.0-1.0.22"
 
 [libraries]
 kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
