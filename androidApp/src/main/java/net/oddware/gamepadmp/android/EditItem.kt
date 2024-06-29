@@ -1,5 +1,6 @@
 package net.oddware.gamepadmp.android
 
+import android.net.Uri
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -37,6 +38,8 @@ fun EditItem(
     modifier: Modifier = Modifier,
     value: String = "",
     title: String = stringResource(R.string.eiTitleDefault),
+    imageEnabled: Boolean = false,
+    imageUri: Uri? = null,
     onCancel: () -> Unit = {},
     onSave: (String) -> Unit = {},
 ) {
@@ -92,6 +95,15 @@ fun EditItem(
                     ),
                 )
             }
+            if (imageEnabled) {
+                Row (
+                    modifier = modifier.fillMaxWidth(),
+//                    horizontalArrangement = Arrangement.End,
+                    verticalAlignment = Alignment.CenterVertically,
+                ){
+                    Text(text = "Icon")
+                }
+            }
             Row {
                 Spacer(modifier = modifier.weight(weight = 1F))
                 OutlinedButton(onClick = onCancel, modifier = modifier) {
@@ -124,6 +136,7 @@ fun EditItemPreview() {
             EditItem(
                 value = "Testing",
                 modifier = Modifier.padding(all = 4.dp),
+                imageEnabled = true,
             )
         }
     }
