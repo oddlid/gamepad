@@ -11,6 +11,7 @@ roomCompiler = "2.6.1"
 roomKtx = "2.6.1"
 lifecycleRuntimeCompose = "2.8.2"
 symbolProcessing = "2.0.0-1.0.22"
+coil = "2.6.0"
 
 [libraries]
 kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
@@ -26,6 +27,7 @@ androidx-room-compiler = { group = "androidx.room", name = "room-compiler", vers
 androidx-room-ktx = { group = "androidx.room", name = "room-ktx", version.ref = "roomKtx" }
 androidx-lifecycle-runtime-compose = { group = "androidx.lifecycle", name = "lifecycle-runtime-compose", version.ref = "lifecycleRuntimeCompose" }
 symbol-processing = { group = "com.google.devtools.ksp", name = "symbol-processing", version.ref = "symbolProcessing" }
+coil = { group = "io.coil-kt", name = "coil-compose", version.ref = "coil" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }
