@@ -27,7 +27,7 @@ struct ContentView: View {
   }
 
   func addGame() {
-    let game = ListItemModel(type: ListItemType.game.rawValue, name: "", selected: false)
+    let game = ListItemModel(type: ListItemType.game.rawValue)
     modelContext.insert(game)
     navPath.append(game)
   }

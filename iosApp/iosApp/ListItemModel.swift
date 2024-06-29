@@ -16,11 +16,9 @@ enum ListItemType: Int {
 class ListItemModel {
   let type: Int
   var name: String
-  var selected: Bool
 
-  init(type: Int, name: String = "", selected: Bool = false) {
+  init(type: Int, name: String = "") {
     self.type = type
     self.name = name
-    self.selected = selected
   }
 }

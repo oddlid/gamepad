@@ -14,6 +14,7 @@
 		203DA75A2BA0337200F77336 /* ActivePlayerListItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 203DA7592BA0337200F77336 /* ActivePlayerListItem.swift */; };
 		2058E9FD2BA96722001CCFA9 /* GameListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2058E9FC2BA96722001CCFA9 /* GameListView.swift */; };
 		2058E9FF2BA9BFDB001CCFA9 /* EditListItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2058E9FE2BA9BFDB001CCFA9 /* EditListItemView.swift */; };
+		205DA47E2BB05A810004E895 /* GameRoundView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 205DA47D2BB05A810004E895 /* GameRoundView.swift */; };
 		2089DD412BAB4E6300377545 /* PlayerListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2089DD402BAB4E6300377545 /* PlayerListView.swift */; };
 		20CF9BE42BA1C9B900DAAA4F /* ListItemModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20CF9BE32BA1C9B900DAAA4F /* ListItemModel.swift */; };
 		20CF9BE62BA1CC5300DAAA4F /* DataPreviewer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20CF9BE52BA1CC5300DAAA4F /* DataPreviewer.swift */; };
@@ -43,6 +44,7 @@
 		203DA7592BA0337200F77336 /* ActivePlayerListItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivePlayerListItem.swift; sourceTree = "<group>"; };
 		2058E9FC2BA96722001CCFA9 /* GameListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameListView.swift; sourceTree = "<group>"; };
 		2058E9FE2BA9BFDB001CCFA9 /* EditListItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditListItemView.swift; sourceTree = "<group>"; };
+		205DA47D2BB05A810004E895 /* GameRoundView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameRoundView.swift; sourceTree = "<group>"; };
 		2089DD402BAB4E6300377545 /* PlayerListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerListView.swift; sourceTree = "<group>"; };
 		20CF9BE32BA1C9B900DAAA4F /* ListItemModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListItemModel.swift; sourceTree = "<group>"; };
 		20CF9BE52BA1CC5300DAAA4F /* DataPreviewer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataPreviewer.swift; sourceTree = "<group>"; };
@@ -99,6 +101,7 @@
 				203DA7552BA0261100F77336 /* PlayerListItemView.swift */,
 				20CFB9FA2BAB12FB002C51C2 /* GameListItemView.swift */,
 				2089DD402BAB4E6300377545 /* PlayerListView.swift */,
+				205DA47D2BB05A810004E895 /* GameRoundView.swift */,
 				203DA7572BA02E9D00F77336 /* EditItem.swift */,
 				203DA7592BA0337200F77336 /* ActivePlayerListItem.swift */,
 				20CF9BE32BA1C9B900DAAA4F /* ListItemModel.swift */,
@@ -217,6 +220,7 @@
 				203DA75A2BA0337200F77336 /* ActivePlayerListItem.swift in Sources */,
 				203DA7582BA02E9D00F77336 /* EditItem.swift in Sources */,
 				2089DD412BAB4E6300377545 /* PlayerListView.swift in Sources */,
+				205DA47E2BB05A810004E895 /* GameRoundView.swift in Sources */,
 				7555FF83242A565900829871 /* ContentView.swift in Sources */,
 				2058E9FD2BA96722001CCFA9 /* GameListView.swift in Sources */,
 				20CF9BE62BA1CC5300DAAA4F /* DataPreviewer.swift in Sources */,

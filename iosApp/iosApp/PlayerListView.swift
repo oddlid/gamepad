@@ -23,11 +23,11 @@ struct PlayerListView: View {
       .navigationBarTitleDisplayMode(.inline)
       .toolbar {
         Button("Add player", systemImage: "plus", action: addPlayer)
-        Button("Play", systemImage: "play.circle", action: {})
+        Button("Play", systemImage: "play.circle", action: {  })
           .disabled(selection.isEmpty)
-        Button("Delete", systemImage: "trash", action: {})
-          .disabled(selection.isEmpty)
-        Menu("Sort", systemImage: "arrow.up.arrow.down") {
+        Menu("More", systemImage: "ellipsis") {
+          Button("Delete", systemImage: "trash", action: deleteSelectedPlayers)
+            .disabled(selection.isEmpty)
           Picker("Sort", selection: $sortOrder) {
             Text("A-Z")
               .tag([SortDescriptor(\ListItemModel.name)])
@@ -46,9 +46,16 @@ struct PlayerListView: View {
   }
 
   func addPlayer() {
-    let player = ListItemModel(type: ListItemType.player.rawValue, name: "", selected: false)
+    let player = ListItemModel(type: ListItemType.player.rawValue, name: "")
     modelContext.insert(player)
     navPath.append(player)
+  }
+
+  func deleteSelectedPlayers() {
+    for player in selection {
+      modelContext.delete(player)
+    }
+    selection.removeAll()
   }
 }
 
@@ -79,12 +86,12 @@ struct PlayerListContainer: View {
     }, sort: sortOrder)
   }
 
-  func deletePlayers(at offsets: IndexSet) {
-    for offset in offsets {
-      let player = players[offset]
-      modelContext.delete(player)
-    }
-  }
+//  func deletePlayers(at offsets: IndexSet) {
+//    for offset in offsets {
+//      let player = players[offset]
+//      modelContext.delete(player)
+//    }
+//  }
 }
 
 #Preview {
