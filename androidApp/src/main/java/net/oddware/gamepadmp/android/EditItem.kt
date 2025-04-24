@@ -1,12 +1,17 @@
 package net.oddware.gamepadmp.android
 
 import android.net.Uri
+import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
@@ -28,10 +33,16 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import coil.compose.AsyncImage
 
 @Composable
 fun EditItem(
@@ -96,12 +107,24 @@ fun EditItem(
                 )
             }
             if (imageEnabled) {
-                Row (
+                Row(
                     modifier = modifier.fillMaxWidth(),
 //                    horizontalArrangement = Arrangement.End,
                     verticalAlignment = Alignment.CenterVertically,
-                ){
-                    Text(text = "Icon")
+                ) {
+                    Text(text = "Player Icon", modifier = modifier)
+                    Spacer(modifier = modifier.weight(weight = 1F))
+                    AsyncImage(
+                        model = imageUri,
+                        contentDescription = "Player icon",
+                        modifier = modifier
+                            .padding(4.dp)
+                            .width(50.dp)
+                            .height(50.dp)
+                            .clip(RoundedCornerShape(12.dp))
+                            .border(BorderStroke(width = Dp.Hairline, color = Color.Black)),
+                        contentScale = ContentScale.Crop,
+                    )
                 }
             }
             Row {
@@ -125,7 +148,7 @@ fun EditItem(
                 }
             }
         }
-        }
+    }
 }
 
 @Preview(showBackground = true)
@@ -133,11 +156,18 @@ fun EditItem(
 fun EditItemPreview() {
     MyApplicationTheme {
         Surface {
-            EditItem(
-                value = "Testing",
-                modifier = Modifier.padding(all = 4.dp),
-                imageEnabled = true,
-            )
+            Column {
+                EditItem(
+                    value = "Game name",
+                    modifier = Modifier.padding(all = 4.dp),
+                    imageEnabled = false,
+                )
+                EditItem(
+                    value = "Player name",
+                    modifier = Modifier.padding(all = 4.dp),
+                    imageEnabled = true,
+                )
+            }
         }
     }
 }

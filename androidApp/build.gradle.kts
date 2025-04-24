@@ -57,5 +57,6 @@ dependencies {
     implementation(libs.androidx.room.ktx)
     implementation(libs.androidx.lifecycle.runtime.compose)
     implementation(libs.symbol.processing)
+    implementation(libs.coil)
     debugImplementation(libs.compose.ui.tooling)
 }
