@@ -38,10 +38,10 @@ android {
     kotlinOptions {
         jvmTarget = "17"
     }
-    buildToolsVersion = "34.0.0"
+    buildToolsVersion = "36.0.0"
 
     kotlin {
-        jvmToolchain(17)
+        //jvmToolchain(17)
     }
 }
 
