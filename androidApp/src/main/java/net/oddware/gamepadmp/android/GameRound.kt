@@ -1,6 +1,5 @@
 package net.oddware.gamepadmp.android
 
-import androidx.compose.animation.core.tween
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -72,9 +71,7 @@ fun GameRoundScreen(
                 }
             ) { activePlayer ->
                 Row(
-                    modifier = Modifier.animateItemPlacement(
-                        tween(durationMillis = 250)
-                    )
+                    modifier = Modifier.animateItem()
                 ) {
                     ActivePlayerListItem(
                         activePlayer = activePlayer,

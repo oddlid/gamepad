@@ -31,6 +31,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -94,9 +95,11 @@ fun ActivePlayerListItem(
                     },
                     textStyle = LocalTextStyle.current.copy(textAlign = TextAlign.End),
                     keyboardOptions = KeyboardOptions(
+                        capitalization = KeyboardCapitalization.Unspecified,
+                        autoCorrectEnabled = false,
                         keyboardType = KeyboardType.Phone,
                         imeAction = ImeAction.Done,
-                        autoCorrect = false,
+                        showKeyboardOnFocus = true,
                     ),
                     keyboardActions = KeyboardActions(
                         onDone = {
