@@ -21,4 +21,5 @@
     <string name="lblTxtSelectGame">Välj spel</string>
     <string name="errTxtLoadGames">Fel med att ladda spel</string>
     <string name="errTxtLoadPlayers">Fel med att ladda spelare</string>
+    <string name="errInvalidValue">Ogiltigt värde</string>
 </resources>

@@ -11,11 +11,11 @@ android {
     defaultConfig {
         applicationId = "net.oddware.gamepadmp.android"
         minSdk = 26
-        //noinspection EditedTargetSdkVersion
         targetSdk = 36
-        versionCode = 1
-        versionName = "1.0"
+        versionCode = 3
+        versionName = "0.1"
         signingConfig = signingConfigs.getByName("debug")
+        versionNameSuffix = "-beta"
     }
     buildFeatures {
         compose = true
@@ -31,6 +31,7 @@ android {
     buildTypes {
         getByName("release") {
             isMinifyEnabled = false
+            ndk.debugSymbolLevel = "FULL"
         }
     }
     compileOptions {
@@ -51,6 +52,7 @@ dependencies {
     implementation(projects.shared)
     implementation(libs.compose.ui)
     implementation(libs.compose.ui.tooling.preview)
+    implementation(libs.compose.ui.tooling)
     implementation(libs.compose.material3)
     implementation(libs.androidx.activity.compose)
     implementation(libs.androidx.lifecycle.viewmodel.compose)
