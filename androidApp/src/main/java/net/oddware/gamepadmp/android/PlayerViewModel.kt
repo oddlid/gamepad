@@ -145,6 +145,9 @@ class PlayerViewModel(private val playerRepository: PlayerRepository) : ViewMode
             playerRepository.hasSelection().collect {
                 hasSelection.emit(it)
             }
+            playerRepository.allSelected().collect {
+                allSelected.emit(it)
+            }
         }
     }
 

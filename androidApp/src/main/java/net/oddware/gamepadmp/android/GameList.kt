@@ -173,7 +173,7 @@ fun GameList(
     }
 }
 
-@Preview(showBackground = true)
+@Preview(showBackground = true, apiLevel = 35)
 @Composable
 fun PreviewGameListScreen() {
     MyApplicationTheme {

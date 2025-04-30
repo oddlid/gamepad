@@ -19,6 +19,8 @@ class OfflinePlayerRepository(private val playerDao: PlayerDao) : PlayerReposito
 
     override fun hasSelection() = playerDao.hasSelection()
 
+    override fun allSelected(): Flow<Boolean> = playerDao.allSelected()
+
     override suspend fun filterBySelection(selected: Boolean) =
         playerDao.filterBySelection(selected)
 

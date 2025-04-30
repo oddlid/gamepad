@@ -29,7 +29,7 @@ class MainActivity : ComponentActivity() {
 }
 
 
-@Preview
+@Preview(apiLevel = 35)
 @Composable
 fun DefaultPreview() {
     MyApplicationTheme {

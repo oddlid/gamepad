@@ -151,7 +151,7 @@ fun EditItem(
     }
 }
 
-@Preview(showBackground = true)
+@Preview(showBackground = true, apiLevel = 35)
 @Composable
 fun EditItemPreview() {
     MyApplicationTheme {
