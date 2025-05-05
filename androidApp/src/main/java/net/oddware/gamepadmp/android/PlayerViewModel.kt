@@ -3,8 +3,6 @@ package net.oddware.gamepadmp.android
 import androidx.compose.runtime.Immutable
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import kotlinx.coroutines.CoroutineExceptionHandler
-import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine
@@ -25,39 +23,24 @@ sealed interface PlayerListUIState {
 }
 
 data class PlayerScreenUIState(
-    val players: PlayerListUIState,
-    val mode: PlayerListMode,
-    val currentPlayer: Player,
-    val isError: Boolean,
-    val isLoading: Boolean,
-    val hasSelection: Boolean,
-    val allSelected: Boolean,
+    val players: PlayerListUIState = PlayerListUIState.Loading,
+    val mode: PlayerListMode = PlayerListMode.LIST,
+    val currentPlayer: Player = Player(id = -1),
+    val hasSelection: Boolean = false,
+    val allSelected: Boolean = false,
 )
 
 class PlayerViewModel(private val playerRepository: PlayerRepository) : ViewModel() {
-    private val players: Flow<Result<List<Player>>> =
-        playerRepository.getAllPlayersStream().asResult()
-    private val isError = MutableStateFlow(false)
-    private val isLoading = MutableStateFlow(false)
-    private val hasSelection = MutableStateFlow(false)
-    private val allSelected = MutableStateFlow(false)
     private val currentMode = MutableStateFlow(PlayerListMode.LIST)
     private val currentPlayer = MutableStateFlow(Player(id = -1))
-    private val _selectedPlayers = mutableListOf<Player>()
-
-    private val exceptionHandler = CoroutineExceptionHandler { _, _ ->
-        viewModelScope.launch {
-            isError.emit(true)
-        }
-    }
 
     val uiState: StateFlow<PlayerScreenUIState> = combine(
-        players,
-        isError,
-        isLoading,
+        playerRepository.getAllPlayersStream().asResult(),
         currentMode,
         currentPlayer,
-    ) { playerResult, error, loading, mode, player ->
+        playerRepository.hasSelection(),
+        playerRepository.allSelected(),
+    ) { playerResult, mode, player, has, all ->
         val playerList: PlayerListUIState = when (playerResult) {
             is Result.Success -> PlayerListUIState.Success(playerResult.data)
             is Result.Loading -> PlayerListUIState.Loading
@@ -67,107 +50,68 @@ class PlayerViewModel(private val playerRepository: PlayerRepository) : ViewMode
             players = playerList,
             mode = mode,
             currentPlayer = player,
-            isError = error,
-            isLoading = loading,
-            hasSelection = false,
-            allSelected = false,
+            hasSelection = has,
+            allSelected = all,
         )
     }
-        .combine(
-            hasSelection
-        ) { self, has ->
-            self.copy(hasSelection = has)
-        }
-        .combine(
-            allSelected
-        ) { self, all ->
-            self.copy(allSelected = all)
-        }
         .stateIn(
             scope = viewModelScope,
             started = WhileUiSubscribed,
-            initialValue = PlayerScreenUIState(
-                players = PlayerListUIState.Loading,
-                mode = PlayerListMode.LIST,
-                currentPlayer = Player(id = -1),
-                isError = false,
-                isLoading = false,
-                hasSelection = false,
-                allSelected = false,
-            )
+            initialValue = PlayerScreenUIState(),
         )
 
 
     fun onCancel() {
-        viewModelScope.launch(exceptionHandler) {
+        viewModelScope.launch {
             currentMode.emit(PlayerListMode.LIST)
         }
     }
 
     fun onEdit(player: Player) {
-        viewModelScope.launch(exceptionHandler) {
+        viewModelScope.launch {
             currentPlayer.emit(player)
             currentMode.emit(PlayerListMode.EDIT)
         }
     }
 
     fun onAdd() {
-        viewModelScope.launch(exceptionHandler) {
+        viewModelScope.launch {
             currentMode.emit(PlayerListMode.ADD)
         }
     }
 
     fun onSaveNew(name: String) {
-        viewModelScope.launch(exceptionHandler) {
+        viewModelScope.launch {
             playerRepository.insertPlayer(Player(name = name))
             currentMode.emit(PlayerListMode.LIST)
         }
     }
 
     fun onUpdate(player: Player, name: String) {
-        viewModelScope.launch(exceptionHandler) {
+        viewModelScope.launch {
             playerRepository.updatePlayer(player.copy(name = name))
             currentMode.emit(PlayerListMode.LIST)
         }
     }
 
     fun onDelete(player: Player) {
-        viewModelScope.launch(exceptionHandler) {
+        viewModelScope.launch {
             playerRepository.deletePlayer(player)
-            syncSelectedPlayers()
         }
     }
 
     fun onSelect(player: Player) {
-        viewModelScope.launch(exceptionHandler) {
+        viewModelScope.launch {
             playerRepository.toggleSelection(player.id)
-            syncSelectedPlayers()
-            playerRepository.hasSelection().collect {
-                hasSelection.emit(it)
-            }
-            playerRepository.allSelected().collect {
-                allSelected.emit(it)
-            }
         }
     }
 
     fun onSelectAll(selected: Boolean) {
-        viewModelScope.launch(exceptionHandler) {
+        viewModelScope.launch {
             playerRepository.selectAll(selected)
-            syncSelectedPlayers()
-            allSelected.emit(selected)
-            hasSelection.emit(selected)
         }
     }
 
-    private suspend fun syncSelectedPlayers() {
-        _selectedPlayers.apply {
-            clear()
-            addAll(playerRepository.filterBySelection(true))
-        }
-    }
-
-    fun getActivePlayers(): List<ActivePlayer> = _selectedPlayers.map { ActivePlayer(it) }
-
-
+    suspend fun getActivePlayers() =
+        playerRepository.filterBySelection(true).map { ActivePlayer(it) }
 }

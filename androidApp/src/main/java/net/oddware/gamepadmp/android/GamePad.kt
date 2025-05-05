@@ -3,11 +3,13 @@ package net.oddware.gamepadmp.android
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
+import kotlinx.coroutines.launch
 
 enum class AppMode {
     LIST_GAMES,
@@ -24,6 +26,7 @@ fun GamePad(
 ) {
     var mode by rememberSaveable { mutableStateOf(AppMode.LIST_GAMES) }
     val gameUIState: GameScreenUIState by gameViewModel.uiState.collectAsStateWithLifecycle()
+    val scope = rememberCoroutineScope()
 
     when (mode) {
         AppMode.LIST_GAMES -> {
@@ -46,10 +49,12 @@ fun GamePad(
                     mode = AppMode.LIST_GAMES
                 },
                 onPlay = {
-                    gameRoundViewModel.startRound(
-                        gameUIState.currentGame,
-                        playerViewModel.getActivePlayers()
-                    )
+                    scope.launch {
+                        gameRoundViewModel.startRound(
+                            gameUIState.currentGame,
+                            playerViewModel.getActivePlayers(),
+                        )
+                    }
                     mode = AppMode.PLAY
                 },
             )
