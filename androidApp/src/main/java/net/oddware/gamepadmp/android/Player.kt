@@ -1,5 +1,6 @@
 package net.oddware.gamepadmp.android
 
+import android.net.Uri
 import androidx.compose.runtime.Immutable
 import androidx.room.Entity
 import androidx.room.PrimaryKey
@@ -11,4 +12,5 @@ data class Player(
     val id: Int = 0,
     val name: String = "",
     val selected: Boolean = false,
+    val iconUri: Uri? = null,
 )

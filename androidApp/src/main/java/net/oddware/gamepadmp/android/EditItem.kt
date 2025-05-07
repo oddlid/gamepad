@@ -1,8 +1,14 @@
 package net.oddware.gamepadmp.android
 
+import android.content.Intent
 import android.net.Uri
+import android.util.Log
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.PickVisualMediaRequest
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -17,10 +23,13 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.Close
+import androidx.compose.material.icons.filled.Delete
+import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.FilledTonalButton
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Surface
@@ -34,9 +43,9 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.tooling.preview.Preview
@@ -50,11 +59,32 @@ fun EditItem(
     value: String = "",
     title: String = stringResource(R.string.eiTitleDefault),
     imageEnabled: Boolean = false,
-    imageUri: Uri? = null,
+    iconUri: Uri? = null,
     onCancel: () -> Unit = {},
-    onSave: (String) -> Unit = {},
+    onSave: (String, Uri?) -> Unit = { _, _ -> },
 ) {
     var input by rememberSaveable { mutableStateOf(value) }
+    var selectedImage by rememberSaveable { mutableStateOf(iconUri) }
+
+    val ctx = LocalContext.current
+    val pickerLauncher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.PickVisualMedia(),
+        onResult = { uri ->
+            uri?.let {
+                ctx.contentResolver.takePersistableUriPermission(
+                    it,
+                    Intent.FLAG_GRANT_READ_URI_PERMISSION
+                )
+                selectedImage = it
+            }
+            Log.d("IconURI", uri.toString())
+        },
+    )
+    val showPicker = {
+        pickerLauncher.launch(
+            PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly)
+        )
+    }
 
     Column {
         ElevatedCard(
@@ -99,30 +129,45 @@ fun EditItem(
                     },
                     keyboardOptions = KeyboardOptions(
                         imeAction = ImeAction.Done,
-                        autoCorrect = false,
+                        autoCorrectEnabled = false,
                     ),
                     keyboardActions = KeyboardActions(
-                        onDone = { onSave(input) },
+                        onDone = { onSave(input, selectedImage) },
                     ),
                 )
             }
             if (imageEnabled) {
                 Row(
                     modifier = modifier.fillMaxWidth(),
-//                    horizontalArrangement = Arrangement.End,
                     verticalAlignment = Alignment.CenterVertically,
                 ) {
-                    Text(text = "Player Icon", modifier = modifier)
+                    Text(text = "Player Icon", modifier = modifier.padding(4.dp))
                     Spacer(modifier = modifier.weight(weight = 1F))
+                    IconButton(onClick = showPicker) {
+                        Icon(
+                            Icons.Filled.Search,
+                            contentDescription = stringResource(R.string.contentDescBrowse),
+                        )
+                    }
+                    IconButton(
+                        enabled = selectedImage != null,
+                        onClick = { selectedImage = null },
+                    ) {
+                        Icon(
+                            Icons.Filled.Delete,
+                            contentDescription = stringResource(R.string.eiLblDelete),
+                        )
+                    }
                     AsyncImage(
-                        model = imageUri,
+                        model = selectedImage,
                         contentDescription = "Player icon",
                         modifier = modifier
                             .padding(4.dp)
                             .width(50.dp)
                             .height(50.dp)
                             .clip(RoundedCornerShape(12.dp))
-                            .border(BorderStroke(width = Dp.Hairline, color = Color.Black)),
+                            .border(BorderStroke(width = Dp.Hairline, color = Color.Black))
+                            .clickable(onClick = showPicker),
                         contentScale = ContentScale.Crop,
                     )
                 }
@@ -137,7 +182,7 @@ fun EditItem(
                     Text(text = stringResource(R.string.btnTxtCancel))
                 }
                 FilledTonalButton(
-                    onClick = { onSave(input) },
+                    onClick = { onSave(input, selectedImage) },
                     modifier = modifier,
                 ) {
                     Icon(

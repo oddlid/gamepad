@@ -22,4 +22,5 @@
     <string name="errTxtLoadGames">Fel med att ladda spel</string>
     <string name="errTxtLoadPlayers">Fel med att ladda spelare</string>
     <string name="errInvalidValue">Ogiltigt värde</string>
+    <string name="contentDescBrowse">Bläddra</string>
 </resources>

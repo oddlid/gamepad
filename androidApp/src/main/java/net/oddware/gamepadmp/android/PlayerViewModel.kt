@@ -1,5 +1,6 @@
 package net.oddware.gamepadmp.android
 
+import android.net.Uri
 import androidx.compose.runtime.Immutable
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -80,16 +81,16 @@ class PlayerViewModel(private val playerRepository: PlayerRepository) : ViewMode
         }
     }
 
-    fun onSaveNew(name: String) {
+    fun onSaveNew(name: String, uri: Uri?) {
         viewModelScope.launch {
-            playerRepository.insertPlayer(Player(name = name))
+            playerRepository.insertPlayer(Player(name = name, iconUri = uri))
             currentMode.emit(PlayerListMode.LIST)
         }
     }
 
-    fun onUpdate(player: Player, name: String) {
+    fun onUpdate(player: Player, name: String, uri: Uri?) {
         viewModelScope.launch {
-            playerRepository.updatePlayer(player.copy(name = name))
+            playerRepository.updatePlayer(player.copy(name = name, iconUri = uri))
             currentMode.emit(PlayerListMode.LIST)
         }
     }

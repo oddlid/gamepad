@@ -3,7 +3,10 @@ package net.oddware.gamepadmp.android
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
@@ -31,7 +34,9 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.focus.onFocusChanged
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
@@ -40,6 +45,7 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import coil.compose.AsyncImage
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
@@ -152,10 +158,22 @@ fun ActivePlayerListItem(
                         if (isError) {
                             Icon(Icons.Filled.Warning, contentDescription = "error")
                         } else {
-                            Icon(
-                                Icons.Filled.Person,
-                                contentDescription = null,
-                            )
+                            if (activePlayer.player.iconUri != null) {
+                                AsyncImage(
+                                    model = activePlayer.player.iconUri,
+                                    contentDescription = activePlayer.player.name,
+                                    contentScale = ContentScale.Crop,
+                                    modifier = modifier
+                                        .width(24.dp)
+                                        .height(24.dp)
+                                        .clip(CircleShape)
+                                )
+                            } else {
+                                Icon(
+                                    Icons.Filled.Person,
+                                    contentDescription = null,
+                                )
+                            }
                         }
                     },
                 )

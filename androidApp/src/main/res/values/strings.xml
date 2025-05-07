@@ -23,4 +23,5 @@
     <string name="errTxtLoadPlayers">Error loading players</string>
     <string name="appName" translatable="false">GamePad</string>
     <string name="errInvalidValue">Invalid value</string>
+    <string name="contentDescBrowse">Browse</string>
 </resources>

@@ -21,6 +21,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 
 @OptIn(ExperimentalFoundationApi::class)
@@ -30,6 +31,8 @@ fun GameRoundScreen(
     gameRoundViewModel: GameRoundViewModel = viewModel(),
     onBack: () -> Unit = {},
 ) {
+    val uiState = gameRoundViewModel.uiState.collectAsStateWithLifecycle()
+
     Column(
         modifier = modifier,
     ) {
@@ -46,7 +49,7 @@ fun GameRoundScreen(
                 contentAlignment = Alignment.CenterStart,
             ) {
                 Text(
-                    text = gameRoundViewModel.currentGame.name,
+                    text = uiState.value.game.name,
                     modifier = modifier.fillMaxWidth(),
                     textAlign = TextAlign.Center,
                     style = MaterialTheme.typography.headlineSmall,
@@ -65,7 +68,7 @@ fun GameRoundScreen(
                 .weight(weight = 1F),
         ) {
             items(
-                items = gameRoundViewModel.activePlayers,
+                items = uiState.value.players,
                 key = { activePlayer ->
                     activePlayer.player.id
                 }

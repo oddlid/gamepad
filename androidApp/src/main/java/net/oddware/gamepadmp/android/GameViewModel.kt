@@ -4,7 +4,6 @@ import androidx.compose.runtime.Immutable
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.CoroutineExceptionHandler
-import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine
@@ -33,7 +32,6 @@ data class GameScreenUIState(
 )
 
 class GameViewModel(private val gamesRepository: GamesRepository) : ViewModel() {
-    private val games: Flow<Result<List<Game>>> = gamesRepository.getAllGamesStream().asResult()
     private val isError = MutableStateFlow(false)
     private val isLoading = MutableStateFlow(false)
     private val currentMode = MutableStateFlow(GameListMode.LIST)
@@ -46,7 +44,7 @@ class GameViewModel(private val gamesRepository: GamesRepository) : ViewModel() 
     }
 
     val uiState: StateFlow<GameScreenUIState> = combine(
-        games,
+        gamesRepository.getAllGamesStream().asResult(),
         currentMode,
         currentGame,
         isError,

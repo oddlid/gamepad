@@ -99,7 +99,7 @@ fun GameListScreen(
                 onCancel = {
                     gameViewModel.onCancel()
                 },
-                onSave = { name: String ->
+                onSave = { name, _ ->
                     gameViewModel.onSaveNew(name)
                 }
             )
@@ -111,7 +111,9 @@ fun GameListScreen(
                 value = uiState.currentGame.name,
                 modifier = modifier,
                 onCancel = { gameViewModel.onCancel() },
-                onSave = { gameViewModel.onUpdate(uiState.currentGame, it) },
+                onSave = { name, _ ->
+                    gameViewModel.onUpdate(uiState.currentGame, name)
+                },
             )
         }
     }
@@ -163,7 +165,7 @@ fun GameList(
                         itemIcon = {
                             Icon(
                                 painterResource(id = R.drawable.ic_assignment),
-                                contentDescription = "",
+                                contentDescription = game.name,
                             )
                         },
                     )

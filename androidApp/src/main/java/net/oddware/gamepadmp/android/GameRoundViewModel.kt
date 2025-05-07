@@ -1,30 +1,41 @@
 package net.oddware.gamepadmp.android
 
-import androidx.compose.runtime.toMutableStateList
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
+
+private val NO_GAME = Game(id = -1, name = "UNDEFINED")
+
+data class GameRoundUIState(
+    val game: Game = NO_GAME,
+    val players: List<ActivePlayer> = emptyList(),
+)
 
 class GameRoundViewModel : ViewModel() {
-    private val noGame = Game(-1, "UNDEFINED")
-    var currentGame = noGame
-        private set
-    private var _activePlayers = listOf<ActivePlayer>().toMutableStateList()
-    val activePlayers = _activePlayers
+    private var _uiState = MutableStateFlow(GameRoundUIState())
+    val uiState = _uiState.asStateFlow()
 
 
     fun startRound(game: Game, players: List<ActivePlayer>) {
-        currentGame = game
-        _activePlayers.apply {
-            clear()
-            addAll(players)
+        viewModelScope.launch {
+            _uiState.emit(GameRoundUIState(game, players))
         }
     }
 
     fun stopRound() {
-        currentGame = noGame
-        _activePlayers.clear()
+        viewModelScope.launch {
+            _uiState.emit(GameRoundUIState())
+        }
     }
 
     fun update() {
-        _activePlayers.sortWith(compareByDescending { it.currentPoints })
+        viewModelScope.launch {
+            _uiState.update { current ->
+                current.copy(players = current.players.sortedWith(compareByDescending { it.currentPoints }))
+            }
+        }
     }
 }

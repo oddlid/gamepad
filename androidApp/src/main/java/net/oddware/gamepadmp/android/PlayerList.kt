@@ -1,14 +1,18 @@
 package net.oddware.gamepadmp.android
 
+import android.net.Uri
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Add
@@ -26,11 +30,14 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
+import coil.compose.AsyncImage
 
 
 @Composable
@@ -141,9 +148,10 @@ fun PlayerListScreen(
                 onCancel = {
                     playerViewModel.onCancel()
                 },
-                onSave = { name: String ->
-                    playerViewModel.onSaveNew(name)
-                }
+                onSave = { name: String, uri: Uri? ->
+                    playerViewModel.onSaveNew(name, uri)
+                },
+                imageEnabled = true,
             )
         }
 
@@ -153,7 +161,11 @@ fun PlayerListScreen(
                 value = uiState.currentPlayer.name,
                 modifier = modifier,
                 onCancel = { playerViewModel.onCancel() },
-                onSave = { playerViewModel.onUpdate(uiState.currentPlayer, it) },
+                onSave = { name: String, uri: Uri? ->
+                    playerViewModel.onUpdate(uiState.currentPlayer, name, uri)
+                },
+                imageEnabled = true,
+                iconUri = uiState.currentPlayer.iconUri,
             )
         }
     }
@@ -204,11 +216,23 @@ fun PlayerList(
                         onClick = { onSelect(player) },
                         onSelection = { player.selected },
                         itemIcon = {
-                            Icon(
-                                Icons.Filled.Person,
-                                contentDescription = "",
-                                modifier = modifier,
-                            )
+                            if (player.iconUri != null) {
+                                AsyncImage(
+                                    model = player.iconUri,
+                                    contentDescription = player.name,
+                                    contentScale = ContentScale.Crop,
+                                    modifier = modifier
+                                        .width(24.dp)
+                                        .height(24.dp)
+                                        .clip(CircleShape)
+                                )
+                            } else {
+                                Icon(
+                                    Icons.Filled.Person,
+                                    contentDescription = player.name,
+                                    modifier = modifier,
+                                )
+                            }
                         }
                     )
                 }

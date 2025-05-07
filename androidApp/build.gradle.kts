@@ -12,7 +12,7 @@ android {
         applicationId = "net.oddware.gamepadmp.android"
         minSdk = 26
         targetSdk = 36
-        versionCode = 5
+        versionCode = 6
         versionName = "0.1"
         signingConfig = signingConfigs.getByName("debug")
         versionNameSuffix = "-beta"
