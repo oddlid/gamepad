@@ -95,13 +95,7 @@ struct PlayerListContainer: View {
 }
 
 #Preview {
-//  PlayerListView(gameName: "Poker")
-  do {
-    let previewer = try DataPreviewer()
-    @State var navPath = NavigationPath()
-    return PlayerListView(path: $navPath, gameName: "Nåt spel")
-      .modelContainer(previewer.container)
-  } catch {
-    return Text("Failed to create preview: \(error.localizedDescription)")
-  }
+  @Previewable @State var navPath = NavigationPath()
+  let previewer = try! DataPreviewer()
+  return PlayerListView(path: $navPath, gameName: "Nåt spel").modelContainer(previewer.container)
 }

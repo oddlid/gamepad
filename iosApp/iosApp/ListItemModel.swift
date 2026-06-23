@@ -14,7 +14,7 @@ enum ListItemType: Int {
 
 @Model
 class ListItemModel {
-  let type: Int
+  private(set) var type: Int
   var name: String
 
   init(type: Int, name: String = "") {

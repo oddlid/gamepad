@@ -62,12 +62,7 @@ struct PlayerToggleStyle: ToggleStyle {
 }
 
 #Preview {
-  do {
-    let previewer = try DataPreviewer()
-    @State var path = NavigationPath()
-    return PlayerListItemView(navPath: $path, player: previewer.players[0])
-      .modelContainer(previewer.container)
-  } catch {
-    return Text("Failed to create preview: \(error.localizedDescription)")
-  }
+  @Previewable @State var navPath = NavigationPath()
+  let previewer = try! DataPreviewer()
+  return PlayerListItemView(navPath: $navPath, player: previewer.players[0]).modelContainer(previewer.container)
 }

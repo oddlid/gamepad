@@ -59,12 +59,7 @@ struct GameItemButton: View {
 }
 
 #Preview {
-  do {
-    let previewer = try DataPreviewer()
-    @State var path = NavigationPath()
-    return GameListItemView(navPath: $path, game: previewer.games[0])
-      .modelContainer(previewer.container)
-  } catch {
-    return Text("Failed to create preview: \(error.localizedDescription)")
-  }
+  @Previewable @State var navPath = NavigationPath()
+  let previewer = try! DataPreviewer()
+  return GameListItemView(navPath: $navPath, game: previewer.games[0]).modelContainer(previewer.container)
 }
