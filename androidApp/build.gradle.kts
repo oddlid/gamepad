@@ -7,12 +7,12 @@ plugins {
 
 android {
     namespace = "net.oddware.gamepadmp.android"
-    compileSdk = 36
+    compileSdk = 37
     defaultConfig {
         applicationId = "net.oddware.gamepadmp.android"
         minSdk = 26
-        targetSdk = 36
-        versionCode = 6
+        targetSdk = 37
+        versionCode = 7
         versionName = "0.1"
         signingConfig = signingConfigs.getByName("debug")
         versionNameSuffix = "-beta"
@@ -34,11 +34,12 @@ android {
             ndk.debugSymbolLevel = "FULL"
         }
     }
-    buildToolsVersion = "36.0.0"
+    buildToolsVersion = "37.0.0"
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_21
         targetCompatibility = JavaVersion.VERSION_21
     }
+    compileSdkMinor = 0
 
     kotlin {
         jvmToolchain(21)
@@ -46,6 +47,7 @@ android {
 }
 
 dependencies {
+    implementation(libs.androidx.material.icons.core)
     implementation(projects.shared)
     implementation(libs.compose.ui)
     implementation(libs.compose.ui.tooling.preview)

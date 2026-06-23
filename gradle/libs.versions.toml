@@ -12,6 +12,7 @@ roomKtx = "2.8.4"
 lifecycleRuntimeCompose = "2.11.0"
 symbolProcessing = "2.3.9"
 coil = "2.7.0"
+materialIconsCore = "1.7.8"
 
 [libraries]
 kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
@@ -28,6 +29,7 @@ androidx-room-ktx = { group = "androidx.room", name = "room-ktx", version.ref = 
 androidx-lifecycle-runtime-compose = { group = "androidx.lifecycle", name = "lifecycle-runtime-compose", version.ref = "lifecycleRuntimeCompose" }
 symbol-processing = { group = "com.google.devtools.ksp", name = "symbol-processing", version.ref = "symbolProcessing" }
 coil = { group = "io.coil-kt", name = "coil-compose", version.ref = "coil" }
+androidx-material-icons-core = { group = "androidx.compose.material", name = "material-icons-core", version.ref = "materialIconsCore" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }
